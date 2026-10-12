@@ -11,8 +11,9 @@
 # 못 해 자기 스킬을 영원히 못 고친다. 소유 기록은 plugin.json 의 metadata.owner 가 한다.
 /plugins/
 
-# marketplace.json 은 plugins/ 에서 조립되는 생성물이라 플러그인이 추가될 때마다
-# 바뀐다. 코드오너로 걸면 모든 기여가 팀 승인에 걸린다. 손으로 고친 것은 CI 가 잡는다.
+# marketplace.json 은 플러그인을 올리는 사람이 자기 줄을 더하는 파일이라 기여마다
+# 바뀐다. 코드오너로 걸면 모든 기여가 팀 승인에 걸린다. 마켓 이름·설명 같은 뼈대는
+# .github/marketplace-header.json 에 따로 두었고, 둘이 어긋나면 CI 가 잡는다.
 /.claude-plugin/
 
 # ── 다시 팀 소유로 되돌리는 예외 ──

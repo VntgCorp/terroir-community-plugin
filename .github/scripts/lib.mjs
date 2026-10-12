@@ -1,4 +1,4 @@
-// 조립과 검사가 같이 쓰는 것. 레포 구조를 읽는 자리는 여기 하나다.
+// 검사와 조립기가 같이 쓰는 것. 레포 구조를 읽는 자리는 여기 하나다.
 
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join } from 'node:path';
@@ -7,7 +7,7 @@ export const PLUGINS_DIR = 'plugins';
 export const MARKETPLACE_PATH = '.claude-plugin/marketplace.json';
 export const CATEGORIES_PATH = '.github/categories.txt';
 // 마켓 이름·설명 같은 뼈대. marketplace.json 이 아니라 여기 산다 —
-// 저쪽은 플러그인이 추가될 때마다 바뀌는 생성물이라 CODEOWNERS 로 지킬 수 없다.
+// 저쪽은 기여자가 자기 줄을 더하는 파일이라 CODEOWNERS 로 지킬 수 없다.
 export const HEADER_PATH = '.github/marketplace-header.json';
 
 /** categories.txt 의 허용 목록. 주석과 빈 줄은 뺀다. */
@@ -54,7 +54,7 @@ export function readManifest(plugin) {
   }
 }
 
-/** 헤더 + plugins/ 를 훑어 조립한 marketplace.json. 이름순이라 출력이 항상 같다. */
+/** 헤더 + plugins/ 를 훑어 만든 marketplace.json. 조립기가 쓴다. 이름순으로 둔다. */
 export function assemble() {
   const header = JSON.parse(readFileSync(HEADER_PATH, 'utf8'));
   const plugins = discoverPlugins()

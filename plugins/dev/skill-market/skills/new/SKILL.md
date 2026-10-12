@@ -82,19 +82,27 @@ plugins/<분류>/<이름>/
 `README.md` 의 **「아는 한계」를 비우지 않는다.** 품질 심사가 없는 마켓이라, 무엇이
 안 되는지를 만든 사람이 적는 것이 유일한 안전장치다. 사용자가 안 적으면 물어서 받는다.
 
-## 6. 조립하고 검사한다
+## 6. 목록에 더하고 검사한다
+
+**`.claude-plugin/marketplace.json` 의 목록에 한 줄을 더한다.** Claude Code 는 그 목록만
+읽으므로, 디렉토리를 만들어도 목록에 없으면 아무도 설치할 수 없다.
+
+```json
+  { "name": "<이름>", "source": "./plugins/<분류>/<이름>", "category": "<분류>" }
+```
+
+조립기로 대신 적어도 된다. 정렬·들여쓰기는 검사하지 않으니 어느 쪽이든 통과한다.
 
 ```bash
-node .github/scripts/assemble-marketplace.mjs
+node .github/scripts/assemble-marketplace.mjs            # 목록을 대신 적어준다 (선택)
 node .github/scripts/check-structure.mjs
+node .github/scripts/check-marketplace.mjs
 node .github/scripts/check-version-bump.mjs origin/main   # 고치는 경우에만 걸린다
 claude plugin validate .
 ```
 
-첫 줄을 빼먹으면 CI 가 떨어진다. `marketplace.json` 은 생성물이라 **손으로 고치지 않는다.**
-
-**이미 있는 플러그인을 고쳤다면 셋째 줄이 중요하다** — `version` 을 안 올리면 CI 가
-떨어뜨린다. 무엇을 올릴지는 `docs/versioning.md`, 두 번째 버전부터는 `CHANGELOG.md` 도 쓴다.
+**이미 있는 플러그인을 고쳤다면 `version` 을 올린다** — 올리지 않으면 CI 가 떨어뜨린다.
+무엇을 올릴지는 `docs/versioning.md`, 두 번째 버전부터는 `CHANGELOG.md` 도 쓴다.
 
 검사가 떨어지면 **메시지가 고치는 법을 알려준다.** 그대로 고치고 다시 돌린다.
 메시지가 고치는 법을 안 알려주면 그건 CI 의 버그다 — 사용자에게 이슈를 권한다.

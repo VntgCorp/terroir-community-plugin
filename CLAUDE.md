@@ -17,8 +17,9 @@
   각자의 플러그인. CI 만 통과하면 본인이 머지한다 — 승인 대기 없음
 
   .claude-plugin/marketplace.json
-  ────────────────────────────────────────────────────────────────────  생성물
-  헤더와 plugins/ 를 CI 가 조립한 결과. 손으로 고치지 않는다
+  ────────────────────────────────────────────────────────────────────  둘이 만난다
+  플러그인 목록. 올리는 사람이 자기 줄을 더한다.
+  마켓 이름·설명은 .github/marketplace-header.json 에서 와야 한다 — CI 가 대조
 ```
 
 ## 하려는 일에 따라 읽을 곳
@@ -45,7 +46,8 @@
 
 ```
   1  main 에 직접 push 하지 않는다 — 전원 차단돼 있다(admin 포함). 반드시 PR
-  2  .claude-plugin/marketplace.json 을 손으로 고치지 않는다 — 조립기를 돌린다
+  2  플러그인을 더하면 .claude-plugin/marketplace.json 에도 한 줄 더한다
+     손으로 적어도 되고 조립기를 돌려도 된다. 정렬·들여쓰기는 보지 않는다
   3  plugin.json 에 category 를 적지 않는다 — 분류의 정본은 디렉토리 위치다
   4  plugins/ 바로 아래에 플러그인을 두지 않는다 — plugins/<분류>/<이름>/ 이다
 ```
@@ -53,8 +55,8 @@
 ## 올리기 전에 돌리는 것
 
 ```bash
-node .github/scripts/assemble-marketplace.mjs           # marketplace.json 재조립
 node .github/scripts/check-structure.mjs                # 구조 검사
+node .github/scripts/check-marketplace.mjs              # 목록이 plugins/ 와 맞는가
 node .github/scripts/check-version-bump.mjs origin/main  # 고쳤으면 version 올렸나
 claude plugin validate .                                # 스키마
 ```
