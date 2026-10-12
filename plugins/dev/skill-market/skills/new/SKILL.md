@@ -1,0 +1,120 @@
+---
+name: new
+description: 사내 오픈 마켓 terroir-community-plugin 에 스킬이나 플러그인을 올릴 때 사용. 분류 판정·이름 중복 검사·뼈대 생성·로컬 검증·PR 생성까지 한다.
+---
+
+# 마켓에 올리기
+
+사용자가 만든 스킬을 `VntgCorp/terroir-community-plugin` 에 올린다.
+
+**이 스킬은 마켓 규약만 안다.** `SKILL.md` 본문을 어떻게 잘 쓰는지는 공식
+`skill-creator` 가 가르치고 그쪽이 정본이다. 내용 작업이 필요하면 그쪽으로 넘긴다.
+
+**규약의 정본은 레포의 `docs/authoring.md` 다.** 아래 절차는 그 문서가 시키는 일을
+순서대로 하는 것이고, 규칙 값이 어긋나면 **문서가 이긴다.** 절차 중에 문서를 읽는다.
+
+---
+
+## 1. 레포를 확보한다
+
+현재 디렉토리가 `terroir-community-plugin` 인지 본다. 아니면 클론한다.
+
+```bash
+git clone https://github.com/VntgCorp/terroir-community-plugin
+cd terroir-community-plugin
+```
+
+이미 있으면 `git checkout main && git pull` 로 최신으로 맞춘다. **낡은 상태에서
+이름 중복을 검사하면 틀린 답이 나온다.**
+
+`docs/authoring.md` 를 읽는다. 이후 판단은 그 문서를 근거로 한다.
+
+## 2. 무엇을 만드는지 듣는다
+
+이미 만든 스킬이 있는지, 아니면 지금부터 만드는지 가른다.
+
+| 상황 | |
+|---|---|
+| 이미 `SKILL.md` 가 있다 | 그 파일을 가져다 3절로 간다 |
+| 아직 없다 | 무엇을 하는 스킬인지 듣는다. 본문 작성은 공식 `skill-creator` 가 낫다고 알린다 |
+
+## 3. 분류를 정한다
+
+**한 줄로 판정한다 — 이 스킬이 소스코드나 인프라를 건드리나?**
+
+- 예 → `dev`
+- 아니오 → `work`
+
+「누가 쓰는가」가 아니라 **「무엇을 건드리는가」**다. 개발자가 쓰는 회의록 정리 스킬은
+`work` 다. 애매하면 `work` 로 간다. 사용자에게 판정 근거를 한 줄로 말하고 확인받는다.
+
+허용 분류는 `.github/categories.txt` 가 정본이다. 그 파일을 읽어 확인한다.
+
+## 4. 이름을 정한다
+
+규칙은 `docs/authoring.md` 3절이 정본이다. 정하기 전에 **중복을 실제로 조회한다.**
+
+```bash
+node -e "console.log(JSON.parse(require('fs').readFileSync('.claude-plugin/marketplace.json')).plugins.map(p=>p.name).join('\n'))"
+```
+
+겹치면 **의미를 더하는 suffix** 를 제안한다 — `curriculum-fe` 처럼. 숫자(`-2`)나
+소유자 접두어(`jsik94-`)는 쓰지 않는다. 왜 그런지는 문서 3절에 있다.
+
+## 5. 뼈대를 만든다
+
+```
+plugins/<분류>/<이름>/
+├── .claude-plugin/plugin.json
+├── README.md
+└── skills/<이름>/SKILL.md
+```
+
+각 파일의 필수 필드와 양식은 `docs/authoring.md` 4절이 정본이다. 그대로 채운다.
+
+채우면서 **사용자에게 물어야만 아는 것**이 둘 있다.
+
+| | |
+|---|---|
+| `author.name` | 화면에 뜨는 사람 이름 |
+| `metadata.owner` | **GitHub 핸들.** 사람 이름이 아니다. 모르면 `gh api user --jq .login` 로 확인시킨다 |
+
+`README.md` 의 **「아는 한계」를 비우지 않는다.** 품질 심사가 없는 마켓이라, 무엇이
+안 되는지를 만든 사람이 적는 것이 유일한 안전장치다. 사용자가 안 적으면 물어서 받는다.
+
+## 6. 조립하고 검사한다
+
+```bash
+node .github/scripts/assemble-marketplace.mjs
+node .github/scripts/check-structure.mjs
+claude plugin validate .
+```
+
+첫 줄을 빼먹으면 CI 가 떨어진다. `marketplace.json` 은 생성물이라 **손으로 고치지 않는다.**
+
+검사가 떨어지면 **메시지가 고치는 법을 알려준다.** 그대로 고치고 다시 돌린다.
+메시지가 고치는 법을 안 알려주면 그건 CI 의 버그다 — 사용자에게 이슈를 권한다.
+
+## 7. 올린다
+
+```bash
+git checkout -b add-<이름>
+git add plugins/<분류>/<이름> .claude-plugin/marketplace.json
+git commit -m "feat(<분류>): <이름> 추가"
+gh pr create
+```
+
+PR 본문에 **무엇을 하는 스킬인지와 아는 한계**를 적는다.
+
+올린 뒤 알린다 — **CI 가 통과하면 본인이 머지한다. 누구의 승인도 기다리지 않는다.**
+단 뼈대(`docs/` · `README.md` · `.github/`)를 건드렸다면 플랫폼개발팀 승인이 필요하다.
+
+---
+
+## 하지 않는 것
+
+- **`SKILL.md` 본문을 대신 써주지 않는다.** 무엇을 하는 스킬인지는 사용자가 안다.
+  초안이 필요하면 공식 `skill-creator` 로 넘긴다
+- **사용자 대신 머지하지 않는다.** PR 생성까지가 이 스킬의 끝이다
+- **규칙 값을 외워서 말하지 않는다.** 길이 상한·이름 규칙 같은 것은 `docs/authoring.md`
+  를 읽어서 답한다. 외워 두면 문서가 바뀔 때 갈린다
