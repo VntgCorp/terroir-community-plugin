@@ -7,6 +7,8 @@
     "url": "https://github.com/VntgCorp/terroir-community-plugin"
   },
   "version": "1.0.0",
-  "allowCrossMarketplaceDependenciesOn": ["claude-plugins-official"],
+  "allowCrossMarketplaceDependenciesOn": [
+    "claude-plugins-official"
+  ],
   "plugins": []
 }

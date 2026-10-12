@@ -1,0 +1,39 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # 구조 — 분류 · 깊이 · 이름 · 매니페스트 · 필수 파일 · 스킬
+      - name: 구조 검사
+        run: node .github/scripts/check-structure.mjs
+
+      # marketplace.json 은 생성물이다. 손으로 고친 것을 여기서 잡는다
+      - name: marketplace.json 이 plugins/ 와 맞는가
+        run: node .github/scripts/assemble-marketplace.mjs --check
+
+      - name: 버전 증가 검사
+        if: github.event_name == 'pull_request'
+        run: node .github/scripts/check-version-bump.mjs "${{ github.event.pull_request.base.sha }}"
+
+      # 스키마 정본은 공식 CLI 다. 플랫폼이 바뀌면 여기가 먼저 알려 준다
+      - name: claude plugin validate
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude plugin validate .
