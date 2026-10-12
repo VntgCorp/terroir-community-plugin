@@ -14,7 +14,7 @@
 | 로컬 검증 | `marketplace.json` 조립 + CI 와 같은 검사 + `claude plugin validate` |
 | PR | 브랜치 · 커밋 · `gh pr create` 까지 |
 
-[스킬 제작 방법](../../../docs/authoring.md) 2~5절을 그대로 수행한다. 규칙 값은
+[플러그인 표준](../../../docs/standard.md)과 [스킬 제작 방법](../../../docs/authoring.md)을 그대로 수행한다. 규칙 값은
 외워 두지 않고 그 문서를 읽어서 쓴다 — 문서가 바뀌면 이 스킬도 같이 바뀐다.
 
 ## 쓰는 법

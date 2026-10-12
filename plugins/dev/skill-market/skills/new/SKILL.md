@@ -10,7 +10,7 @@ description: 사내 오픈 마켓 terroir-community-plugin 에 스킬이나 플�
 **이 스킬은 마켓 규약만 안다.** `SKILL.md` 본문을 어떻게 잘 쓰는지는 공식
 `skill-creator` 가 가르치고 그쪽이 정본이다. 내용 작업이 필요하면 그쪽으로 넘긴다.
 
-**규약의 정본은 레포의 `docs/authoring.md` 다.** 아래 절차는 그 문서가 시키는 일을
+**규약의 정본은 레포의 `docs/standard.md`(무엇이 규칙인가) 와 `docs/authoring.md`(절차) 다.** 아래 절차는 그 문서가 시키는 일을
 순서대로 하는 것이고, 규칙 값이 어긋나면 **문서가 이긴다.** 절차 중에 문서를 읽는다.
 
 ---
@@ -27,7 +27,7 @@ cd terroir-community-plugin
 이미 있으면 `git checkout main && git pull` 로 최신으로 맞춘다. **낡은 상태에서
 이름 중복을 검사하면 틀린 답이 나온다.**
 
-`docs/authoring.md` 를 읽는다. 이후 판단은 그 문서를 근거로 한다.
+`docs/standard.md` 와 `docs/authoring.md` 를 읽는다. 이후 판단은 그 문서를 근거로 한다.
 
 ## 2. 무엇을 만드는지 듣는다
 
@@ -52,7 +52,7 @@ cd terroir-community-plugin
 
 ## 4. 이름을 정한다
 
-규칙은 `docs/authoring.md` 3절이 정본이다. 정하기 전에 **중복을 실제로 조회한다.**
+규칙은 `docs/standard.md` 3절이 정본이다. 정하기 전에 **중복을 실제로 조회한다.**
 
 ```bash
 node -e "console.log(JSON.parse(require('fs').readFileSync('.claude-plugin/marketplace.json')).plugins.map(p=>p.name).join('\n'))"
@@ -70,7 +70,7 @@ plugins/<분류>/<이름>/
 └── skills/<이름>/SKILL.md
 ```
 
-각 파일의 필수 필드와 양식은 `docs/authoring.md` 4절이 정본이다. 그대로 채운다.
+각 파일의 필수 필드와 양식은 `docs/standard.md` 2·4·5·6절이 정본이다. 그대로 채운다.
 
 채우면서 **사용자에게 물어야만 아는 것**이 둘 있다.
 
@@ -133,5 +133,5 @@ PR 본문에 **무엇을 하는 스킬인지와 아는 한계**를 적는다.
 - **`SKILL.md` 본문을 대신 써주지 않는다.** 무엇을 하는 스킬인지는 사용자가 안다.
   초안이 필요하면 공식 `skill-creator` 로 넘긴다
 - **사용자 대신 머지하지 않는다.** PR 생성까지가 이 스킬의 끝이다
-- **규칙 값을 외워서 말하지 않는다.** 길이 상한·이름 규칙 같은 것은 `docs/authoring.md`
+- **규칙 값을 외워서 말하지 않는다.** 길이 상한·이름 규칙 같은 것은 `docs/standard.md`
   를 읽어서 답한다. 외워 두면 문서가 바뀔 때 갈린다
