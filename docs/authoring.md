@@ -36,14 +36,40 @@
 대화로 물어보고 아래 2절을 전부 대신해 준다 — 분류 판정 · 이름 중복 검사 · 뼈대 생성 ·
 로컬 검증 · PR 생성까지. **직접 할 이유가 없으면 이걸 쓴다.**
 
-## 2. 직접 할 때
+## 2. 터미널 없이 올리기
+
+`git` 이나 `node` 를 쓰지 않는다. **GitHub 웹에서 끝난다.**
+
+1. 레포에서 **Add file → Create new file** 을 연다
+2. 파일 이름 칸에 전체 경로를 적는다 — `/` 를 치면 폴더가 생긴다
+
+```
+plugins/<분류>/<이름>/.claude-plugin/plugin.json
+plugins/<분류>/<이름>/README.md
+plugins/<분류>/<이름>/skills/<이름>/SKILL.md
+```
+
+3. 각 파일의 내용은 [플러그인 표준](standard.md)을 보고 채운다
+4. `.claude-plugin/marketplace.json` 을 열어 **Edit** 로 목록에 한 줄 더한다
+
+```json
+  { "name": "<이름>", "source": "./plugins/<분류>/<이름>", "category": "<분류>" }
+```
+
+5. **Commit changes** 에서 「Create a new branch」를 고르고 PR 을 연다
+
+검사는 PR 에서 자동으로 돈다. 떨어지면 메시지가 고치는 법을 알려준다.
+
+> 정렬·들여쓰기·필드 순서는 검사하지 않는다. 자리만 맞으면 통과한다.
+
+## 3. 터미널로 올리기
 
 ### 만든다
 
 ```bash
 git clone https://github.com/VntgCorp/terroir-community-plugin
 cd terroir-community-plugin
-git checkout -b add-dockerize
+git checkout -b feat/dockerize
 ```
 
 무엇을 어디에 만드는지는 [플러그인 표준](standard.md)을 보고 그대로 채운다. 요약하면
@@ -55,8 +81,7 @@ git checkout -b add-dockerize
 ```
 
 Claude Code 는 그 목록만 읽는다 — 디렉토리를 만들어도 목록에 없으면 아무도 설치할 수 없다.
-**정렬이나 들여쓰기는 검사하지 않으므로 손으로 적어도 된다.** 터미널이 있으면 조립기가
-대신 적어준다(아래).
+목록은 **직접 편집하는 파일이다.** 터미널이 있으면 조립기가 대신 적어준다(아래).
 
 **분류는 한 줄로 고른다** — 이 스킬이 소스코드나 인프라를 직접 건드리나? 허용되는 분류는
 [`.github/categories.txt`](../.github/categories.txt) 가 정본이다.
@@ -100,11 +125,11 @@ gh pr create
 올리기 말고 다른 일 — 내리기 · 소유자 이관 · 남의 플러그인 고치기 · 분류 변경 — 은
 [마켓을 바꾸는 절차](operations.md)에 있다.
 
-## 3. 자주 걸리는 것
+## 4. 자주 걸리는 것
 
 | 증상 | |
 |---|---|
-| 이름 중복으로 떨어짐 | 의미를 더하는 suffix 를 붙인다. 숫자는 쓰지 않는다 — [표준 3절](standard.md#3-이름) |
+| 이름 중복으로 떨어짐 | **남의 것을 건드리지 않는다. 내 이름을 바꾼다** — [표준 「이름이 겹치면」](standard.md#이름이-겹치면) |
 | `version` 미증가로 떨어짐 | 파일을 고쳤으면 `version` 도 올린다. 기준은 [버전업 경로](versioning.md) |
 | `metadata.owner` 없음 | GitHub 핸들을 적는다. 사람 이름이 아니라 `@` 뒤에 쓰는 그 핸들 |
 | 목록에 없다고 떨어짐 | 메시지에 붙여넣을 줄이 그대로 나온다. 그걸 `marketplace.json` 에 더한다 |

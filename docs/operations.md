@@ -57,7 +57,7 @@
 ## A1. 내 플러그인을 고친다
 
 ```bash
-git checkout -b fix-<이름>
+git checkout -b fix/<이름>
 # plugins/<분류>/<이름>/ 을 고친다
 # version 을 올린다 — 올리지 않으면 CI 가 떨어뜨린다 (docs/versioning.md)
 # 두 번째 버전부터는 CHANGELOG.md 도 쓴다
@@ -98,7 +98,7 @@ git add . && git commit -m "fix(<분류>): ..." && gh pr create
 ```
 
 ```bash
-git checkout -b remove-<이름>
+git checkout -b chore/remove-<이름>
 git rm -r plugins/<분류>/<이름>
 node .github/scripts/assemble-marketplace.mjs    # 반드시 — 엔트리가 빠져야 한다
 node .github/scripts/check-structure.mjs
