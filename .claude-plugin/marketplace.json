@@ -12,6 +12,11 @@
   ],
   "plugins": [
     {
+      "name": "sample-note",
+      "source": "./plugins/work/sample-note",
+      "category": "work"
+    },
+    {
       "name": "skill-market",
       "source": "./plugins/dev/skill-market",
       "category": "dev"
