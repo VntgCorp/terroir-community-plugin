@@ -87,10 +87,14 @@ plugins/<분류>/<이름>/
 ```bash
 node .github/scripts/assemble-marketplace.mjs
 node .github/scripts/check-structure.mjs
+node .github/scripts/check-version-bump.mjs origin/main   # 고치는 경우에만 걸린다
 claude plugin validate .
 ```
 
 첫 줄을 빼먹으면 CI 가 떨어진다. `marketplace.json` 은 생성물이라 **손으로 고치지 않는다.**
+
+**이미 있는 플러그인을 고쳤다면 셋째 줄이 중요하다** — `version` 을 안 올리면 CI 가
+떨어뜨린다. 무엇을 올릴지는 `docs/versioning.md`, 두 번째 버전부터는 `CHANGELOG.md` 도 쓴다.
 
 검사가 떨어지면 **메시지가 고치는 법을 알려준다.** 그대로 고치고 다시 돌린다.
 메시지가 고치는 법을 안 알려주면 그건 CI 의 버그다 — 사용자에게 이슈를 권한다.

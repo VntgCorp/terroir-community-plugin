@@ -176,8 +176,9 @@ git checkout -b add-dockerize
 
 # plugins/dev/dockerize/ 를 만든다
 
-node .github/scripts/assemble-marketplace.mjs    # marketplace.json 을 다시 조립한다
-node .github/scripts/check-structure.mjs         # CI 와 같은 검사. 올리기 전에 돌려본다
+node .github/scripts/assemble-marketplace.mjs           # marketplace.json 을 다시 조립한다
+node .github/scripts/check-structure.mjs                # 구조 검사
+node .github/scripts/check-version-bump.mjs origin/main  # 고치는 경우에만 걸린다
 
 git add . && git commit -m "feat(dev): dockerize 스킬 추가"
 gh pr create

@@ -52,9 +52,10 @@
 ## 올리기 전에 돌리는 것
 
 ```bash
-node .github/scripts/assemble-marketplace.mjs    # marketplace.json 재조립
-node .github/scripts/check-structure.mjs         # CI 와 같은 구조 검사
-claude plugin validate .                         # 스키마
+node .github/scripts/assemble-marketplace.mjs           # marketplace.json 재조립
+node .github/scripts/check-structure.mjs                # 구조 검사
+node .github/scripts/check-version-bump.mjs origin/main  # 고쳤으면 version 올렸나
+claude plugin validate .                                # 스키마
 ```
 
 CI 가 돌리는 것과 같다. **떨어지면 메시지가 고치는 법을 알려준다** — 그대로 따르면 된다.

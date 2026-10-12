@@ -51,8 +51,10 @@ git checkout -b fix-<이름>
 
 # version 을 올린다 — 안 올리면 CI 가 떨어뜨린다
 # 무엇을 올릴지는 docs/versioning.md
+# 두 번째 버전부터는 CHANGELOG.md 도 쓴다
 
 node .github/scripts/check-structure.mjs
+node .github/scripts/check-version-bump.mjs origin/main   # 이걸 빼먹어서 떨어지는 일이 잦다
 git add . && git commit -m "fix(<분류>): ..." && gh pr create
 ```
 
