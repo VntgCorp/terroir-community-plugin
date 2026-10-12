@@ -1,0 +1,7 @@
+{
+  "name": "owner-check",
+  "description": "CODEOWNERS 기본값 변경 후 플러그인 경로가 안 막히는지 확인하는 표본",
+  "version": "1.0.0",
+  "author": { "name": "정윤식" },
+  "metadata": { "owner": "Jsik94" }
+}

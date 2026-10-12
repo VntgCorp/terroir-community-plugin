@@ -12,6 +12,11 @@
   ],
   "plugins": [
     {
+      "name": "owner-check",
+      "source": "./plugins/work/owner-check",
+      "category": "work"
+    },
+    {
       "name": "skill-market",
       "source": "./plugins/dev/skill-market",
       "category": "dev"
