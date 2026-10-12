@@ -119,7 +119,7 @@ git commit -m "remove(<분류>): <이름> 내림 — <사유>" && gh pr create
 **누가** 아무나(write 이상)가 PR · **승인** 넘기는 쪽과 받는 쪽 둘 다 동의
 
 퇴사·조직 이동·관리 포기로 소유자가 바뀌는 경우다. **이름은 바꾸지 않는다** —
-이름에 소유자를 안 박은 이유가 여기 있다([authoring.md](authoring.md) 3절).
+이름에 소유자를 안 박은 이유가 여기 있다([플러그인 표준 3절](standard.md#3-이름)).
 
 ```bash
 # plugins/<분류>/<이름>/.claude-plugin/plugin.json 에서
@@ -180,7 +180,7 @@ node .github/scripts/assemble-marketplace.mjs    # 조립물에 반영
   .github/scripts/lib.mjs             레포 구조를 읽는 자리 — 여기 하나다
 ```
 
-**검사를 바꾸면 [authoring.md](authoring.md) 6절의 표도 같이 고친다.** 한쪽만 고치면
+**검사를 바꾸면 [플러그인 표준 8절](standard.md#8-ci-가-보는-것)의 표도 같이 고친다.** 한쪽만 고치면
 문서와 집행이 갈리고, 그때 사람들은 문서가 아니라 CI 를 믿는다.
 
 > CI 는 자기를 지키지 못한다 — PR 이 검사를 약하게 바꿔도 체크 이름만 같으면 초록불이

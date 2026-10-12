@@ -25,8 +25,9 @@
 
 | 하려는 일 | 어디 | 승인 |
 |---|---|---|
+| **무엇이 규칙인가** — 어디에·무엇을·어떤 이름으로 | [docs/standard.md](docs/standard.md) | — |
 | 이 마켓이 무엇인지 알기 | [docs/about.md](docs/about.md) | — |
-| 스킬을 **새로 올리기** | [docs/authoring.md](docs/authoring.md) | 불필요 |
+| 스킬을 **새로 올리기** (절차) | [docs/authoring.md](docs/authoring.md) | 불필요 |
 | 올린 것을 **고치기 · 버전 올리기** | [docs/versioning.md](docs/versioning.md) | 불필요 |
 | **남의** 플러그인 고치기 | [docs/operations.md](docs/operations.md#2-남의-플러그인을-고친다) | 불필요 · 알림은 직접 |
 | **내리기 · 이관** | [docs/operations.md](docs/operations.md#3-플러그인을-내린다) | 소유자 동의 |
