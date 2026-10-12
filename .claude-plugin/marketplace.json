@@ -1,0 +1,12 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "terroir-community-plugin",
+  "description": "사내 구성원이 직접 만든 Claude Code 스킬을 올리고 가져다 쓰는 마켓플레이스. 플랫폼개발팀이 검증해 제공하는 terroir-claude-plugin 과는 다른 채널이다",
+  "owner": {
+    "name": "VntgCorp R&D",
+    "url": "https://github.com/VntgCorp/terroir-community-plugin"
+  },
+  "version": "1.0.0",
+  "allowCrossMarketplaceDependenciesOn": ["claude-plugins-official"],
+  "plugins": []
+}

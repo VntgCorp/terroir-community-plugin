@@ -1,0 +1,14 @@
+# 뼈대만 적는다.
+#
+# 플러그인 디렉토리는 일부러 비워 둔다 — GitHub 은 PR 작성자가 자기 PR 을
+# 승인하는 것을 허용하지 않으므로, 여기 적으면 소유자가 자기 플러그인
+# 업데이트를 영원히 머지할 수 없게 된다.
+# 플러그인 소유자는 plugin.json 의 metadata.owner 가 기록하고, CI 가 검사한다.
+
+/.github/                    @VntgCorp/r-d
+/docs/                       @VntgCorp/r-d
+/README.md                   @VntgCorp/r-d
+/.claude-plugin/             @VntgCorp/r-d
+
+# 기여 도구는 뼈대다
+/plugins/dev/skill-market/   @VntgCorp/r-d

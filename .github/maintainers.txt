@@ -1,0 +1,5 @@
+# 뼈대 변경을 승인할 수 있는 사람. GitHub 핸들만 한 줄씩.
+# CODEOWNERS 는 팀(@VntgCorp/r-d)으로 걸고, 이 파일은 CI 가 승인자를 대조할 때 쓴다.
+# 이 파일 자체도 뼈대라 CODEOWNERS 가 지킨다.
+
+Jsik94
