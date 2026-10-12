@@ -12,6 +12,11 @@
   ],
   "plugins": [
     {
+      "name": "meeting-notes-splitter",
+      "source": "./plugins/work/meeting-notes-splitter",
+      "category": "work"
+    },
+    {
       "name": "skill-market",
       "source": "./plugins/dev/skill-market",
       "category": "dev"

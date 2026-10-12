@@ -1,0 +1,12 @@
+{
+  "name": "meeting-notes-splitter",
+  "description": "회의 직후 받아적은 회의록 텍스트를 결정된 것과 해야 할 일로 나눠 정리할 때 쓴다",
+  "version": "1.0.0",
+  "author": {
+    "name": "테스트 기여자"
+  },
+  "metadata": {
+    "owner": "Jsik94",
+    "team": "플랫폼개발팀"
+  }
+}
