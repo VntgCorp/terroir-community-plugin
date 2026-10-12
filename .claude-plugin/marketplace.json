@@ -10,5 +10,11 @@
   "allowCrossMarketplaceDependenciesOn": [
     "claude-plugins-official"
   ],
-  "plugins": []
+  "plugins": [
+    {
+      "name": "skill-market",
+      "source": "./plugins/dev/skill-market",
+      "category": "dev"
+    }
+  ]
 }
