@@ -108,7 +108,8 @@
 
 ## 마켓플레이스 자체의 버전
 
-`.claude-plugin/marketplace.json` 의 최상위 `version` 은 **생성물이고 손대지 않는다.**
+`.claude-plugin/marketplace.json` 의 최상위 `version` 은 **`.github/marketplace-header.json`
+에서 온다. 손대지 않는다.**
 
 이 값은 설치본 갱신을 일으키지 않는다. **사용자가 저장해 둔 마켓플레이스 등록이
 아직 유효한지**를 표시하는 자리다 — 레포가 옮겨지거나 마켓 이름이 바뀌어 **재등록이 필요할 때**만

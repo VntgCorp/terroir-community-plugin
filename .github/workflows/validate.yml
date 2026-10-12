@@ -24,9 +24,9 @@ jobs:
       - name: 구조 검사
         run: node .github/scripts/check-structure.mjs
 
-      # marketplace.json 은 생성물이다. 손으로 고친 것을 여기서 잡는다
-      - name: marketplace.json 이 plugins/ 와 맞는가
-        run: node .github/scripts/assemble-marketplace.mjs --check
+      # 목록이 실제 디렉토리와 맞는지. 정렬·들여쓰기는 보지 않는다
+      - name: marketplace.json 검사
+        run: node .github/scripts/check-marketplace.mjs
 
       - name: 버전 증가 검사
         if: github.event_name == 'pull_request'

@@ -1,28 +1,13 @@
 #!/usr/bin/env node
-// marketplace.json 을 plugins/ 에서 조립한다.
+// marketplace.json 의 plugins 목록을 plugins/ 에서 다시 쓴다.
 //
-//   --check  조립 결과가 커밋된 것과 같은지만 보고, 다르면 실패한다 (CI)
-//   (없으면) 파일을 덮어쓴다 (사람이 로컬에서)
+// **편의 도구다. 반드시 써야 하는 것은 아니다.** 목록에 자기 줄을 직접 더해도 되고,
+// 브라우저로 기여할 때는 그렇게 한다. 맞는지는 check-marketplace.mjs 가 본다.
 //
-// marketplace.json 을 손으로 고치지 않는 이유는 docs/operations.md B2 절에 있다.
+// 헤더(마켓 이름·설명 등)는 .github/marketplace-header.json 에서 가져온다.
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { assemble, MARKETPLACE_PATH } from './lib.mjs';
 
-const next = JSON.stringify(assemble(), null, 2) + '\n';
-
-if (process.argv.includes('--check')) {
-  if (readFileSync(MARKETPLACE_PATH, 'utf8') === next) {
-    console.log(`✔ ${MARKETPLACE_PATH} 이 plugins/ 와 일치한다`);
-    process.exit(0);
-  }
-  console.error(
-    `✗ ${MARKETPLACE_PATH} 이 plugins/ 와 어긋난다.\n` +
-      `\n  이 파일은 생성물이다. 손으로 고치지 말고 아래를 돌린 뒤 커밋한다.\n` +
-      `\n      node .github/scripts/assemble-marketplace.mjs\n`
-  );
-  process.exit(1);
-}
-
-writeFileSync(MARKETPLACE_PATH, next);
-console.log(`✔ ${MARKETPLACE_PATH} 을 다시 썼다`);
+writeFileSync(MARKETPLACE_PATH, JSON.stringify(assemble(), null, 2) + '\n');
+console.log(`✔ ${MARKETPLACE_PATH} 의 목록을 다시 썼다`);

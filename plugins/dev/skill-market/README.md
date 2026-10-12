@@ -11,7 +11,7 @@
 | 분류 판정 | 소스코드·인프라를 건드리나로 `dev` / `work` 를 가른다 |
 | 이름 | 문자 규칙을 맞추고 **마켓 전체에서 중복을 실제로 조회한다** |
 | 뼈대 생성 | `plugin.json` · `README.md` · `skills/<이름>/SKILL.md` |
-| 로컬 검증 | `marketplace.json` 조립 + CI 와 같은 검사 + `claude plugin validate` |
+| 로컬 검증 | 목록 등재 + CI 와 같은 검사 + `claude plugin validate` |
 | PR | 브랜치 · 커밋 · `gh pr create` 까지 |
 
 [플러그인 표준](../../../docs/standard.md)과 [스킬 제작 방법](../../../docs/authoring.md)을 그대로 수행한다. 규칙 값은

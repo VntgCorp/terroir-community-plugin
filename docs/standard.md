@@ -155,7 +155,7 @@ description: 서비스를 컨테이너화할 때 사용. Dockerfile 작성·빌�
 | 파일 | `README.md` 가 있는가 · `SKILL.md` 가 최소 하나 있는가 |
 | 스킬 | frontmatter 의 `name` · `description` 존재 · `description` 길이 |
 | 버전 | 파일이 바뀌었는데 `version` 이 그대로인가 |
-| 조립물 | `marketplace.json` 이 `plugins/` 와 맞는가 |
+| 목록 | `marketplace.json` 의 각 줄이 실제 디렉토리를 가리키나 · 빠진 플러그인은 없나 · 헤더가 정본과 같은가 |
 | 스키마 | `claude plugin validate` 통과 |
 
 **떨어지면 메시지가 고치는 법을 알려준다.** 알려주지 않으면 그건 CI 의 버그다.

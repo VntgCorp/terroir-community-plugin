@@ -29,7 +29,8 @@
 │   → B. 플랫폼개발팀만 하는 일                                             │
 └─────────────────────────────────────────────────────────────────────────┘
 
-   .claude-plugin/marketplace.json  ← 어느 쪽도 아니다. CI 가 조립하는 생성물
+   .claude-plugin/marketplace.json  ← 둘이 만나는 곳. 올리는 사람이 자기 줄을 더하고
+                                      마켓 이름·설명은 팀 소유 헤더에서 온다
 ```
 
 권한 등급과 그 근거는 [권한](permissions.md)에, 무엇이 규칙인지는
@@ -66,7 +67,7 @@ node .github/scripts/check-version-bump.mjs origin/main   # 이걸 빼먹어서 
 git add . && git commit -m "fix(<분류>): ..." && gh pr create
 ```
 
-`marketplace.json` 조립은 **이름·위치가 바뀌지 않으면 필요 없다.** 바뀌었다면 돌린다.
+`marketplace.json` 은 **이름·위치가 바뀌지 않으면 손댈 일이 없다.** 바뀌었다면 그 줄도 고친다.
 
 ## A2. 남의 플러그인을 고친다
 
@@ -164,9 +165,9 @@ PR 본문에 **양쪽 동의를 남긴다.** 넘기는 사람이 이미 떠나 �
 
 ```bash
 # .github/categories.txt 에 분류 한 줄 + 설명 주석을 더한다 (또는 지운다)
-# 기존 플러그인을 옮긴다면 git mv 하고 조립을 다시 돌린다
-node .github/scripts/assemble-marketplace.mjs
+# 기존 플러그인을 옮긴다면 git mv 하고 marketplace.json 의 source·category 도 고친다
 node .github/scripts/check-structure.mjs
+node .github/scripts/check-marketplace.mjs
 ```
 
 `categories.txt` 에는 **목록만이 아니라 고르는 기준도 들어 있다.** 분류를 늘리면 기준도
@@ -182,12 +183,13 @@ PR 본문에 **왜 지금인지**를 적는다 — 어떤 플러그인들이 같
 `.github/marketplace-header.json` 이 마켓 이름·설명·버전·`renames`·
 `allowCrossMarketplaceDependenciesOn` 을 가진다.
 
-**`.claude-plugin/marketplace.json` 이 아니다.** `marketplace.json` 은 헤더와 `plugins/` 를 CI 가 조립한
-생성물이라 플러그인이 추가될 때마다 바뀌고, 그래서 CODEOWNERS 로 지킬 수 없다.
+**`.claude-plugin/marketplace.json` 이 아니다.** 저 파일은 올리는 사람이 자기 줄을 더하는
+곳이라 기여마다 바뀌고, 그래서 CODEOWNERS 로 지킬 수 없다. 뼈대를 여기 따로 둔 이유다.
 
 ```bash
 # .github/marketplace-header.json 을 고친다
-node .github/scripts/assemble-marketplace.mjs    # 조립물에 반영
+# marketplace.json 의 해당 값도 같이 고친다 — 둘이 다르면 CI 가 떨어뜨린다
+node .github/scripts/check-marketplace.mjs
 ```
 
 > [!caution]
