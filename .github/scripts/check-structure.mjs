@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // 레포 구조와 플러그인 매니페스트를 검사한다.
-// 검사 목록은 docs/standard.md 8절과 같아야 한다 — 한쪽만 고치면 갈린다.
+// 검사 목록은 docs/standard.md 9절과 같아야 한다 — 한쪽만 고치면 갈린다.
 //
 // 떨어질 때는 반드시 고치는 법을 같이 적는다. 안 적혀 있으면 그건 이 스크립트의 버그다.
 
@@ -11,6 +11,11 @@ import { discoverPlugins, readManifest, readCategories, PLUGINS_DIR, CATEGORIES_
 const NAME_RE = /^[a-z0-9][a-z0-9-]{1,63}$/;
 const SEMVER_RE = /^\d+\.\d+\.\d+$/;
 const PLUGIN_DESC_MAX = 300;
+/** README 에 반드시 있어야 하는 절. 비어 있으면 떨어진다 — docs/standard.md 7절 */
+const REQUIRED_README_SECTIONS = [
+  ['전제 조건', '외부 도구 · 접근 권한 · 다른 플러그인 의존을 적어 설치하는 사람이 미리 알게 한다.'],
+  ['아는 한계', '무엇을 할 수 없는지를 만든 사람이 적는다. 품질 심사가 없는 마켓이라 이게 유일한 안전장치다.'],
+];
 const SKILL_DESC_MAX = 500;
 
 const errors = [];
@@ -77,7 +82,25 @@ for (const plugin of discoverPlugins().map(readManifest)) {
   if (!metadata?.owner) fail(base, 'metadata.owner 가 없다', 'GitHub 핸들을 적는다 — 사람 이름이 아니라 @ 뒤에 쓰는 그 핸들이다. 소유자 기록과 리뷰 요청에 쓴다');
   if (manifest.category) fail(base, 'plugin.json 에 category 를 적었다', '분류의 정본은 디렉토리 위치다. 둘을 다 두면 반드시 갈린다 — 이 줄을 지운다');
 
-  if (!existsSync(join(base, 'README.md'))) fail(base, 'README.md 가 없다', '쓰는 사람이 설치 여부를 결정할 수 있을 만큼 쓴다. 양식은 docs/standard.md 6절');
+  const readmePath = join(base, 'README.md');
+  if (!existsSync(readmePath)) {
+    fail(base, 'README.md 가 없다', '쓰는 사람이 설치 여부를 결정할 수 있을 만큼 쓴다. 양식은 docs/standard.md 7절');
+  } else {
+    // 절이 있는지와 비어 있지 않은지만 본다. 내용이 맞는지는 보지 않는다.
+    const lines = readFileSync(readmePath, 'utf8').split('\n');
+    const sectionBody = (heading) => {
+      const start = lines.findIndex((l) => l.trim() === `## ${heading}`);
+      if (start === -1) return null;
+      const rest = lines.slice(start + 1);
+      const end = rest.findIndex((l) => /^##\s/.test(l));
+      return (end === -1 ? rest : rest.slice(0, end)).join('\n');
+    };
+    for (const [heading, why] of REQUIRED_README_SECTIONS) {
+      const body = sectionBody(heading);
+      if (body === null) fail(readmePath, `「${heading}」 절이 없다`, `${why} 양식은 docs/standard.md 7절`);
+      else if (!body.replace(/[|\-\s]/g, '')) fail(readmePath, `「${heading}」 절이 비어 있다`, `${why} 없으면 「없음」이라고 적는다 — 안 적은 것과 확인하고 없는 것은 읽는 쪽에서 구별되지 않는다`);
+    }
+  }
 
   // ── 스킬 ──
   const skillsDir = join(base, 'skills');
