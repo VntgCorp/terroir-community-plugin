@@ -40,22 +40,43 @@
 **1번이 맞다.** 이 마켓의 전제가 「구성원 누구나」이고, read 에 머무는 사람이 많다는 건
 팀 구성이 안 맞는다는 뜻이지 이 레포가 풀 문제가 아니다.
 
-## 무엇이 강제하나 — 세 층
+## 누가 무엇을 할 수 있나
+
+**뼈대를 고칠 때만 갈린다.** 플러그인은 누구에게나 같다.
+
+```
+                          R&D (14명)             타팀 write (70명)
+  ──────────────────────────────────────────────────────────────────
+  main 직접 push           ✗ 차단                 ✗ 차단
+  플러그인 PR              CI 통과 후 본인 머지     CI 통과 후 본인 머지
+  뼈대 PR                  CI 통과 후 본인 머지     코드오너 승인 필요
+  CI 통과                  필수                   필수
+```
+
+플랫폼개발팀이 자기 영역을 고칠 때 팀 안에서 서로를 기다리지 않게 한 것이다.
+**타팀이 뼈대를 건드릴 때는 반드시 팀 승인을 거친다.**
+
+## 무엇이 그것을 강제하나 — 네 층
 
 층마다 막는 것이 다르다. **하나만으로는 구멍이 난다.**
 
 ```
- ① 레포 보호 설정 ─ 레포 설정이라 PR 이 못 건드린다. 자기를 지킨다
+ ① 레포 보호 설정 ─ 전원 적용. enforce_admins 라 admin 도 예외 없다
     ┌────────────────────────────────────────────────────────────┐
-    │  main 직접 push    전원 차단 (enforce_admins — admin 포함)  │
     │  validate 통과     필수 · strict(최신 main 기준)            │
     │  force push·삭제   차단                                     │
     └────────────────────────────────────────────────────────────┘
+
+ ② 룰셋「main 은 PR 로만」 ─ bypass 목록이 비어 있다. R&D 도 못 뚫는다
+    ┌────────────────────────────────────────────────────────────┐
+    │  main 에 직접 push 금지. 무엇이든 PR 을 거친다               │
+    └────────────────────────────────────────────────────────────┘
                               │
-                              │  ①은 "validate 라는 체크가 초록인가"만 본다.
+                              │  ①②는 "validate 라는 체크가 초록인가"만 본다.
                               │  PR 이 검사를 빈 껍데기로 바꿔도 이름만 같으면 초록이다
                               ▼
- ② CODEOWNERS ─ ①이 못 보는 「검사 내용의 약화」를 막는다
+ ③ 룰셋「뼈대 변경은 코드오너 승인」+ CODEOWNERS
+    ─ ①②가 못 보는 「검사 내용의 약화」를 막는다. bypass = @VntgCorp/r-d
     ┌────────────────────────────────────────────────────────────┐
     │  /.github/                    @VntgCorp/r-d                 │
     │  /docs/                       @VntgCorp/r-d                 │
@@ -63,19 +84,25 @@
     │  /plugins/dev/skill-market/   @VntgCorp/r-d                 │
     └────────────────────────────────────────────────────────────┘
                               │
-                              │  ②가 살아야 ①의 초록불이 의미를 갖는다
+                              │  ③이 살아야 ①②의 초록불이 의미를 갖는다
                               ▼
- ③ CI ─ 실제 규칙 집행. ①이 통과를 강제하고 ②가 내용을 지킨다
+ ④ CI ─ 실제 규칙 집행
     ┌────────────────────────────────────────────────────────────┐
     │  분류 · 깊이 · 이름 · 매니페스트 · 필수 파일 · 버전 · 스키마  │
     └────────────────────────────────────────────────────────────┘
 ```
+
+> [!warning]
+> **③의 bypass 는 「검사 내용의 약화」를 R&D 14명에게는 열어 둔다는 뜻이다.**
+> 타팀 70명은 여전히 못 한다. 위험 범위를 0 으로 두는 대신 팀을 신뢰하는 선택이고,
+> 되돌리려면 룰셋 `뼈대 변경은 코드오너 승인` 의 `bypass_actors` 를 비우면 된다.
 
 ### 확인하는 법
 
 ```bash
 R=VntgCorp/terroir-community-plugin
 gh api repos/$R/branches/main/protection --jq '{checks:.required_status_checks.contexts, enforce_admins:.enforce_admins.enabled}'
+gh api repos/$R/rulesets --jq '.[] | "\(.name) [\(.enforcement)]"'
 gh api repos/$R/codeowners/errors --jq '.errors | length'    # 0 이어야 한다
 ```
 
@@ -83,6 +110,38 @@ gh api repos/$R/codeowners/errors --jq '.errors | length'    # 0 이어야 한�
 > **CODEOWNERS 는 write 이상을 가진 팀만 유효하다.** 접근 권한 없는 팀을 적으면 GitHub 이
 > 그 줄을 **조용히 무시한다** — 에러가 아니라 침묵이라 모르고 지나가기 쉽다. 위의
 > `codeowners/errors` 가 0 인지 보는 이유다.
+
+### R&D 가 뼈대 PR 을 머지하는 법
+
+**웹에서 한다.** PR 하단 머지 상자에 R&D 에게만 보이는 체크박스가 있다.
+
+```
+  ⚠ Merging is blocked
+    Waiting on code owner review from VntgCorp/r-d
+
+  ☐ Merge without waiting for requirements to be met (bypass rules)   ← 이것을 켠다
+    [ Squash and merge ]
+```
+
+**이게 기본 경로다.** 「요건을 안 기다리고 머지한다」를 명시적으로 묻고, bypass 했다는
+사실이 기록에 남는다. 타팀 사람에게는 이 체크박스가 **보이지 않는다** — 그쪽은
+`Review required` 에서 실제로 멈춘다.
+
+> [!note]
+> **`gh pr merge` 는 거부한다.** bypass 가 안 걸린 것이 아니라, GitHub 이 주는
+> `mergeStateStatus` 가 **누가 보는지와 무관하게 계산되어 bypass 를 반영하지 않기**
+> 때문이다. `gh` 는 그 값을 보고 클라이언트에서 막는다. 서버는 통과시킨다.
+>
+> 터미널에서 해야 하면 REST 를 직접 쓴다.
+> ```bash
+> gh api -X PUT repos/VntgCorp/terroir-community-plugin/pulls/<번호>/merge -f merge_method=squash
+> ```
+
+내가 bypass 대상인지는 이것으로 확인한다 — `always` 면 대상이다.
+
+```bash
+gh api repos/VntgCorp/terroir-community-plugin/rulesets --jq '.[] | "\(.name): \(.current_user_can_bypass)"'
+```
 
 ## 왜 개별 플러그인은 CODEOWNERS 에 없나
 
