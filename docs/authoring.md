@@ -52,13 +52,20 @@ plugins/<분류>/<이름>/skills/<이름>/SKILL.md
 3. 각 파일의 내용은 [플러그인 표준](standard.md)을 보고 채운다.
    `README.md` 의 **「전제 조건」과 「아는 한계」는 비우지 않는다** — 없으면 「없음」이라고
    적는다. 설치하는 사람이 그걸 보고 고른다
-4. `.claude-plugin/marketplace.json` 을 열어 **Edit** 로 목록에 한 줄 더한다
+
+4. `.claude-plugin/marketplace.json` 을 **Edit** 로 열어 목록에 한 줄 더한다
 
 ```json
   { "name": "<이름>", "source": "./plugins/<분류>/<이름>", "category": "<분류>" }
 ```
 
-5. **Commit changes** 에서 「Create a new branch」를 고르고 PR 을 연다
+5. `.github/CODEOWNERS` 를 **Edit** 로 열어 소유자 한 줄 더한다
+
+```
+  /plugins/<분류>/<이름>/   @<GitHub 핸들>
+```
+
+6. **Commit changes** 에서 「Create a new branch」를 고르고 PR 을 연다
 
 검사는 PR 에서 자동으로 돈다. 떨어지면 메시지가 고치는 법을 알려준다.
 
@@ -85,6 +92,16 @@ git checkout -b feat/dockerize
 Claude Code 는 그 목록만 읽는다 — 디렉토리를 만들어도 목록에 없으면 아무도 설치할 수 없다.
 목록은 **직접 편집하는 파일이다.** 터미널이 있으면 조립기가 대신 적어준다(아래).
 
+그리고 **`.github/CODEOWNERS` 에 소유자 한 줄을 더한다.**
+
+```
+  /plugins/<분류>/<이름>/   @<GitHub 핸들>
+```
+
+이 줄이 있으면 **자기 플러그인은 승인 없이 고치고, 남이 고칠 때는 내 승인이 필요해진다.**
+빠뜨리면 소유자가 없어 아무나 고칠 수 있고, CI 가 그것을 잡는다. 팀이 소유하면
+`@VntgCorp/<팀슬러그>` 를 적는다.
+
 **분류는 한 줄로 고른다** — 이 스킬이 소스코드나 인프라를 직접 건드리나? 허용되는 분류는
 [`.github/categories.txt`](../.github/categories.txt) 가 정본이다.
 
@@ -94,6 +111,7 @@ Claude Code 는 그 목록만 읽는다 — 디렉토리를 만들어도 목록�
 node .github/scripts/assemble-marketplace.mjs           # 목록을 대신 적어준다 (선택)
 node .github/scripts/check-structure.mjs                # 구조 검사
 node .github/scripts/check-marketplace.mjs              # 목록이 plugins/ 와 맞는가
+node .github/scripts/check-codeowners.mjs               # 소유자 줄이 있는가
 node .github/scripts/check-version-bump.mjs origin/main  # 고치는 경우에만 걸린다
 claude plugin validate .                                # 스키마
 ```
@@ -108,7 +126,7 @@ git add . && git commit -m "feat(<분류>): <이름> 추가"
 gh pr create
 ```
 
-**CI 가 통과하면 본인이 머지한다.** 누구의 승인도 기다리지 않는다.
+**자기 플러그인은 CI 가 통과하면 본인이 머지한다.** 승인을 기다리지 않는다.
 
 다만 아래를 건드리면 플랫폼개발팀 승인이 필요하다.
 
