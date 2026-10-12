@@ -111,18 +111,31 @@ gh api repos/$R/codeowners/errors --jq '.errors | length'    # 0 이어야 한�
 > 그 줄을 **조용히 무시한다** — 에러가 아니라 침묵이라 모르고 지나가기 쉽다. 위의
 > `codeowners/errors` 가 0 인지 보는 이유다.
 
-### R&D 인데 머지가 막힌 것처럼 보인다면
+### R&D 가 뼈대 PR 을 머지하는 법
 
-`gh pr merge` 가 거부하고 PR 화면이 **BLOCKED** 로 보일 수 있다. **bypass 가 안 걸린
-것이 아니다** — GitHub 이 주는 `mergeStateStatus` 는 **누가 보는지와 무관하게 계산되어
-bypass 를 반영하지 않는다.** `gh` 가 그 값을 먼저 보고 클라이언트에서 막는 것이다.
+**웹에서 한다.** PR 하단 머지 상자에 R&D 에게만 보이는 체크박스가 있다.
 
-서버는 통과시킨다. REST 로 직접 머지한다.
-
-```bash
-gh api -X PUT repos/VntgCorp/terroir-community-plugin/pulls/<번호>/merge \
-  -f merge_method=squash
 ```
+  ⚠ Merging is blocked
+    Waiting on code owner review from VntgCorp/r-d
+
+  ☐ Merge without waiting for requirements to be met (bypass rules)   ← 이것을 켠다
+    [ Squash and merge ]
+```
+
+**이게 기본 경로다.** 「요건을 안 기다리고 머지한다」를 명시적으로 묻고, bypass 했다는
+사실이 기록에 남는다. 타팀 사람에게는 이 체크박스가 **보이지 않는다** — 그쪽은
+`Review required` 에서 실제로 멈춘다.
+
+> [!note]
+> **`gh pr merge` 는 거부한다.** bypass 가 안 걸린 것이 아니라, GitHub 이 주는
+> `mergeStateStatus` 가 **누가 보는지와 무관하게 계산되어 bypass 를 반영하지 않기**
+> 때문이다. `gh` 는 그 값을 보고 클라이언트에서 막는다. 서버는 통과시킨다.
+>
+> 터미널에서 해야 하면 REST 를 직접 쓴다.
+> ```bash
+> gh api -X PUT repos/VntgCorp/terroir-community-plugin/pulls/<번호>/merge -f merge_method=squash
+> ```
 
 내가 bypass 대상인지는 이것으로 확인한다 — `always` 면 대상이다.
 
