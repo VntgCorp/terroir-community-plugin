@@ -144,7 +144,7 @@ CI 는 이 절을 검사하지 않는다. **그래서 여기서 묻는 것이 �
 품질 심사가 없는 마켓이라, 무엇을 할 수 없는지를 만든 사람이 적는 것이 유일한
 안전장치다. 사용자가 안 적으면 물어서 받는다.
 
-## 6. 목록에 더하고 검사한다
+## 6. 목록과 소유자를 등록하고 검사한다
 
 **`.claude-plugin/marketplace.json` 의 목록에 한 줄을 더한다.** Claude Code 는 그 목록만
 읽으므로, 디렉토리를 만들어도 목록에 없으면 아무도 설치할 수 없다.
@@ -155,11 +155,25 @@ CI 는 이 절을 검사하지 않는다. **그래서 여기서 묻는 것이 �
 
 조립기로 대신 적어도 된다. 정렬·들여쓰기는 검사하지 않으니 어느 쪽이든 통과한다.
 
+**그리고 `.github/CODEOWNERS` 에 소유자 한 줄을 더한다.**
+
+```
+  /plugins/<분류>/<이름>/   @<metadata.owner 와 같은 핸들>
+```
+
+이 줄이 소유를 집행한다 — **사용자가 자기 플러그인을 승인 없이 고칠 수 있게 하고,
+남이 고칠 때는 사용자의 승인을 요구한다.** 빠뜨리면 소유자가 없어 아무나 고칠 수 있다.
+팀이 소유하면 `@VntgCorp/<팀슬러그>` 를 적고, 그때는 그 팀 누구나 승인할 수 있다고 알린다.
+
+> 이 줄은 `.github/` 안이라 **최초 등록 PR 은 플랫폼개발팀 승인을 거친다.**
+> 그 뒤 자기 플러그인 수정은 본인이 머지한다. 사용자에게 미리 알린다.
+
 ```bash
 node .github/scripts/assemble-marketplace.mjs            # 목록을 대신 적어준다 (선택)
 node .github/scripts/check-structure.mjs
 node .github/scripts/check-marketplace.mjs
-node .github/scripts/check-version-bump.mjs origin/main   # 고치는 경우에만 걸린다
+node .github/scripts/check-codeowners.mjs
+node .github/scripts/check-version-bump.mjs origin/main   # 고치는 경우에만 경고
 claude plugin validate .
 ```
 
@@ -173,15 +187,16 @@ claude plugin validate .
 
 ```bash
 git checkout -b feat/<이름>
-git add plugins/<분류>/<이름> .claude-plugin/marketplace.json
+git add plugins/<분류>/<이름> .claude-plugin/marketplace.json .github/CODEOWNERS
 git commit -m "feat(<분류>): <이름> 추가"
 gh pr create
 ```
 
 PR 본문에 **무엇을 하는 스킬인지와 아는 한계**를 적는다.
 
-올린 뒤 알린다 — **CI 가 통과하면 본인이 머지한다. 누구의 승인도 기다리지 않는다.**
-단 뼈대(`docs/` · `README.md` · `CLAUDE.md` · `.github/`)를 건드렸다면 플랫폼개발팀 승인이 필요하다.
+올린 뒤 알린다 — **자기 플러그인은 CI 가 통과하면 본인이 머지한다.**
+**최초 등록은 `.github/CODEOWNERS` 를 건드리므로 플랫폼개발팀 승인을 거친다.**
+그 뒤 자기 플러그인 수정은 본인이 머지한다.
 
 ---
 

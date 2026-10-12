@@ -28,6 +28,10 @@ jobs:
       - name: marketplace.json 검사
         run: node .github/scripts/check-marketplace.mjs
 
+      # 소유 집행은 GitHub 이 한다. 여기선 줄이 빠지지 않았는지만 본다
+      - name: CODEOWNERS 검사
+        run: node .github/scripts/check-codeowners.mjs
+
       - name: 버전 증가 검사
         if: github.event_name == 'pull_request'
         run: node .github/scripts/check-version-bump.mjs "${{ github.event.pull_request.base.sha }}"

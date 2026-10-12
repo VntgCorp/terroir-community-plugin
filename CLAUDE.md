@@ -7,14 +7,14 @@
 ## 구조 — 누가 무엇을 소유하는가
 
 ```
-  plugins/ 와 .claude-plugin/ 을 뺀 전부
-  ────────────────────────────────────────────────────────────────────  팀 소유
   .github/ · docs/ · README.md · CLAUDE.md · plugins/dev/skill-market/
+  ────────────────────────────────────────────────────────────────────  팀 소유
   바꾸려면 @VntgCorp/r-d 승인이 필요하다 (CODEOWNERS)
 
   plugins/dev/**   plugins/work/**
   ────────────────────────────────────────────────────────────────────  기여자 소유
-  각자의 플러그인. CI 만 통과하면 본인이 머지한다 — 승인 대기 없음
+  각자의 플러그인. CODEOWNERS 에 소유자가 한 줄씩 적혀 있다.
+  자기 것은 CI 통과 후 바로 머지. 남의 것은 그 소유자 승인이 필요하다
 
   .claude-plugin/marketplace.json
   ────────────────────────────────────────────────────────────────────  둘이 만난다
@@ -46,8 +46,9 @@
 
 ```
   1  main 에 직접 push 하지 않는다 — 전원 차단돼 있다(admin 포함). 반드시 PR
-  2  플러그인을 더하면 .claude-plugin/marketplace.json 의 목록에도 한 줄 더한다
-     직접 편집하거나 조립기를 돌린다. 정렬·들여쓰기·필드 순서는 보지 않는다
+  2  플러그인을 더하면 두 곳에도 한 줄씩 더한다
+     .claude-plugin/marketplace.json  목록 — 없으면 아무도 설치할 수 없다
+     .github/CODEOWNERS               소유자 — 없으면 아무나 고칠 수 있다
   3  plugin.json 에 category 를 적지 않는다 — 분류의 정본은 디렉토리 위치다
   4  plugins/ 바로 아래에 플러그인을 두지 않는다 — plugins/<분류>/<이름>/ 이다
 ```
@@ -57,6 +58,7 @@
 ```bash
 node .github/scripts/check-structure.mjs                # 구조 검사
 node .github/scripts/check-marketplace.mjs              # 목록이 plugins/ 와 맞는가
+node .github/scripts/check-codeowners.mjs               # 소유자 줄이 있는가
 node .github/scripts/check-version-bump.mjs origin/main  # 고쳤으면 version 올렸나
 claude plugin validate .                                # 스키마
 ```

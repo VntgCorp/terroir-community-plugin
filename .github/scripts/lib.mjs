@@ -6,6 +6,8 @@ import { join } from 'node:path';
 export const PLUGINS_DIR = 'plugins';
 export const MARKETPLACE_PATH = '.claude-plugin/marketplace.json';
 export const CATEGORIES_PATH = '.github/categories.txt';
+// 소유의 정본. 플러그인마다 한 줄 — 집행은 GitHub 이 하고 CI 는 줄이 있는지만 본다.
+export const CODEOWNERS_PATH = '.github/CODEOWNERS';
 // 마켓 이름·설명 같은 뼈대. marketplace.json 이 아니라 여기 산다 —
 // 저쪽은 기여자가 자기 줄을 더하는 파일이라 CODEOWNERS 로 지킬 수 없다.
 export const HEADER_PATH = '.github/marketplace-header.json';
