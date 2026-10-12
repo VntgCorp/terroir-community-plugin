@@ -163,7 +163,7 @@ node .github/scripts/check-version-bump.mjs origin/main   # 고치는 경우에�
 claude plugin validate .
 ```
 
-**이미 있는 플러그인을 고쳤다면 `version` 을 올린다** — 올리지 않으면 CI 가 떨어뜨린다.
+**이미 있는 플러그인을 고쳤다면 `version` 을 올린다** — 올리지 않으면 CI 가 경고를 띄운다(막지는 않는다).
 무엇을 올릴지는 `docs/versioning.md`, 두 번째 버전부터는 `CHANGELOG.md` 도 쓴다.
 
 검사가 떨어지면 **메시지가 고치는 법을 알려준다.** 그대로 고치고 다시 돌린다.

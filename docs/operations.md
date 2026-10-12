@@ -59,7 +59,7 @@
 ```bash
 git checkout -b fix/<이름>
 # plugins/<분류>/<이름>/ 을 고친다
-# version 을 올린다 — 올리지 않으면 CI 가 떨어뜨린다 (docs/versioning.md)
+# version 을 올린다 — 올리지 않으면 CI 가 경고한다. 막지는 않는다 (docs/versioning.md)
 # 두 번째 버전부터는 CHANGELOG.md 도 쓴다
 
 node .github/scripts/check-structure.mjs
