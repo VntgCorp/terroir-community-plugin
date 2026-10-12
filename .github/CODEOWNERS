@@ -14,3 +14,6 @@
 
 # 기여 도구는 모든 기여자가 거쳐 가므로 뼈대로 친다.
 /plugins/dev/skill-market/   @VntgCorp/r-d
+
+# [실험] 개인 코드오너가 교착을 만드는지 확인한다. 확인 후 되돌린다.
+/plugins/work/owner-test/   @Jsik94
