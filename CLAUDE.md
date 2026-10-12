@@ -4,12 +4,12 @@
 플랫폼개발팀이 검증해 제공하는 `terroir-claude-plugin` 과는 다른 채널이다 — 여기는
 품질 심사를 하지 않고 형식만 검사한다.
 
-## 구조 — 누가 무엇을 소유하나
+## 구조 — 누가 무엇을 소유하는가
 
 ```
-  .github/        docs/        README.md     plugins/dev/skill-market/
+  plugins/ 와 .claude-plugin/ 을 뺀 전부
   ────────────────────────────────────────────────────────────────────  팀 소유
-  CI · 분류 목록 · 마켓 헤더 · 규약 문서 · 기여 도구
+  .github/ · docs/ · README.md · CLAUDE.md · plugins/dev/skill-market/
   바꾸려면 @VntgCorp/r-d 승인이 필요하다 (CODEOWNERS)
 
   plugins/dev/**   plugins/work/**
@@ -18,7 +18,7 @@
 
   .claude-plugin/marketplace.json
   ────────────────────────────────────────────────────────────────────  생성물
-  위 둘을 CI 가 조립한 결과. 손으로 고치지 않는다
+  헤더와 plugins/ 를 CI 가 조립한 결과. 손으로 고치지 않는다
 ```
 
 ## 하려는 일에 따라 읽을 곳
@@ -29,9 +29,9 @@
 | 이 마켓이 무엇인지 알기 | [docs/about.md](docs/about.md) | — |
 | 스킬을 **새로 올리기** (절차) | [docs/authoring.md](docs/authoring.md) | 불필요 |
 | 올린 것을 **고치기 · 버전 올리기** | [docs/versioning.md](docs/versioning.md) | 불필요 |
-| **남의** 플러그인 고치기 | [docs/operations.md](docs/operations.md#2-남의-플러그인을-고친다) | 불필요 · 알림은 직접 |
-| **내리기 · 이관** | [docs/operations.md](docs/operations.md#3-플러그인을-내린다) | 소유자 동의 |
-| **분류 · 마켓 이름 · CI** 변경 | [docs/operations.md](docs/operations.md#팀-승인이-걸리는-것의-정본) | 팀 승인 |
+| **남의** 플러그인 고치기 | [docs/operations.md](docs/operations.md#a2-남의-플러그인을-고친다) | 불필요 · 알림은 직접 |
+| **내리기 · 이관** | [docs/operations.md](docs/operations.md#a3-플러그인을-내린다) | 소유자 동의 |
+| **분류 · 마켓 이름 · CI** 변경 | [docs/operations.md](docs/operations.md#b-플랫폼개발팀만-하는-일) | 팀 승인 |
 | 누가 무엇을 할 수 있는지 | [docs/permissions.md](docs/permissions.md) | — |
 
 > [!important]
@@ -60,7 +60,7 @@ claude plugin validate .                                # 스키마
 ```
 
 CI 가 돌리는 것과 같다. **떨어지면 메시지가 고치는 법을 알려준다** — 그대로 따르면 된다.
-안 알려주면 그건 CI 의 버그다.
+알려주지 않으면 그건 CI 의 버그다.
 
 ## 사람이 결정해야 하는 것
 

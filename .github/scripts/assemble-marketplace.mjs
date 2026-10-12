@@ -4,7 +4,7 @@
 //   --check  조립 결과가 커밋된 것과 같은지만 보고, 다르면 실패한다 (CI)
 //   (없으면) 파일을 덮어쓴다 (사람이 로컬에서)
 //
-// marketplace.json 을 손으로 고치지 않는 이유는 docs/authoring.md 에 있다.
+// marketplace.json 을 손으로 고치지 않는 이유는 docs/operations.md B2 절에 있다.
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { assemble, MARKETPLACE_PATH } from './lib.mjs';
