@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // 레포 구조와 플러그인 매니페스트를 검사한다.
-// 검사 목록은 docs/authoring.md 6절과 같아야 한다 — 한쪽만 고치면 갈린다.
+// 검사 목록은 docs/standard.md 8절과 같아야 한다 — 한쪽만 고치면 갈린다.
 //
 // 떨어질 때는 반드시 고치는 법을 같이 적는다. 안 적혀 있으면 그건 이 스크립트의 버그다.
 
@@ -29,7 +29,7 @@ for (const entry of topLevel) {
     continue;
   }
   if (!categories.includes(entry)) {
-    fail(p, `'${entry}' 는 허용된 분류가 아니다`, `${categories.join(' · ')} 중에 둔다. 분류를 늘리려면 ${CATEGORIES_PATH} 를 고치는 PR 이 필요하고 플랫폼개발팀 승인을 받는다`);
+    fail(p, `'${entry}' 는 허용된 분류가 아니다`, `${categories.join(' · ')} 중 하나에 둔다. 고르는 기준은 ${CATEGORIES_PATH} 안에 있다 — 분류를 새로 만드는 것은 플랫폼개발팀만 할 수 있으므로, 있는 것 중에서 고른다`);
   }
 }
 
@@ -57,7 +57,7 @@ for (const plugin of discoverPlugins().map(readManifest)) {
   if (!manifest) {
     // 깊이 오류로 이미 보고된 경우는 중복해서 말하지 않는다
     if (!errors.some((e) => e.where === base)) {
-      fail(base, error, '모든 플러그인은 .claude-plugin/plugin.json 을 가진다. 작성법은 docs/authoring.md 4절');
+      fail(base, error, '모든 플러그인은 .claude-plugin/plugin.json 을 가진다. 작성법은 docs/standard.md 4절');
     }
     continue;
   }
@@ -77,7 +77,7 @@ for (const plugin of discoverPlugins().map(readManifest)) {
   if (!metadata?.owner) fail(base, 'metadata.owner 가 없다', 'GitHub 핸들을 적는다 — 사람 이름이 아니라 @ 뒤에 쓰는 그 핸들이다. 소유자 기록과 리뷰 요청에 쓴다');
   if (manifest.category) fail(base, 'plugin.json 에 category 를 적었다', '분류의 정본은 디렉토리 위치다. 둘을 다 두면 반드시 갈린다 — 이 줄을 지운다');
 
-  if (!existsSync(join(base, 'README.md'))) fail(base, 'README.md 가 없다', '쓰는 사람이 설치 여부를 결정할 수 있을 만큼 쓴다. 양식은 docs/authoring.md 4절');
+  if (!existsSync(join(base, 'README.md'))) fail(base, 'README.md 가 없다', '쓰는 사람이 설치 여부를 결정할 수 있을 만큼 쓴다. 양식은 docs/standard.md 6절');
 
   // ── 스킬 ──
   const skillsDir = join(base, 'skills');
@@ -101,11 +101,11 @@ for (const plugin of discoverPlugins().map(readManifest)) {
     if (!sName) fail(f, 'frontmatter 에 name 이 없다', '스킬 이름을 적는다');
     if (!sDesc) fail(f, 'frontmatter 에 description 이 없다', '"언제 이 스킬을 써야 하는가" 를 적는다');
     else if (sDesc.length > SKILL_DESC_MAX)
-      fail(f, `description 이 ${sDesc.length}자다 (상한 ${SKILL_DESC_MAX})`, 'description 은 트리거 판정에만 쓰이고 모든 세션의 컨텍스트를 차지한다. 무엇을 하는지의 상세는 본문에 쓴다 — docs/authoring.md 4절');
+      fail(f, `description 이 ${sDesc.length}자다 (상한 ${SKILL_DESC_MAX})`, 'description 은 트리거 판정에만 쓰이고 모든 세션의 컨텍스트를 차지한다. 무엇을 하는지의 상세는 본문에 쓴다 — docs/standard.md 5절');
   }
 
   // ── 이름 중복 ──
-  if (seen.has(name)) fail(base, `이름 '${name}' 이 ${seen.get(name)} 와 겹친다`, '의미를 더하는 suffix 를 붙인다. 숫자는 쓰지 않는다 — docs/authoring.md 3절');
+  if (seen.has(name)) fail(base, `이름 '${name}' 이 ${seen.get(name)} 와 겹친다`, '의미를 더하는 suffix 를 붙인다. 숫자는 쓰지 않는다 — docs/standard.md 3절');
   else seen.set(name, base);
 }
 

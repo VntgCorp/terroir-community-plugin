@@ -29,9 +29,9 @@
 | 이 마켓이 무엇인지 알기 | [docs/about.md](docs/about.md) | — |
 | 스킬을 **새로 올리기** (절차) | [docs/authoring.md](docs/authoring.md) | 불필요 |
 | 올린 것을 **고치기 · 버전 올리기** | [docs/versioning.md](docs/versioning.md) | 불필요 |
-| **남의** 플러그인 고치기 | [docs/operations.md](docs/operations.md#2-남의-플러그인을-고친다) | 불필요 · 알림은 직접 |
-| **내리기 · 이관** | [docs/operations.md](docs/operations.md#3-플러그인을-내린다) | 소유자 동의 |
-| **분류 · 마켓 이름 · CI** 변경 | [docs/operations.md](docs/operations.md#팀-승인이-걸리는-것의-정본) | 팀 승인 |
+| **남의** 플러그인 고치기 | [docs/operations.md](docs/operations.md#a2-남의-플러그인을-고친다) | 불필요 · 알림은 직접 |
+| **내리기 · 이관** | [docs/operations.md](docs/operations.md#a3-플러그인을-내린다) | 소유자 동의 |
+| **분류 · 마켓 이름 · CI** 변경 | [docs/operations.md](docs/operations.md#b-플랫폼개발팀만-하는-일) | 팀 승인 |
 | 누가 무엇을 할 수 있는지 | [docs/permissions.md](docs/permissions.md) | — |
 
 > [!important]

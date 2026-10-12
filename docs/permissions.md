@@ -161,7 +161,7 @@ gh api repos/VntgCorp/terroir-community-plugin/rulesets --jq '.[] | "\(.name): \
 
 **대가가 하나 있다.** 남이 내 플러그인을 고쳐도 자동 리뷰 요청이 오지 않는다.
 소유 기록은 `plugin.json` 의 `metadata.owner` 가 하고, 그건 권한이 아니라 **연락처**다.
-어떻게 다루는지는 [절차 2절](operations.md#2-남의-플러그인을-고친다)에 있다.
+어떻게 다루는지는 [절차 2절](operations.md#a2-남의-플러그인을-고친다)에 있다.
 
 ## 지금 없는 것
 
