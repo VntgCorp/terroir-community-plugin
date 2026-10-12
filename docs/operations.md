@@ -209,7 +209,7 @@ node .github/scripts/check-marketplace.mjs
   .github/scripts/lib.mjs               레포 구조를 읽는 자리 — 여기 하나다
 ```
 
-**검사를 바꾸면 [플러그인 표준 8절](standard.md#8-ci-가-보는-것)의 표도 같이 고친다.**
+**검사를 바꾸면 [플러그인 표준 9절](standard.md#9-ci-가-보는-것)의 표도 같이 고친다.**
 한쪽만 고치면 문서와 집행이 갈리고, 그때 사람들은 문서가 아니라 CI 를 믿는다.
 
 > CI 는 자기를 지키지 못한다 — PR 이 검사를 약하게 바꿔도 체크 이름만 같으면 초록불이

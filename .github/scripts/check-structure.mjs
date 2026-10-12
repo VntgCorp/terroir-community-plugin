@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // 레포 구조와 플러그인 매니페스트를 검사한다.
-// 검사 목록은 docs/standard.md 8절과 같아야 한다 — 한쪽만 고치면 갈린다.
+// 검사 목록은 docs/standard.md 9절과 같아야 한다 — 한쪽만 고치면 갈린다.
 //
 // 떨어질 때는 반드시 고치는 법을 같이 적는다. 안 적혀 있으면 그건 이 스크립트의 버그다.
 
@@ -77,7 +77,7 @@ for (const plugin of discoverPlugins().map(readManifest)) {
   if (!metadata?.owner) fail(base, 'metadata.owner 가 없다', 'GitHub 핸들을 적는다 — 사람 이름이 아니라 @ 뒤에 쓰는 그 핸들이다. 소유자 기록과 리뷰 요청에 쓴다');
   if (manifest.category) fail(base, 'plugin.json 에 category 를 적었다', '분류의 정본은 디렉토리 위치다. 둘을 다 두면 반드시 갈린다 — 이 줄을 지운다');
 
-  if (!existsSync(join(base, 'README.md'))) fail(base, 'README.md 가 없다', '쓰는 사람이 설치 여부를 결정할 수 있을 만큼 쓴다. 양식은 docs/standard.md 6절');
+  if (!existsSync(join(base, 'README.md'))) fail(base, 'README.md 가 없다', '만든다. 쓰는 사람이 설치할지 말지 결정할 수 있을 만큼 적고, 양식은 docs/standard.md 7절을 따른다');
 
   // ── 스킬 ──
   const skillsDir = join(base, 'skills');
