@@ -4,11 +4,15 @@
 # 승인하는 것을 허용하지 않으므로, 여기 적으면 소유자가 자기 플러그인
 # 업데이트를 영원히 머지할 수 없게 된다.
 # 플러그인 소유자는 plugin.json 의 metadata.owner 가 기록하고, CI 가 검사한다.
+#
+# .claude-plugin/ 도 일부러 비워 둔다 — marketplace.json 은 플러그인이 추가될
+# 때마다 다시 조립되는 생성물이라, 여기 적으면 모든 기여가 팀 승인을 거치게 된다.
+# 마켓 이름·설명 같은 뼈대는 .github/marketplace-header.json 에 두어 아래 줄이 지킨다.
+# 생성물이 헤더·plugins/ 와 맞는지는 CI 가 본다.
 
 /.github/                    @VntgCorp/r-d
 /docs/                       @VntgCorp/r-d
 /README.md                   @VntgCorp/r-d
-/.claude-plugin/             @VntgCorp/r-d
 
 # 기여 도구는 뼈대다
 /plugins/dev/skill-market/   @VntgCorp/r-d
