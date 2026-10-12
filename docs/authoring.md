@@ -176,8 +176,9 @@ git checkout -b add-dockerize
 
 # plugins/dev/dockerize/ 를 만든다
 
-node .github/scripts/assemble-marketplace.mjs    # marketplace.json 을 다시 조립한다
-node .github/scripts/check-structure.mjs         # CI 와 같은 검사. 올리기 전에 돌려본다
+node .github/scripts/assemble-marketplace.mjs           # marketplace.json 을 다시 조립한다
+node .github/scripts/check-structure.mjs                # 구조 검사
+node .github/scripts/check-version-bump.mjs origin/main  # 고치는 경우에만 걸린다
 
 git add . && git commit -m "feat(dev): dockerize 스킬 추가"
 gh pr create
@@ -201,6 +202,9 @@ gh pr create
 
 **실행 코드가 들어 있어도 같다.** 훅·스크립트가 있는 플러그인에 추가 승인을 요구하지
 않는다. 대신 설치하는 쪽이 그걸 알고 고르도록 [이 마켓은 무엇인가](about.md)가 밝힌다.
+
+올리기 말고 다른 일 — 내리기 · 소유자 이관 · 남의 플러그인 고치기 · 분류 변경 —
+은 [마켓을 바꾸는 절차](operations.md)에 있다.
 
 ## 6. CI 가 보는 것
 

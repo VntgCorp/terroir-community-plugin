@@ -87,10 +87,14 @@ plugins/<분류>/<이름>/
 ```bash
 node .github/scripts/assemble-marketplace.mjs
 node .github/scripts/check-structure.mjs
+node .github/scripts/check-version-bump.mjs origin/main   # 고치는 경우에만 걸린다
 claude plugin validate .
 ```
 
 첫 줄을 빼먹으면 CI 가 떨어진다. `marketplace.json` 은 생성물이라 **손으로 고치지 않는다.**
+
+**이미 있는 플러그인을 고쳤다면 셋째 줄이 중요하다** — `version` 을 안 올리면 CI 가
+떨어뜨린다. 무엇을 올릴지는 `docs/versioning.md`, 두 번째 버전부터는 `CHANGELOG.md` 도 쓴다.
 
 검사가 떨어지면 **메시지가 고치는 법을 알려준다.** 그대로 고치고 다시 돌린다.
 메시지가 고치는 법을 안 알려주면 그건 CI 의 버그다 — 사용자에게 이슈를 권한다.
@@ -110,6 +114,19 @@ PR 본문에 **무엇을 하는 스킬인지와 아는 한계**를 적는다.
 단 뼈대(`docs/` · `README.md` · `.github/`)를 건드렸다면 플랫폼개발팀 승인이 필요하다.
 
 ---
+
+## 올리는 것이 아니면
+
+이 스킬은 **새로 올리는 경로만** 안다. 사용자가 다른 일을 원하면 `docs/operations.md`
+를 읽고 그 절차를 따른다 — 그 문서가 정본이다.
+
+| 사용자가 원하는 것 | |
+|---|---|
+| 올린 것 고치기 · 버전 올리기 | `docs/versioning.md` 로 기준을 보고 `operations.md` 1절 |
+| 남의 플러그인 고치기 | `operations.md` 2절 — 소유자를 리뷰어로 지정하는 관례가 있다 |
+| 내리기 | `operations.md` 3절 — **소유자 동의를 먼저 확인한다** |
+| 소유자 이관 | `operations.md` 4절 — 양쪽 동의가 필요하다 |
+| 분류 추가 · 마켓 이름 변경 | `operations.md` 5·6절 — 팀 승인이 필요하다고 알린다 |
 
 ## 하지 않는 것
 
