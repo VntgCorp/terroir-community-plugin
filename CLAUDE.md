@@ -46,8 +46,8 @@
 
 ```
   1  main 에 직접 push 하지 않는다 — 전원 차단돼 있다(admin 포함). 반드시 PR
-  2  플러그인을 더하면 .claude-plugin/marketplace.json 에도 한 줄 더한다
-     손으로 적어도 되고 조립기를 돌려도 된다. 정렬·들여쓰기는 보지 않는다
+  2  플러그인을 더하면 .claude-plugin/marketplace.json 의 목록에도 한 줄 더한다
+     직접 편집하거나 조립기를 돌린다. 정렬·들여쓰기·필드 순서는 보지 않는다
   3  plugin.json 에 category 를 적지 않는다 — 분류의 정본은 디렉토리 위치다
   4  plugins/ 바로 아래에 플러그인을 두지 않는다 — plugins/<분류>/<이름>/ 이다
 ```
