@@ -1,7 +1,7 @@
 {
   "name": "skill-market",
   "description": "이 마켓에 스킬을 올릴 때 쓰는 도구. 분류 판정부터 PR 까지 대신한다",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": {
     "name": "VntgCorp 플랫폼개발팀"
   },
