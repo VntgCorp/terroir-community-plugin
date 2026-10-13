@@ -132,7 +132,7 @@ gh pr create
 
 | 경로 | 왜 |
 |---|---|
-| `docs/` · `README.md` · `CLAUDE.md` · `.github/` | 마켓의 뼈대 — 문서 · CI · 분류 목록 · 마켓 헤더 |
+| `docs/` · `README.md` · `.github/` | 마켓의 뼈대 — 문서 · CI · 분류 목록 · 마켓 헤더 |
 | `plugins/dev/skill-market/` | 기여 도구 |
 
 `.claude-plugin/marketplace.json` 은 **여기 없다.** 플러그인을 올리는 사람이 자기 줄을

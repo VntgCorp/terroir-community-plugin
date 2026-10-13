@@ -1,16 +1,24 @@
 # terroir-community-plugin
 
-> 사내 구성원이 **직접 만든 Claude Code 스킬을 올리고 가져다 쓰는** 마켓플레이스.
-> 플랫폼개발팀이 검증해 제공하는 [`terroir-claude-plugin`](https://github.com/VntgCorp/terroir-claude-plugin) 과는 **다른 채널**이다.
+> **구성원이 만든 Claude Code 스킬을 서로 나눠 쓰는** 사내 공유 마켓플레이스.
+> 내가 만든 것이 옆자리에 닿고, 옆자리가 만든 것을 내가 가져다 쓴다.
 
-| | 팀 큐레이션 | 여기 |
-|---|---|---|
-| 레포 | `terroir-claude-plugin` | `terroir-community-plugin` |
-| 누가 올리는가 | 플랫폼개발팀 | **구성원 누구나** |
-| 무엇을 보증하는가 | 팀이 검증한 품질 | **형식만** — 품질 심사는 하지 않는다 |
-| 다루는 것 | 떼루아 맵 단계별 표준 흐름 | 개인이 만든 무엇이든 |
+스킬은 누구나 만든다. 만든 것이 만든 사람에게만 남는 것을 막으려고 이 마켓이 있다.
+그래서 심사를 두지 않는다 — 심사하면 올린 뒤 기다려야 하고, 그러면 공유가 느려진다.
 
-자세한 역할 구분은 [이 마켓은 무엇인가](docs/about.md)에 있다.
+## 떼루아 마켓 셋 중 어디인가
+
+셋은 **같은 세 가지로 갈린다** — 누가 넣나 · 누가 쓸 수 있나 · 누가 품질을 책임지나.
+
+| 마켓 | 누가 넣나 | 쓸 수 있는 사람 | 품질 책임 | 담기는 것 |
+|---|---|---|---|---|
+| [`terroir-claude-plugin-public`](https://github.com/VntgCorp/terroir-claude-plugin-public) | 플랫폼개발팀 | 누구나 (인증 없이) | 팀 | 온보딩 · 단계 무관 부가 기능 |
+| [`terroir-claude-plugin`](https://github.com/VntgCorp/terroir-claude-plugin) | 플랫폼개발팀 | 조직 멤버 | 팀 | 떼루아 맵 단계별 표준 흐름 |
+| **`terroir-community-plugin`** (여기) | **구성원 누구나** | 조직 멤버 | **올린 사람** | **무엇이든** |
+
+**어디에 올릴지 가르는 질문은 하나다** — 떼루아 표준 흐름을 바꾸는 것인가, 내가 쓰려고
+만든 것인가. 앞이면 [`terroir-claude-plugin`](https://github.com/VntgCorp/terroir-claude-plugin) 에
+문의하고, 뒤면 여기다. 자세한 역할 구분은 [이 마켓은 무엇인가](docs/about.md)에 있다.
 
 ## 등록
 
@@ -80,16 +88,25 @@
 분류를 늘리는 것은 같은 성격이 5개 이상 모였을 때 한다. 미리 칸을 만들지 않는다.
 [`.github/categories.txt`](.github/categories.txt) 가 정본이고, 추가에는 플랫폼개발팀 승인이 필요하다.
 
-## 문서
+## 하려는 일에 따라 읽을 곳
 
-| | |
-|---|---|
-| [**플러그인 표준**](docs/standard.md) | **무엇이 규칙인가** — 어디에 · 무엇을 · 어떤 이름으로 · CI 가 보는 것 |
-| [이 마켓은 무엇인가](docs/about.md) | 목적 · 팀 채널과의 역할 구분 · 무엇을 보증하지 않는가 |
-| [스킬 제작 방법](docs/authoring.md) | 처음 올리는 사람을 위한 절차 |
-| [버전업 경로](docs/versioning.md) | 언제 어떤 자리를 올리는가 · CHANGELOG · 사용자에게 어떻게 닿는가 |
-| [마켓을 바꾸는 절차](docs/operations.md) | 내리기 · 이관 · 분류 변경 · 헤더 변경 — 각 절차의 승인 조건 |
-| [권한](docs/permissions.md) | 누가 무엇을 할 수 있는가 · 무엇이 그것을 강제하는가 · 접근 받는 법 |
+| 하려는 일 | 어디 | 승인 |
+|---|---|---|
+| **무엇이 규칙인가** — 어디에 · 무엇을 · 어떤 이름으로 | [docs/standard.md](docs/standard.md) | — |
+| 이 마켓이 무엇인지 알기 | [docs/about.md](docs/about.md) | — |
+| 스킬을 **새로 올리기** (절차) | [docs/authoring.md](docs/authoring.md) | 불필요 |
+| 올린 것을 **고치기 · 버전 올리기** | [docs/versioning.md](docs/versioning.md) | 불필요 |
+| **남의** 플러그인 고치기 | [docs/operations.md](docs/operations.md#a2-남의-플러그인을-고친다) | 소유자 승인 |
+| **내리기 · 이관** | [docs/operations.md](docs/operations.md#a3-플러그인을-내린다) | 소유자 동의 |
+| **분류 · 마켓 이름 · CI** 변경 | [docs/operations.md](docs/operations.md#b-플랫폼개발팀만-하는-일) | 팀 승인 |
+| 누가 무엇을 할 수 있는지 | [docs/permissions.md](docs/permissions.md) | — |
+
+> [!important]
+> **이 표는 어디로 갈지만 말한다. 답이 아니다.** 「승인 불필요」가 「그냥 하면 된다」는
+> 뜻은 아니다 — 절차 · 예외 · 관례는 해당 문서에 있다.
+
+**규칙 값의 정본은 위 문서들이다.** 길이 상한 · 이름 규칙 같은 것을 외워서 답하지 말고
+해당 문서를 읽는다. 외워 두면 문서가 바뀔 때 갈린다.
 
 스킬을 **잘 만드는 법** 자체는 Anthropic 공식 플러그인이 가르친다. 여기서 다시 설명하지 않는다 —
 [스킬 제작 방법](docs/authoring.md)의 첫 절을 보라.

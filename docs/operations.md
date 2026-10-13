@@ -18,7 +18,7 @@
 ┌─ 플랫폼개발팀 영역 ─ @VntgCorp/r-d ──────────────────────────────────────┐
 │                                                                         │
 │   plugins/ 와 .claude-plugin/ 을 뺀 나머지 전부.                          │
-│   .github/ · docs/ · README.md · CLAUDE.md                               │
+│   .github/ · docs/ · README.md                                           │
 │   plugins/dev/skill-market/ 도 여기다 — 모든 기여자가 거쳐 가는 도구라서    │
 │                                                                         │
 │   .github/CODEOWNERS 가 정본이다. 기본값이 팀 소유이고                     │
@@ -150,7 +150,7 @@ PR 본문에 **양쪽 동의를 남긴다.** 넘기는 사람이 이미 떠나 �
 | 마켓 이름·설명·`renames` | `.github/marketplace-header.json` | [B2](#b2-마켓-헤더를-바꾼다) |
 | CI 검사 | `.github/workflows/` · `.github/scripts/` | [B3](#b3-ci-검사를-바꾼다) |
 | 승인자 | `.github/CODEOWNERS` | [B4](#b4-승인자를-바꾼다) |
-| 규약 문서 | `docs/` · `README.md` · `CLAUDE.md` | 일반 PR |
+| 규약 문서 | `docs/` · `README.md` | 일반 PR |
 | 기여 도구 | `plugins/dev/skill-market/` | 일반 PR |
 
 **전부 `.github/` · `docs/` 아래라 CODEOWNERS 한 줄이 모두에 적용된다.** 머지하는 법은
@@ -224,9 +224,8 @@ CODEOWNERS 에는 **뼈대와 플러그인 소유자가 함께** 들어간다. �
 플러그인은 올릴 때 한 줄씩 더한다. `.claude-plugin/` 만 비워 둔다 — 기여마다 바뀌는
 목록이라 걸면 모든 기여가 팀 승인에 걸린다.
 
-**새 뼈대 파일을 만들면 여기에도 한 줄 더한다.** 빠뜨리면 아무나 고칠 수 있다
-(실제로 `CLAUDE.md` 가 그렇게 빠져 있었다). 플러그인 줄이 빠진 것은
-`check-codeowners.mjs` 가 잡지만, 뼈대는 잡아 주지 않는다.
+**새 뼈대 파일을 만들면 여기에도 한 줄 더한다.** 빠뜨리면 아무나 고칠 수 있다.
+플러그인 줄이 빠진 것은 `check-codeowners.mjs` 가 잡지만, 뼈대는 잡아 주지 않는다.
 
 바꾼 뒤 **새 팀이 이 레포에 write 이상을 가졌는지 반드시 확인한다** — 권한 없는 팀을
 적으면 GitHub 이 그 줄을 조용히 무시한다.
