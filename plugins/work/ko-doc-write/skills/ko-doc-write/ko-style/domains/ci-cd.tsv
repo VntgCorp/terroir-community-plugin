@@ -1,0 +1,10 @@
+## ci-cd 도메인. 빌드·배포 파이프라인·저장소 작업을 다루는 문서에 적용한다.
+## 컬럼: type <TAB> pattern <TAB> replacement <TAB> source <TAB> note
+## 실측: NHN Cloud Pipeline 스테이지 가이드 · Git 한국어 공식 도서(Pro Git) (2026-08-31) · NHN Pipeline 개요 · 네이버 클라우드 SourcePipeline 개요 · Kubernetes 한국어 이미지 · 우아한형제들 기술블로그 AI 서빙 자동화 (2026-10-12)
+## GitHub Docs 한국어는 기계번역 품질 문제로 출처에서 제외했다. sources.md 참고
+raw	돌린다|돌립니다|돌려\s?본다|돌려\s?봅니다	실행합니다	NHN Pipeline(실행됩니다)
+raw	태운다|태웁니다	실행합니다	NHN Pipeline(파이프라인 실행)
+raw	밀어\s?올린다|밀어\s?올립니다	푸시합니다	NHN Pipeline(푸시)
+raw	딴다|땁니다|따서\s	생성합니다	Git 한국어(브랜치를 생성한다)	브랜치를 만드는 경우
+raw	엎는다|엎습니다|갈아\s?엎	되돌립니다·재생성합니다	Git 한국어(되돌려 놓는다)
+noun	이미지 보관소	이미지 저장소	NHN Pipeline(이미지 저장소)·우아한형제들(이미지 저장소)	Kubernetes 한국어는 레지스트리. 소스 저장소와 함께 쓸 때는 앞에 이미지를 붙여 구분

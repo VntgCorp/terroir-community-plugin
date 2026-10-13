@@ -1,0 +1,7 @@
+{
+  "name": "ko-doc-write",
+  "description": "한국어 기술 문서를 쓰기 전에 유형·목차를 정하고 국내 벤더 공식 문서에서 실측한 용어집으로 쓴 뒤 검사한다",
+  "version": "1.0.0",
+  "author": { "name": "박세윤" },
+  "metadata": { "owner": "seyunpark", "team": "플랫폼개발팀" }
+}
