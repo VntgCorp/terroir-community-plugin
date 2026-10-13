@@ -1,0 +1,8 @@
+## database 도메인. 스토리지·백업·복구·데이터 적재를 다루는 문서에 적용한다.
+## 컬럼: type <TAB> pattern <TAB> replacement <TAB> source <TAB> note
+## 실측: NCP Cloud DB for MySQL · Kubernetes 한국어 퍼시스턴트볼륨 (2026-08-31)
+raw	밀어\s?넣는다|밀어\s?넣습니다	적재합니다	K8s(저장한다)
+raw	긁어\s?온다|긁어\s?옵니다	조회합니다	NCP·NHN(조회)
+raw	날린다|날립니다|날려\s?버린다	삭제합니다	K8s·NCP(삭제)
+raw	되살린다|되살립니다|살려\s?낸다	복원합니다	NCP(데이터를 복원할 수 있습니다)
+raw	물려\s?놓는다|물려\s?둔다	연결합니다·마운트합니다	K8s(마운트한다)

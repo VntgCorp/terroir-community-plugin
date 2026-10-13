@@ -15,6 +15,11 @@
       "name": "skill-market",
       "source": "./plugins/dev/skill-market",
       "category": "dev"
+    },
+    {
+      "name": "ko-doc-write",
+      "source": "./plugins/work/ko-doc-write",
+      "category": "work"
     }
   ]
 }

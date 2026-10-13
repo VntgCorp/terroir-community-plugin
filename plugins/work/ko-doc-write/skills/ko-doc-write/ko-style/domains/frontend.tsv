@@ -1,0 +1,10 @@
+## frontend 도메인. 화면·컴포넌트·상태·렌더링을 다루는 문서에 적용한다.
+## 컬럼: type <TAB> pattern <TAB> replacement <TAB> source <TAB> note
+## 실측: React 한국어 공식 문서 · Vue 한국어 공식 문서 · MDN 한국어 (2026-08-31)
+##
+## 두 문서 모두 영어 용어를 그대로 쓴다 — Props · State · Hook · DOM · JSX.
+## 억지로 한글화하지 않는다.
+raw	그린다|그립니다|그려\s?준다	렌더링합니다	React·Vue(렌더링)
+raw	뿌린다|뿌립니다|뿌려\s?준다	렌더링합니다·전달합니다	React(데이터를 전달)
+raw	먹인다|먹입니다	적용합니다	Vue(적용)
+raw	갈아\s?치운다|갈아\s?치웁니다	교체합니다	React(교체)
