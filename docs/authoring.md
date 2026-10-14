@@ -56,8 +56,16 @@ plugins/<분류>/<이름>/skills/<이름>/SKILL.md
 4. `.claude-plugin/marketplace.json` 을 **Edit** 로 열어 목록에 한 줄 더한다
 
 ```json
-  { "name": "<이름>", "source": "./plugins/<분류>/<이름>", "category": "<분류>" }
+  {
+    "name": "<이름>",
+    "source": "./plugins/<분류>/<이름>",
+    "description": "<plugin.json 의 description 과 같은 문장>",
+    "category": "<분류>"
+  }
 ```
+
+`description` 은 **`/plugin` 목록에 보이는 한 줄이다.** `plugin.json` 과 같아야 하고,
+다르면 CI 가 떨어뜨린다 — Claude Code 는 이 목록만 읽고 `plugin.json` 을 열어 보지 않는다.
 
 5. `.github/CODEOWNERS` 를 **Edit** 로 열어 소유자 한 줄 더한다
 
@@ -86,7 +94,12 @@ git checkout -b feat/dockerize
 셋이고, **`.claude-plugin/marketplace.json` 의 목록에 한 줄을 더한다.**
 
 ```json
-  { "name": "<이름>", "source": "./plugins/<분류>/<이름>", "category": "<분류>" }
+  {
+    "name": "<이름>",
+    "source": "./plugins/<분류>/<이름>",
+    "description": "<plugin.json 의 description 과 같은 문장>",
+    "category": "<분류>"
+  }
 ```
 
 Claude Code 는 그 목록만 읽는다 — 디렉토리를 만들어도 목록에 없으면 아무도 설치할 수 없다.
