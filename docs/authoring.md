@@ -56,8 +56,16 @@ plugins/<분류>/<이름>/skills/<이름>/SKILL.md
 4. `.claude-plugin/marketplace.json` 을 **Edit** 로 열어 목록에 한 줄 더한다
 
 ```json
-  { "name": "<이름>", "source": "./plugins/<분류>/<이름>", "category": "<분류>" }
+  {
+    "name": "<이름>",
+    "source": "./plugins/<분류>/<이름>",
+    "description": "<plugin.json 의 description 과 같은 문장>",
+    "category": "<분류>"
+  }
 ```
+
+`description` 은 **`/plugin` 목록에 보이는 한 줄이다.** `plugin.json` 과 같아야 하고,
+다르면 CI 가 떨어뜨린다 — Claude Code 는 이 목록만 읽고 `plugin.json` 을 열어 보지 않는다.
 
 5. `.github/CODEOWNERS` 를 **Edit** 로 열어 소유자 한 줄 더한다
 
@@ -86,7 +94,12 @@ git checkout -b feat/dockerize
 셋이고, **`.claude-plugin/marketplace.json` 의 목록에 한 줄을 더한다.**
 
 ```json
-  { "name": "<이름>", "source": "./plugins/<분류>/<이름>", "category": "<분류>" }
+  {
+    "name": "<이름>",
+    "source": "./plugins/<분류>/<이름>",
+    "description": "<plugin.json 의 description 과 같은 문장>",
+    "category": "<분류>"
+  }
 ```
 
 Claude Code 는 그 목록만 읽는다 — 디렉토리를 만들어도 목록에 없으면 아무도 설치할 수 없다.
@@ -126,14 +139,15 @@ git add . && git commit -m "feat(<분류>): <이름> 추가"
 gh pr create
 ```
 
-**처음 올릴 때 한 번만 플랫폼개발팀 승인을 거친다** — 소유자 줄을 더하느라
-`.github/CODEOWNERS` 를 건드리기 때문이다. **그 뒤로는 CI 만 통과하면 본인이 머지한다.**
+**자기 플러그인은 CI 가 통과하면 본인이 머지한다.** 승인을 기다리지 않는다 —
+소유자 줄을 더하는 `.github/CODEOWNERS` 에는 소유자를 걸지 않았다.
 
 다만 아래를 건드리면 플랫폼개발팀 승인이 필요하다.
 
 | 경로 | 왜 |
 |---|---|
-| `docs/` · `README.md` · `.github/` | 마켓의 뼈대 — 문서 · CI · 분류 목록 · 마켓 헤더 |
+| `docs/` · `README.md` · `.github/` 의 `workflows` · `scripts` · `categories.txt` · `marketplace-header.json` | 마켓의 뼈대 — 문서 · CI · 분류 목록 · 마켓 헤더 |
+| | `.github/CODEOWNERS` 는 **승인이 필요 없다** — 소유자 줄을 더하는 파일이라서 |
 | `plugins/dev/skill-market/` | 기여 도구 |
 
 `.claude-plugin/marketplace.json` 은 **여기 없다.** 플러그인을 올리는 사람이 자기 줄을

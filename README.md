@@ -12,9 +12,9 @@
 
 | 마켓 | 누가 넣나 | 쓸 수 있는 사람 | 품질 책임 | 담기는 것 |
 |---|---|---|---|---|
-| [`terroir-claude-plugin-public`](https://github.com/VntgCorp/terroir-claude-plugin-public) | 플랫폼개발팀 | 누구나 (인증 없이) | 팀 | 온보딩 · 단계 무관 부가 기능 |
+| [`terroir-claude-plugin-public`](https://github.com/VntgCorp/terroir-claude-plugin-public) | 플랫폼개발팀 | 누구나 — 인증 없이 | 팀 | 온보딩 · 단계 무관 부가 기능 |
 | [`terroir-claude-plugin`](https://github.com/VntgCorp/terroir-claude-plugin) | 플랫폼개발팀 | 조직 멤버 | 팀 | 떼루아 맵 단계별 표준 흐름 |
-| **`terroir-community-plugin`** (여기) | **구성원 누구나** | 조직 멤버 | **올린 사람** | **무엇이든** |
+| **`terroir-community-plugin`** (여기) | **구성원 누구나** | 누구나 — 인증 없이 | **올린 사람** | **무엇이든** |
 
 **어디에 올릴지 가르는 질문은 하나다** — 떼루아 표준 흐름을 바꾸는 것인가, 내가 쓰려고
 만든 것인가. 앞이면 [`terroir-claude-plugin`](https://github.com/VntgCorp/terroir-claude-plugin) 에
@@ -35,8 +35,8 @@
 /plugin → Discover
 ```
 
-목록에서 이름과 한 줄 설명이 보인다. 더 보고 싶으면 아래 [분류](#분류)에서 디렉토리를
-열어 그 플러그인의 `README.md` 를 읽는다.
+올라온 것이 목록으로 보인다. 더 보고 싶으면 아래 [분류](#분류)에서 디렉토리를 열어
+그 플러그인의 `README.md` 를 읽는다.
 
 **무엇을 보고 고르나.**
 
@@ -71,9 +71,9 @@
 
 대화로 물어보고 뼈대 생성부터 PR 까지 해준다. 직접 하려면 [스킬 제작 방법](docs/authoring.md)을 본다.
 
-**처음 올릴 때 한 번만 플랫폼개발팀 승인을 거친다** — 소유자 줄을 더하느라
-`.github/CODEOWNERS` 를 건드리기 때문이다. **그 뒤로 자기 플러그인은 본인이 머지한다.**
-남의 플러그인을 고치면 그 소유자의 승인이 필요하다.
+**자기 플러그인은 처음부터 본인이 머지한다.** 승인을 기다리지 않는다 — 소유자 줄을
+더하는 `.github/CODEOWNERS` 에는 소유자를 걸지 않았다. 남의 플러그인을 고치면
+그 소유자의 승인이 필요하다.
 
 ## 분류
 
@@ -114,12 +114,17 @@
 
 ## 업데이트
 
-**이 마켓은 자동 업데이트를 켜지 않는다.** 서드파티 마켓은 기본이 OFF 이고, 여기서는
-그대로 둔다 — 켜면 동료가 버전을 올릴 때 내 설치본이 **내가 보지 않은 코드로** 바뀌고,
-훅이 있으면 다음 세션이 시작될 때 저절로 돈다. 꺼 두면 설치할 때 확인한 코드가 그대로
-남는다. 팀이 검증하는 채널과 다르게 다루는 유일한 지점이다.
+**자동 업데이트를 켠다.** 서드파티 마켓은 기본이 OFF 라 최초 1회 켜 준다.
 
-새 버전은 필요할 때 직접 받는다.
+1. `/plugin` 입력
+2. **Marketplaces** 탭에서 `terroir-community-plugin` 선택
+3. **Enable auto-update**
+
+끄면 동료가 고친 것이 영영 오지 않는다. 켜면 설치본이 최신으로 유지되는 대신,
+**동료가 버전을 올릴 때 내 설치본이 내가 보지 않은 코드로 바뀐다.** 훅이 있으면 다음
+세션이 시작될 때 저절로 돈다 — 설치할 때 무엇이 들어오는지 본 뒤에 켜는 것이 맞다.
+
+**목록에 새 플러그인이 안 보이면** 카탈로그가 낡은 것이다. 직접 받는다.
 
 ```bash
 claude plugin marketplace update terroir-community-plugin
@@ -130,5 +135,10 @@ claude plugin update <플러그인-이름>@terroir-community-plugin
 
 ## 요구사항
 
-- VntgCorp 조직 멤버십 (private 레포)
-- `gh auth login` 으로 GitHub 인증
+| 하려는 일 | 필요한 것 |
+|---|---|
+| **등록 · 조회 · 설치** | 없음. GitHub 계정도 필요 없다 |
+| **올리기 · 고치기** | GitHub 계정 + `VntgCorp/vntg_internal` 팀 가입 |
+
+**계정만으로는 부족하다.** `CODEOWNERS` 는 write 이상을 가진 사람만 유효해서,
+팀에 없으면 소유자 줄이 조용히 무시된다 — 내 플러그인을 아무나 고칠 수 있게 된다.

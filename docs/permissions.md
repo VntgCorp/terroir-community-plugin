@@ -14,6 +14,13 @@
 | `@VntgCorp/r-d` | admin | 아래 전부 + 레포 설정(보호 규칙·팀 권한) |
 | `@VntgCorp/vntg_internal` | write | 브랜치 push · PR 생성 · 자기 PR 머지(CI 통과 시) |
 | (팀 없음) | read | 열람 · 설치 · 이슈. **브랜치를 올릴 수 없다** |
+| (조직 밖) | read | 공개 레포라 누구나 열람 · 설치. 포크해서 PR 은 열 수 있다 |
+
+> [!warning]
+> **계정이 있다고 소유자가 되는 것은 아니다.** `CODEOWNERS` 는 이 레포에 write 이상을
+> 가진 주체만 유효하다. 팀에 없는 사람을 적으면 GitHub 이 그 줄을 **조용히 무시해서**,
+> 그 사람 플러그인을 아무나 고칠 수 있게 된다. 올리기 전에 `vntg_internal` 가입이
+> 먼저다.
 
 선은 **read 와 write 사이**다. read 는 가져간 행위가 레포에 남지 않고, 그 위는 전부
 커밋으로 남는다.
@@ -61,7 +68,7 @@
 층마다 막는 것이 다르다. **하나만으로는 막지 못하는 것이 남는다.**
 
 ```
- ① 레포 보호 설정 ─ 전원 적용. enforce_admins 라 admin 도 예외 없다
+ ① 레포 보호 설정 ─ write 권한자에게 적용. admin(R&D)은 넘을 수 있다
     ┌────────────────────────────────────────────────────────────┐
     │  validate 통과     필수 · strict(최신 main 기준)            │
     │  force push·삭제   차단                                     │
@@ -105,6 +112,10 @@ gh api repos/$R/codeowners/errors --jq '.errors | length'    # 0 이어야 한�
 ```
 
 > [!important]
+> **CODEOWNERS 자신에는 소유자가 없다.** 플러그인을 올릴 때마다 팀 승인이 따라붙는
+> 것을 막으려는 선택이다. 뼈대 줄에서 팀이 빠지는 것은 `check-codeowners.mjs` 가
+> 잡고, `validate` 는 필수 검사라 떨어지면 머지되지 않는다.
+
 > **CODEOWNERS 는 write 이상을 가진 팀만 유효하다.** 접근 권한 없는 팀을 적으면 GitHub 이
 > 그 줄을 **조용히 무시한다** — 에러가 아니라 침묵이라 모르고 지나가기 쉽다. 위의
 > `codeowners/errors` 가 0 인지 보는 이유다.

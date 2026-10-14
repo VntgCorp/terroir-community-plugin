@@ -77,6 +77,13 @@ for (const e of entries) {
     fail(where, `${manifestPath} 의 name 은 '${manifest.name}' 이다. 둘을 같게 맞춘다`);
   }
 
+  if (e.description !== manifest.description) {
+    fail(
+      where,
+      `description 이 ${manifestPath} 와 다르다. Claude Code 는 이 목록만 읽어서 /plugin 의 설명이 여기서 나온다 — 비어 있으면 쓰는 사람이 이름만 보고 골라야 한다.\n\n      "description": ${JSON.stringify(manifest.description ?? '')}\n\n    조립기를 돌리면 한 번에 맞는다 — node .github/scripts/assemble-marketplace.mjs`
+    );
+  }
+
   const category = dir.split('/')[1];
   if (e.category !== category) {
     fail(where, `디렉토리는 '${category}' 아래인데 category 가 '${e.category ?? '없음'}' 이다. 디렉토리 위치가 정본이다`);
@@ -89,7 +96,7 @@ for (const plugin of discoverPlugins().map(readManifest)) {
   if (byName.has(plugin.manifest.name)) continue;
   fail(
     `${plugin.path} 가 ${MARKETPLACE_PATH} 에 없다`,
-    `Claude Code 는 이 목록만 읽는다 — 목록에 없으면 아무도 설치할 수 없다. 아래를 더하거나 조립기를 돌린다.\n\n      {\n        "name": "${plugin.manifest.name}",\n        "source": "${plugin.path}",\n        "category": "${plugin.category}"\n      }\n\n      node .github/scripts/assemble-marketplace.mjs`
+    `Claude Code 는 이 목록만 읽는다 — 목록에 없으면 아무도 설치할 수 없다. 아래를 더하거나 조립기를 돌린다.\n\n      {\n        "name": "${plugin.manifest.name}",\n        "source": "${plugin.path}",\n        "description": ${JSON.stringify(plugin.manifest.description ?? '')},\n        "category": "${plugin.category}"\n      }\n\n      node .github/scripts/assemble-marketplace.mjs`
   );
 }
 

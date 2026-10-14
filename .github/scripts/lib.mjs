@@ -12,6 +12,24 @@ export const CODEOWNERS_PATH = '.github/CODEOWNERS';
 // 저쪽은 기여자가 자기 줄을 더하는 파일이라 CODEOWNERS 로 지킬 수 없다.
 export const HEADER_PATH = '.github/marketplace-header.json';
 
+// 뼈대를 소유하는 팀. **주체가 바뀌면 여기만 고친다.**
+// 이 파일은 /.github/scripts/ 안이라 팀 소유다 — 즉 주체를 바꾸려면 팀 승인을 거친다.
+// CODEOWNERS 자신에는 소유자가 없어 아무나 고칠 수 있으므로, 거기서 이 팀이
+// 빠지지 않았는지는 check-codeowners.mjs 가 본다.
+export const SKELETON_OWNER = '@VntgCorp/r-d';
+
+// 위 팀이 반드시 들어가야 하는 경로.
+// 뒤에 다른 소유자를 더 적는 것은 괜찮다 — 이 팀만 빠지지 않으면 된다.
+export const SKELETON_PATHS = [
+  '/.github/workflows/',
+  '/.github/scripts/',
+  '/.github/categories.txt',
+  '/.github/marketplace-header.json',
+  '/docs/',
+  '/README.md',
+  '/.gitignore',
+];
+
 /** categories.txt 의 허용 목록. 주석과 빈 줄은 뺀다. */
 export function readCategories() {
   return readFileSync(CATEGORIES_PATH, 'utf8')
@@ -62,6 +80,13 @@ export function assemble() {
   const plugins = discoverPlugins()
     .map(readManifest)
     .filter((p) => p.manifest)
-    .map((p) => ({ name: p.manifest.name, source: p.path, category: p.category }));
+    .map((p) => ({
+      name: p.manifest.name,
+      source: p.path,
+      // Claude Code 는 이 목록만 읽는다. plugin.json 을 열어 보지 않으므로
+      // 여기 없으면 /plugin 목록에 설명이 비어 보인다. 정본은 plugin.json 이다.
+      description: p.manifest.description,
+      category: p.category,
+    }));
   return { ...header, plugins };
 }
