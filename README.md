@@ -12,9 +12,9 @@
 
 | 마켓 | 누가 넣나 | 쓸 수 있는 사람 | 품질 책임 | 담기는 것 |
 |---|---|---|---|---|
-| [`terroir-claude-plugin-public`](https://github.com/VntgCorp/terroir-claude-plugin-public) | 플랫폼개발팀 | 누구나 (인증 없이) | 팀 | 온보딩 · 단계 무관 부가 기능 |
+| [`terroir-claude-plugin-public`](https://github.com/VntgCorp/terroir-claude-plugin-public) | 플랫폼개발팀 | 누구나 — 인증 없이 | 팀 | 온보딩 · 단계 무관 부가 기능 |
 | [`terroir-claude-plugin`](https://github.com/VntgCorp/terroir-claude-plugin) | 플랫폼개발팀 | 조직 멤버 | 팀 | 떼루아 맵 단계별 표준 흐름 |
-| **`terroir-community-plugin`** (여기) | **구성원 누구나** | 조직 멤버 | **올린 사람** | **무엇이든** |
+| **`terroir-community-plugin`** (여기) | **구성원 누구나** | 누구나 — 인증 없이 | **올린 사람** | **무엇이든** |
 
 **어디에 올릴지 가르는 질문은 하나다** — 떼루아 표준 흐름을 바꾸는 것인가, 내가 쓰려고
 만든 것인가. 앞이면 [`terroir-claude-plugin`](https://github.com/VntgCorp/terroir-claude-plugin) 에
@@ -71,9 +71,9 @@
 
 대화로 물어보고 뼈대 생성부터 PR 까지 해준다. 직접 하려면 [스킬 제작 방법](docs/authoring.md)을 본다.
 
-**처음 올릴 때 한 번만 플랫폼개발팀 승인을 거친다** — 소유자 줄을 더하느라
-`.github/CODEOWNERS` 를 건드리기 때문이다. **그 뒤로 자기 플러그인은 본인이 머지한다.**
-남의 플러그인을 고치면 그 소유자의 승인이 필요하다.
+**자기 플러그인은 처음부터 본인이 머지한다.** 승인을 기다리지 않는다 — 소유자 줄을
+더하는 `.github/CODEOWNERS` 에는 소유자를 걸지 않았다. 남의 플러그인을 고치면
+그 소유자의 승인이 필요하다.
 
 ## 분류
 
@@ -130,5 +130,10 @@ claude plugin update <플러그인-이름>@terroir-community-plugin
 
 ## 요구사항
 
-- VntgCorp 조직 멤버십 (private 레포)
-- `gh auth login` 으로 GitHub 인증
+| 하려는 일 | 필요한 것 |
+|---|---|
+| **등록 · 조회 · 설치** | 없음. GitHub 계정도 필요 없다 |
+| **올리기 · 고치기** | GitHub 계정 + `VntgCorp/vntg_internal` 팀 가입 |
+
+**계정만으로는 부족하다.** `CODEOWNERS` 는 write 이상을 가진 사람만 유효해서,
+팀에 없으면 소유자 줄이 조용히 무시된다 — 내 플러그인을 아무나 고칠 수 있게 된다.

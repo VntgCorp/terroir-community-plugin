@@ -7,9 +7,22 @@
 #
 # 플러그인을 올릴 때 여기에도 한 줄 더한다. 빠뜨리면 소유자가 없어 아무나 고칠 수 있고,
 # check-codeowners.mjs 가 그것을 잡는다.
+#
+# 이 파일 자체에는 소유자가 없다 — 누구나 자기 줄을 더하고 머지할 수 있다.
+# 남의 줄을 지우거나 바꿔치기하는 것은 두 겹으로 막힌다.
+#   check-codeowners.mjs  줄이 빠지거나 plugin.json 과 어긋나면 CI 가 떨어진다
+#   GitHub                리뷰어는 base 의 이 파일로 정해진다. PR 안에서 고쳐도
+#                         그 PR 에는 적용되지 않아, 남의 플러그인을 건드리면
+#                         여전히 그 소유자 승인이 필요하다
 
 # ── 뼈대 ──
-/.github/        @VntgCorp/r-d
+# .github/ 를 통째로 걸지 않는다. CODEOWNERS 자신이 거기 있어서,
+# 통째로 걸면 플러그인을 올릴 때마다(= 소유자 줄을 더할 때마다)
+# 플랫폼개발팀 승인과 알림이 따라붙는다. 그래서 실제 뼈대만 열거한다.
+/.github/workflows/               @VntgCorp/r-d
+/.github/scripts/                 @VntgCorp/r-d
+/.github/categories.txt           @VntgCorp/r-d
+/.github/marketplace-header.json  @VntgCorp/r-d
 /docs/           @VntgCorp/r-d
 /README.md       @VntgCorp/r-d
 /.gitignore      @VntgCorp/r-d

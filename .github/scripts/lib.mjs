@@ -62,6 +62,13 @@ export function assemble() {
   const plugins = discoverPlugins()
     .map(readManifest)
     .filter((p) => p.manifest)
-    .map((p) => ({ name: p.manifest.name, source: p.path, category: p.category }));
+    .map((p) => ({
+      name: p.manifest.name,
+      source: p.path,
+      // Claude Code 는 이 목록만 읽는다. plugin.json 을 열어 보지 않으므로
+      // 여기 없으면 /plugin 목록에 설명이 비어 보인다. 정본은 plugin.json 이다.
+      description: p.manifest.description,
+      category: p.category,
+    }));
   return { ...header, plugins };
 }

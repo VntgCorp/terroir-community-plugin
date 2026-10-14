@@ -18,7 +18,9 @@
 ┌─ 플랫폼개발팀 영역 ─ @VntgCorp/r-d ──────────────────────────────────────┐
 │                                                                         │
 │   plugins/ 와 .claude-plugin/ 을 뺀 나머지 전부.                          │
-│   .github/ · docs/ · README.md                                           │
+│   .github/ 의 workflows · scripts · categories.txt ·                     │
+│   marketplace-header.json · docs/ · README.md                            │
+│   CODEOWNERS 는 뺀다 — 소유자 줄을 더하는 파일이라서                       │
 │   plugins/dev/skill-market/ 도 여기다 — 모든 기여자가 거쳐 가는 도구라서    │
 │                                                                         │
 │   .github/CODEOWNERS 가 정본이다. 뼈대 경로를 하나씩 적고                  │
@@ -44,7 +46,7 @@
 
 | 하려는 일 | 승인 | |
 |---|---|---|
-| 플러그인 새로 올리기 | 팀 승인 한 번 | [스킬 제작 방법](authoring.md) |
+| 플러그인 새로 올리기 | 불필요 | [스킬 제작 방법](authoring.md) |
 | 내 플러그인 고치기 | 불필요 | [A1](#a1-내-플러그인을-고친다) |
 | **남의** 플러그인 고치기 | 소유자 승인 | [A2](#a2-남의-플러그인을-고친다) |
 | 플러그인 내리기 | 소유자 동의 | [A3](#a3-플러그인을-내린다) |
@@ -153,7 +155,7 @@ PR 본문에 **양쪽 동의를 남긴다.** 넘기는 사람이 이미 떠나 �
 | 규약 문서 | `docs/` · `README.md` | 일반 PR |
 | 기여 도구 | `plugins/dev/skill-market/` | 일반 PR |
 
-**전부 `.github/` · `docs/` 아래라 CODEOWNERS 한 줄이 모두에 적용된다.** 머지하는 법은
+**CODEOWNERS 는 경로를 하나씩 열거한다 — `.github/` 를 통째로 걸지 않는다.** 머지하는 법은
 [권한](permissions.md)에 있다 — 웹의 bypass 체크박스를 쓴다.
 
 ## B1. 분류를 늘리거나 줄인다
@@ -217,8 +219,9 @@ node .github/scripts/check-marketplace.mjs
 
 ## B4. 승인자를 바꾼다
 
-`.github/CODEOWNERS` 를 고친다. **그 파일도 `.github/` 안이라 현재 승인자의 승인을 거친다** —
-승인자를 바꾸는 권한도 현재 승인자에게 있다. 의도한 재귀다.
+`.github/CODEOWNERS` 를 고친다. **이 파일에는 소유자가 없다** — 뼈대 경로를 하나씩
+열거하고 자신은 뺐기 때문이다. 플러그인을 올릴 때마다 팀 승인과 알림이 따라붙는 것을
+막으려는 선택이고, 남의 줄을 건드리는 것은 CI 와 base 평가가 막는다(파일 머리의 설명).
 
 CODEOWNERS 에는 **뼈대와 플러그인 소유자가 함께** 들어간다. 뼈대는 팀 소유로 열거하고,
 플러그인은 올릴 때 한 줄씩 더한다. `.claude-plugin/` 만 비워 둔다 — 기여마다 바뀌는
