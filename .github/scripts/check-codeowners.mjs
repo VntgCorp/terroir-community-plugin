@@ -10,7 +10,7 @@
 // metadata.owner 는 사람이 읽는 연락처다. 둘이 갈리지 않게 여기서 대조한다.
 
 import { readFileSync, existsSync } from 'node:fs';
-import { discoverPlugins, readManifest, CODEOWNERS_PATH } from './lib.mjs';
+import { discoverPlugins, readManifest, CODEOWNERS_PATH, SKELETON_OWNER, SKELETON_PATHS } from './lib.mjs';
 
 const errors = [];
 const fail = (where, what, how) => errors.push({ where, what, how });
@@ -27,6 +27,39 @@ for (const line of readFileSync(CODEOWNERS_PATH, 'utf8').split('\n')) {
   if (!t || t.startsWith('#')) continue;
   const [path, ...owners] = t.split(/\s+/);
   rules.set(path.replace(/\/$/, ''), owners);
+}
+
+// ── 뼈대 경로에 소유 팀이 그대로 있는가 ────────────────────────────────
+//
+// CODEOWNERS 자신에는 소유자가 없다. 플러그인을 올릴 때마다 팀 승인과 알림이
+// 따라붙는 것을 막으려는 선택이고, 그 대가로 이 파일은 아무나 고칠 수 있다.
+// 그래서 뼈대 줄에서 팀이 빠지는 것은 GitHub 이 아니라 여기서 잡는다.
+for (const declaredPath of SKELETON_PATHS) {
+  const key = declaredPath.replace(/\/$/, '');
+  const owners = rules.get(key);
+  const has = (list) => list.some((o) => o.toLowerCase() === SKELETON_OWNER.toLowerCase());
+
+  if (!owners) {
+    fail(
+      declaredPath,
+      `${CODEOWNERS_PATH} 에 이 뼈대 줄이 없다`,
+      `뼈대는 팀이 소유한다. 아래를 더한다.\n` +
+        `\n      ${declaredPath}   ${SKELETON_OWNER}\n` +
+        `\n      소유 팀을 바꾸려면 .github/scripts/lib.mjs 의 SKELETON_OWNER 도 함께 고친다`
+    );
+    continue;
+  }
+
+  if (!has(owners)) {
+    fail(
+      declaredPath,
+      `${CODEOWNERS_PATH} 의 이 줄에 ${SKELETON_OWNER} 가 없다 — 현재 '${owners.join(' · ')}'`,
+      `뼈대는 이 팀이 소유해야 한다. **뒤에 다른 소유자를 더 적는 것은 괜찮고**, 이 팀만 빠지면 안 된다.\n` +
+        `\n      ${declaredPath}   ${SKELETON_OWNER}${owners.filter((o) => o.toLowerCase() !== SKELETON_OWNER.toLowerCase()).map((o) => ' ' + o).join('')}\n` +
+        `\n      소유 팀 자체를 바꾸려면 .github/scripts/lib.mjs 의 SKELETON_OWNER 를 고친다 —\n` +
+        `      그 파일은 팀 소유라 변경에 팀 승인이 필요하다`
+    );
+  }
 }
 
 for (const plugin of discoverPlugins().map(readManifest)) {

@@ -19,6 +19,10 @@
 # .github/ 를 통째로 걸지 않는다. CODEOWNERS 자신이 거기 있어서,
 # 통째로 걸면 플러그인을 올릴 때마다(= 소유자 줄을 더할 때마다)
 # 플랫폼개발팀 승인과 알림이 따라붙는다. 그래서 실제 뼈대만 열거한다.
+#
+# 아래 줄에서 팀이 빠지면 CI 가 떨어진다(check-codeowners.mjs).
+# 뒤에 소유자를 더 적는 것은 괜찮다 — 이 팀만 빠지지 않으면 된다.
+# 소유 팀 자체를 바꾸려면 .github/scripts/lib.mjs 의 SKELETON_OWNER 를 고친다.
 /.github/workflows/               @VntgCorp/r-d
 /.github/scripts/                 @VntgCorp/r-d
 /.github/categories.txt           @VntgCorp/r-d
