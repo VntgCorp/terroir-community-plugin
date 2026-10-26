@@ -1,6 +1,7 @@
 ---
 name: new
-description: 사내 공유 마켓 terroir-community-plugin 에 스킬이나 플러그인을 올릴 때 사용. 분류 판정·이름 중복 검사·뼈대 생성·로컬 검증·PR 생성까지 한다.
+description: 사내 공유 마켓 terroir-community-plugin 에 스킬을 규칙대로 올릴 수 있게 한다.
+when_to_use: 사내 공유 마켓에 스킬이나 플러그인을 새로 올리려 할 때.
 ---
 
 # 마켓에 올리기

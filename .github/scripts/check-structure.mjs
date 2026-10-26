@@ -68,7 +68,7 @@ for (const plugin of discoverPlugins().map(readManifest)) {
   if (!NAME_RE.test(name ?? '')) fail(base, `name '${name}' 이 문자 규칙에 맞지 않는다`, '소문자·숫자·하이픈만, 2~64자, 첫 글자는 소문자나 숫자');
 
   const desc = description ?? '';
-  if (!desc.trim()) fail(base, 'description 이 없다', '설치 전 목록에 보이는 문장이다. 무엇을 하는 것인지 한 줄로 적는다');
+  if (!desc.trim()) fail(base, 'description 이 없다', '설치 전 목록에 보이는 문장이다. 이 플러그인이 무엇을 위해 있는지 한 줄로 적는다 — docs/standard.md 4절');
   else if (desc !== desc.trim()) fail(base, 'description 앞뒤에 공백이 있다', '공백을 없앤다');
   else if (desc.length > PLUGIN_DESC_MAX) fail(base, `description 이 ${desc.length}자다 (상한 ${PLUGIN_DESC_MAX})`, '한 줄로 줄인다. 자세한 설명은 README.md 에 쓴다');
 
@@ -99,9 +99,9 @@ for (const plugin of discoverPlugins().map(readManifest)) {
     const sName = field('name');
     const sDesc = field('description');
     if (!sName) fail(f, 'frontmatter 에 name 이 없다', '스킬 이름을 적는다');
-    if (!sDesc) fail(f, 'frontmatter 에 description 이 없다', '"언제 이 스킬을 써야 하는가" 를 적는다');
+    if (!sDesc) fail(f, 'frontmatter 에 description 이 없다', '이 스킬이 무엇을 위해 있는지 한 문장을 적는다. 언제 부르는지는 when_to_use 에 — docs/standard.md 5절');
     else if (sDesc.length > SKILL_DESC_MAX)
-      fail(f, `description 이 ${sDesc.length}자다 (상한 ${SKILL_DESC_MAX})`, 'description 은 트리거 판정에만 쓰이고 모든 세션의 컨텍스트를 차지한다. 무엇을 하는지의 상세는 본문에 쓴다 — docs/standard.md 5절');
+      fail(f, `description 이 ${sDesc.length}자다 (상한 ${SKILL_DESC_MAX})`, 'description 은 무엇을 위해 있는지 한 문장이다. 하는 일·절차는 본문에, 트리거 문구는 when_to_use 에 쓴다 — docs/standard.md 5절');
   }
 
   // ── 이름 중복 ──

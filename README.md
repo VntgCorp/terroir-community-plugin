@@ -42,7 +42,7 @@
 
 | 어디를 | 무엇을 알 수 있나 |
 |---|---|
-| `description` | 무엇을 하는 것인지 한 줄 |
+| `description` | 무엇을 위해 있는 것인지 한 줄 |
 | README 의 **전제 조건** | 외부 도구·접근 권한·다른 플러그인이 필요한가 |
 | README 의 **아는 한계** | 무엇이 안 되는가. 만든 사람이 직접 적은 것 |
 | `plugin.json` 의 `metadata.owner` | 누가 만들었나 — 물어볼 사람 |
@@ -63,6 +63,8 @@
 [마켓을 바꾸는 절차](docs/operations.md#a2-남의-플러그인을-고친다)를 따른다.
 
 ## 올리기
+
+스킬은 Anthropic 공식 `skill-creator` 로 만들고, 만든 스킬을 `/skill-market:new` 로 올린다. `skill-market` 은 `SKILL.md` 본문을 써 주지 않는다.
 
 ```
 /plugin install skill-market@terroir-community-plugin

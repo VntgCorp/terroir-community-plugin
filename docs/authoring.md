@@ -18,11 +18,13 @@
 /plugin install plugin-dev@claude-plugins-official
 ```
 
-`SKILL.md` 를 어떻게 쓰는지, `description` 을 어떻게 트리거로 만드는지, 본문을 어떻게
-나누는지는 **전부 저기서 배운다.** 이 마켓의 문서는 그 내용을 옮겨 적지 않는다 — 옮기면
-공식이 갱신될 때 이 마켓의 문서만 뒤처진다.
+`SKILL.md` 를 어떻게 쓰는지, 본문을 어떻게 나누는지는 **Anthropic 공식 마켓(`claude-plugins-official`)의
+`skill-creator` 와 `plugin-dev` 가 가르친다.** 이 마켓의 문서는 그 내용을 옮겨 적지 않는다 — 옮기면 공식이 갱신될 때 이 마켓의 문서만 뒤처진다.
 
-아래부터가 **여기에만 있는 절차**다.
+**하나만 다르다 — `description` 과 `when_to_use` 에 무엇을 적는가.** 이 마켓은 `description` 에
+목적 한 문장만 두고 트리거 문구는 `when_to_use` 로 뺀다. [플러그인 표준 5절](standard.md#5-skillmd)을 따른다.
+
+아래부터가 **여기에만 있는 절차**다. 스킬은 `skill-creator` 로 만들고, 만든 스킬을 `/skill-market:new` 로 올린다. `skill-market` 은 `SKILL.md` 본문을 써 주지 않는다.
 
 ---
 
@@ -86,7 +88,7 @@ plugins/<분류>/<이름>/skills/<이름>/SKILL.md
 ```bash
 git clone https://github.com/VntgCorp/terroir-community-plugin
 cd terroir-community-plugin
-git checkout -b feat/dockerize
+git checkout -b feat/meeting-notes
 ```
 
 무엇을 어디에 만드는지는 [플러그인 표준](standard.md)을 보고 그대로 채운다. 요약하면
