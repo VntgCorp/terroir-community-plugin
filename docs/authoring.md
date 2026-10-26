@@ -88,7 +88,7 @@ plugins/<분류>/<이름>/skills/<이름>/SKILL.md
 ```bash
 git clone https://github.com/VntgCorp/terroir-community-plugin
 cd terroir-community-plugin
-git checkout -b feat/dockerize
+git checkout -b feat/meeting-notes
 ```
 
 무엇을 어디에 만드는지는 [플러그인 표준](standard.md)을 보고 그대로 채운다. 요약하면

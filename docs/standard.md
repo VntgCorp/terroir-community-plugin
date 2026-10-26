@@ -117,9 +117,9 @@ frontmatter 에 `name` 과 `description` 이 있어야 한다. `when_to_use` 는
 
 ```yaml
 ---
-name: dockerize
-description: 서비스를 컨테이너 이미지로 만들어 배포할 수 있게 한다.
-when_to_use: 서비스를 컨테이너화하려 할 때. 예 "도커 이미지 만들어줘", "Dockerfile 써줘".
+name: meeting-notes
+description: 회의 메모를 안건별로 정리해 바로 공유할 수 있게 한다.
+when_to_use: 회의가 끝나고 메모나 녹취를 정리하려 할 때. 예 "회의록 정리해줘", "이 메모 안건별로 나눠줘".
 ---
 ```
 
