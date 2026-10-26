@@ -1,24 +1,12 @@
 # terroir-community-plugin
 
+> **목적 — VNTG 구성원이 스킬을 나눠 쓰는 곳.** 누구나 올릴 수 있다. R&D 는 규칙 위주로 올린다.
+
 > **구성원이 만든 Claude Code 스킬을 서로 나눠 쓰는** 사내 공유 마켓플레이스.
 > 내가 만든 것이 옆자리에 닿고, 옆자리가 만든 것을 내가 가져다 쓴다.
 
 스킬은 누구나 만든다. 만든 것이 만든 사람에게만 남는 것을 막으려고 이 마켓이 있다.
 그래서 심사를 두지 않는다 — 심사하면 올린 뒤 기다려야 하고, 그러면 공유가 느려진다.
-
-## 떼루아 마켓 셋 중 어디인가
-
-셋은 **같은 세 가지로 갈린다** — 누가 넣나 · 누가 쓸 수 있나 · 누가 품질을 책임지나.
-
-| 마켓 | 누가 넣나 | 쓸 수 있는 사람 | 품질 책임 | 담기는 것 |
-|---|---|---|---|---|
-| [`terroir-claude-plugin-public`](https://github.com/VntgCorp/terroir-claude-plugin-public) | 플랫폼개발팀 | 누구나 — 인증 없이 | 팀 | 온보딩 · 단계 무관 부가 기능 |
-| [`terroir-claude-plugin`](https://github.com/VntgCorp/terroir-claude-plugin) | 플랫폼개발팀 | 조직 멤버 | 팀 | 떼루아 맵 단계별 표준 흐름 |
-| **`terroir-community-plugin`** (여기) | **구성원 누구나** | 누구나 — 인증 없이 | **올린 사람** | **무엇이든** |
-
-**어디에 올릴지 가르는 질문은 하나다** — 떼루아 표준 흐름을 바꾸는 것인가, 내가 쓰려고
-만든 것인가. 앞이면 [`terroir-claude-plugin`](https://github.com/VntgCorp/terroir-claude-plugin) 에
-문의하고, 뒤면 여기다. 자세한 역할 구분은 [이 마켓은 무엇인가](docs/about.md)에 있다.
 
 ## 등록
 
