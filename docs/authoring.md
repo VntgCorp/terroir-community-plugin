@@ -24,7 +24,7 @@
 **하나만 다르다 — `description` 과 `when_to_use` 에 무엇을 적는가.** 이 마켓은 `description` 에
 목적 한 문장만 두고 트리거 문구는 `when_to_use` 로 뺀다. [플러그인 표준 5절](standard.md#5-skillmd)을 따른다.
 
-아래부터가 **여기에만 있는 절차**다.
+아래부터가 **여기에만 있는 절차**다. 스킬은 `skill-creator` 로 만들고, 만든 스킬을 `/skill-market:new` 로 올린다. `skill-market` 은 `SKILL.md` 본문을 써 주지 않는다.
 
 ---
 

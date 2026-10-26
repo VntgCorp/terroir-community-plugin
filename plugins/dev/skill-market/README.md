@@ -2,6 +2,8 @@
 
 이 마켓에 스킬을 올릴 때 쓰는 도구.
 
+스킬은 Anthropic 공식 `skill-creator` 로 만들고, 만든 스킬을 `/skill-market:new` 로 올린다. `skill-market` 은 `SKILL.md` 본문을 써 주지 않는다.
+
 ## 무엇을 하나
 
 `/skill-market:new` 를 부르면 대화로 물어보고 아래를 대신한다.

@@ -64,6 +64,8 @@
 
 ## 올리기
 
+스킬은 Anthropic 공식 `skill-creator` 로 만들고, 만든 스킬을 `/skill-market:new` 로 올린다. `skill-market` 은 `SKILL.md` 본문을 써 주지 않는다.
+
 ```
 /plugin install skill-market@terroir-community-plugin
 /skill-market:new
