@@ -113,7 +113,7 @@ plugins/<분류>/<이름>/
 
 ## 5. `SKILL.md`
 
-frontmatter 에 `name` 과 `description` 이 있어야 한다. 언제 부르는지는 `when_to_use` 에 둔다.
+frontmatter 에 `name` 과 `description` 이 있어야 한다. `when_to_use` 는 선택이다 — 언제 부르는지를 적을 때 여기에 둔다.
 
 ```yaml
 ---
