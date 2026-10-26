@@ -18,8 +18,8 @@
 /plugin install plugin-dev@claude-plugins-official
 ```
 
-`SKILL.md` 를 어떻게 쓰는지, 본문을 어떻게 나누는지는 **전부 저기서 배운다.** 이 마켓의
-문서는 그 내용을 옮겨 적지 않는다 — 옮기면 공식이 갱신될 때 이 마켓의 문서만 뒤처진다.
+`SKILL.md` 를 어떻게 쓰는지, 본문을 어떻게 나누는지는 **Anthropic 공식 마켓(`claude-plugins-official`)의
+`skill-creator` 와 `plugin-dev` 가 가르친다.** 이 마켓의 문서는 그 내용을 옮겨 적지 않는다 — 옮기면 공식이 갱신될 때 이 마켓의 문서만 뒤처진다.
 
 **하나만 다르다 — `description` 과 `when_to_use` 에 무엇을 적는가.** 이 마켓은 `description` 에
 목적 한 문장만 두고 트리거 문구는 `when_to_use` 로 뺀다. [플러그인 표준 5절](standard.md#5-skillmd)을 따른다.
