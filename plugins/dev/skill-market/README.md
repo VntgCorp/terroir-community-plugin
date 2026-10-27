@@ -34,7 +34,7 @@
 |---|---|
 | 외부 도구 | `git` · `gh`(로그인됨) · `node` |
 | 접근 권한 | `VntgCorp/terroir-community-plugin` 레포에 write 이상 |
-| 다른 플러그인 | 없음 |
+| 다른 플러그인 | 없음. `terroir-context` 가 있으면 CHANGELOG 항목을 그 스킬로 쓰고, 없으면 작성 기준 문서를 읽는다 |
 
 터미널 없이 올리려면 이 스킬을 쓰지 않고 [터미널 없이 올리기](../../../docs/authoring.md)
 절차를 따른다.

@@ -1,7 +1,7 @@
 {
   "name": "skill-market",
   "description": "사내 공유 마켓에 스킬을 규칙대로 올릴 수 있게 한다",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "author": {
     "name": "VntgCorp 플랫폼개발팀"
   },
