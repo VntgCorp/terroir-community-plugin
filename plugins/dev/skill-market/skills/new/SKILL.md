@@ -180,6 +180,7 @@ claude plugin validate .
 
 **이미 있는 플러그인을 고쳤다면 `version` 을 올린다** — 올리지 않으면 CI 가 경고를 띄운다(막지는 않는다).
 무엇을 올릴지는 `docs/versioning.md`, 두 번째 버전부터는 `CHANGELOG.md` 도 쓴다.
+항목은 `/terroir-context:changelog-write` 로 쓴다. 그 스킬이 없으면 [변경 이력 쓰는 법](https://github.com/VntgCorp/terroir-claude-plugin-public/blob/main/plugins/terroir-context/docs/changelog-writing.md)을 읽고 쓴다.
 
 검사가 떨어지면 **메시지가 고치는 법을 알려준다.** 그대로 고치고 다시 돌린다.
 메시지가 고치는 법을 안 알려주면 그건 CI 의 버그다 — 사용자에게 이슈를 권한다.
