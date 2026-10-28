@@ -38,3 +38,4 @@
 # 개인이면 @핸들, 팀이 소유하면 @VntgCorp/<팀슬러그>.
 # plugin.json 의 metadata.owner 와 같아야 한다.
 /plugins/work/ko-doc-write/   @seyunpark
+/plugins/dev/app-diagnosis/   @Jsik94

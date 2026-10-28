@@ -1,0 +1,480 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>앱 이관 현황 진단 : V.Together</title>
+<!--
+  app-diagnosis 리포트 틀 — 이 파일이 리포트 디자인의 원본이다.
+
+  채우는 법
+    1. 맨 아래 id 가 report 인 JSON 스크립트 칸 안의 JSON 만 바꾼다.
+       칸 이름은 지금 들어 있는 V.Together 예시와 같게 쓴다.
+    2. 위 <title> 의 앱 이름을 바꾼다.
+    3. JSON 문자열 안에 꺾쇠와 빗금이 붙은 닫는 태그 모양이 나오면 빗금 앞에 역빗금을 넣는다. 그대로 두면 JSON 칸이 거기서 닫힌다.
+    4. 그 밖의 줄은 고치지 않는다.
+  파일로 저장해 브라우저로 열 때는 맨 앞에 <!doctype html> 한 줄을 붙인다.
+
+  인라인 표기 (JSON 의 모든 글자 칸에서 쓸 수 있다)
+    `코드`           → 코드 글꼴
+    [[상태]]          → 상태 칩. 상태 단어가 곧 표시 글자다
+    [[표시|상태]]     → 표시 글자를 따로 정한 칩. 예: [[root|주의]]
+  상태 단어와 색
+    충족 · 됨 · 자동 · 있음 · 소속 · 설치됨  → 초록
+    주의 · 가능 · 수동                       → 주황
+    미충족 · 어려움 · 없음                   → 빨강
+    알 수 없음 (그 밖의 단어 전부)            → 회색
+
+  이 틀을 고치면 README 의 샘플 아티팩트도 같은 PR 에서 다시 게시한다.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#F3F5F2; --surface:#FFFFFF; --surface-2:#EEF1ED; --ink:#18211D; --ink-2:#3B4641; --muted:#66726C;
+  --line:#D9DFDA; --line-2:#C6CEC8; --accent:#2F6B4F; --accent-ink:#FFFFFF; --accent-soft:#E2EEE7;
+  --ok:#2E7A4E; --ok-soft:#E1F1E7; --warn:#9A6312; --warn-soft:#FBF0DC; --crit:#B3261E; --crit-soft:#FBE4E1;
+  --unk:#5F6670; --unk-soft:#ECEEF1;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#121715; --surface:#19201D; --surface-2:#1F2824; --ink:#E7ECE9; --ink-2:#C3CCC7; --muted:#8E9A94;
+    --line:#2A3430; --line-2:#36423D; --accent:#7CC3A0; --accent-ink:#0F1A15; --accent-soft:#1E3329;
+    --ok:#7CC79A; --ok-soft:#1B3125; --warn:#E3B062; --warn-soft:#352914; --crit:#F08A80; --crit-soft:#3A1D1A;
+    --unk:#A7AEB8; --unk-soft:#262B31;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121715; --surface:#19201D; --surface-2:#1F2824; --ink:#E7ECE9; --ink-2:#C3CCC7; --muted:#8E9A94;
+  --line:#2A3430; --line-2:#36423D; --accent:#7CC3A0; --accent-ink:#0F1A15; --accent-soft:#1E3329;
+  --ok:#7CC79A; --ok-soft:#1B3125; --warn:#E3B062; --warn-soft:#352914; --crit:#F08A80; --crit-soft:#3A1D1A;
+  --unk:#A7AEB8; --unk-soft:#262B31;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;margin:0;padding-inline:16px;padding-block:28px 64px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;display:grid;gap:28px}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.3}
+code{font-family:var(--mono);font-size:.86em;background:var(--surface-2);border:1px solid var(--line);border-radius:4px;padding:0 .3em;word-break:break-all}
+.mono{font-family:var(--mono);font-size:.86em}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line-2);padding-bottom:18px}
+.eyebrow{display:flex;gap:8px;align-items:center;min-height:20px}
+.sample{font-size:11px;letter-spacing:.06em;border:1px dashed var(--muted);color:var(--muted);border-radius:999px;padding:1px 8px}
+.top h1{font-size:32px;font-weight:700;letter-spacing:-.01em;margin-top:6px}
+.top h1 .pre{font-weight:500;color:var(--muted)}
+.top .sub{color:var(--ink-2);margin-top:4px}
+.meta{display:grid;grid-template-columns:auto auto;gap:2px 14px;font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink-2);font-weight:500;word-break:break-all}
+
+.verdict{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.v-left{padding:24px;background:var(--accent-soft);border-right:1px solid var(--line);display:grid;gap:14px;align-content:start}
+.v-label{font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--muted)}
+.paths{display:grid;gap:6px}
+.path{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;color:var(--muted);background:var(--surface)}
+.path .k{font-weight:600;font-size:15px}
+.path .d{font-size:12px;text-align:right}
+.path.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.path.on .d{opacity:.85}
+.v-note{font-size:13px;color:var(--ink-2)}
+.v-right{padding:22px 24px;display:grid;gap:14px;align-content:start}
+.v-right h2{font-size:18px}
+.v-summary{color:var(--ink-2);max-width:68ch;margin:0}
+.reasons{display:grid;border-top:1px solid var(--line)}
+.reason{display:grid;grid-template-columns:120px 92px minmax(0,1fr);gap:12px;padding:11px 0;border-bottom:1px solid var(--line);align-items:start}
+.reason .n{font-weight:600}
+.reason p{margin:0;color:var(--ink-2);font-size:14px}
+
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;border-radius:999px;padding:2px 9px;white-space:nowrap;line-height:1.6;vertical-align:baseline}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.ok{color:var(--ok);background:var(--ok-soft)}
+.warn{color:var(--warn);background:var(--warn-soft)}
+.crit{color:var(--crit);background:var(--crit-soft)}
+.unk{color:var(--unk);background:var(--unk-soft)}
+
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 22px;display:grid;gap:12px;align-content:start}
+.panel h2{font-size:16px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.panel h2 small{font-size:12px;color:var(--muted);font-weight:500}
+.kv{display:grid;grid-template-columns:150px minmax(0,1fr);border-top:1px solid var(--line)}
+.kv > div{padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;min-width:0}
+.kv .k{color:var(--muted)}
+.kv .v{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.kv .detail{flex-basis:100%;font-size:12.5px;color:var(--muted)}
+.signals{list-style:none;margin:0;padding:0;display:grid;border-top:1px solid var(--line)}
+.signals li{display:grid;grid-template-columns:70px minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;align-items:start}
+.signals small{display:block;color:var(--muted);font-size:12.5px}
+
+.detail-grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:28px;align-items:start}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:grid;gap:2px;font-size:13.5px}
+nav.toc .h{font-size:12px;letter-spacing:.06em;color:var(--muted);font-weight:600;margin-bottom:6px}
+nav.toc a{color:var(--ink-2);text-decoration:none;padding:4px 10px;border-left:2px solid var(--line)}
+nav.toc a:hover{border-left-color:var(--accent);color:var(--ink)}
+.sections{display:grid;gap:18px;min-width:0}
+section.s{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px 24px;display:grid;gap:14px;min-width:0}
+section.s h2{font-size:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:baseline}
+section.s h2 .no{font-family:var(--mono);font-size:13px;color:var(--muted);font-weight:500}
+section.s h3{font-size:14px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+section.s p{margin:0;max-width:72ch;color:var(--ink-2)}
+section.s ul{margin:0;padding-left:1.1em;display:grid;gap:4px;color:var(--ink-2)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--surface-2);letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+td.src{color:var(--muted);font-size:12.5px}
+.callout{background:var(--surface-2);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--ink-2)}
+.diagram{overflow-x:auto;background:var(--surface-2);border-radius:8px;padding:12px}
+.diagram pre{margin:0;font-family:var(--mono);font-size:12.5px;white-space:pre}
+.foot{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+.empty{color:var(--muted);font-size:14px}
+
+@media (max-width:860px){
+  .verdict{grid-template-columns:1fr}
+  .v-left{border-right:0;border-bottom:1px solid var(--line)}
+  .two{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:1fr}
+  nav.toc{position:static;grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto;padding-bottom:4px}
+  nav.toc .h{display:none}
+}
+@media (max-width:520px){
+  .reason{grid-template-columns:1fr;gap:4px}
+  .kv{grid-template-columns:1fr}
+  .kv .k{border-bottom:0;padding-bottom:0}
+  .top h1{font-size:26px}
+  section.s,.panel,.v-right,.v-left{padding:18px 16px}
+}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script type="application/json" id="report">
+{
+  "sample": true,
+  "app": "V.Together",
+  "summary": "VNTG 임직원용 ESG 참여 플랫폼. 기부, 이벤트·챌린지 인증, 포인트, 상점, 경매, 공지",
+  "meta": [
+    ["진단일", "2026-10-28"],
+    ["진단 방식", "원격 저장소 직접 진단"],
+    ["소스", "github.com/sky1117-kim/VTOGETHER"]
+  ],
+  "path": {
+    "opinion": "BYOR",
+    "headline": "git 저장소와 운영 중인 컨테이너가 있어 그대로 옮길 수 있다",
+    "summary": "Dockerfile 로 만든 컨테이너 하나를 Cloud Run 에서 돌리는 Next.js 앱이다. 특정 서비스 안에서만 도는 코드는 없다. 저장소가 개인 계정에 있고, 데이터와 로그인은 모두 Supabase 에 있다.",
+    "reasons": [
+      { "name": "소스 위치", "state": "주의", "text": "git 저장소 있음. 개인 계정 `sky1117-kim` 소유이고 public 이다. 보안 점검 문서 3개가 커밋되어 있다." },
+      { "name": "컨테이너 실행", "state": "충족", "text": "멀티 스테이지 Dockerfile, Next.js standalone, 포트 8080. 이 이미지를 Cloud Build 로 빌드해 배포하는 스크립트가 있다." },
+      { "name": "앱 형태", "state": "충족", "text": "HTTP 요청을 받는 서버 하나. 저장소에 앱 하나. 예약 작업은 앱 안의 HTTP 엔드포인트 2개를 외부에서 부르는 방식이다." },
+      { "name": "플랫폼 종속", "state": "주의", "text": "실행은 일반 Node 서버다. DB·인증·파일 저장은 Supabase, 구글시트는 Cloud Run 서비스 계정의 기본 인증에 기대고 있다." }
+    ]
+  },
+  "precheck": {
+    "project": "V.Together · 원격 저장소 `sky1117-kim/VTOGETHER`",
+    "runner": "`Jsik94`",
+    "org": "[[소속]] VntgCorp · member",
+    "plugins": "[[설치됨]] 11개",
+    "plugins_detail": "project-context 1.1.34 · project-guide 1.4.12 · project-kickoff 1.1.10 · project-development 3.5.0 · project-deployment 1.2.9 · onboarding 1.6.2 외 5개",
+    "docker": "[[됨]] Dockerfile 로 운영 중"
+  },
+  "signals": [
+    { "label": "없음", "state": "미충족", "title": "로그인 없이 200 을 주는 헬스체크 주소", "note": "비로그인 요청은 모두 `/login` 으로 리다이렉트된다" },
+    { "label": "6곳", "state": "주의", "title": "서버가 multipart 로 받는 업로드", "note": "Server Action 이 `FormData` 를 받아 Storage 로 올린다" },
+    { "label": "빌드 시", "state": "주의", "title": "클라이언트에 박히는 환경변수", "note": "`NEXT_PUBLIC_SUPABASE_*` · `NEXT_PUBLIC_APP_URL`" },
+    { "label": "누락", "state": "주의", "title": "마이그레이션 번호 001 · 012 · 013 · 015 · 054 · 055", "note": "코드 주석은 054 를 언급한다" },
+    { "label": "수동", "state": "주의", "title": "배포 파이프라인", "note": "CI 없이 로컬 PC 에서 스크립트로 배포한다. 테스트도 없다" }
+  ],
+  "sections": [
+    { "no": 1, "title": "기술 스택", "blocks": [
+      { "type": "table", "head": ["구분", "내용", "근거"], "src_col": 2, "rows": [
+        ["언어", "TypeScript 5", "package.json"],
+        ["프레임워크", "Next.js 16.4 App Router · Server Actions · Middleware, React 19.2", "package.json, app/"],
+        ["런타임", "Node.js 20 `node:20-bookworm-slim`", "Dockerfile"],
+        ["패키지 관리", "npm, `package-lock.json`", "Dockerfile:11"],
+        ["화면", "Tailwind CSS 4, recharts, TipTap, dnd-kit", "package.json"],
+        ["데이터 접근", "`@supabase/supabase-js`, `@supabase/ssr`. PostgREST 쿼리와 Postgres RPC", "lib/supabase/"],
+        ["인증", "Supabase Auth + Google OAuth, `vntgcorp.com` 도메인 제한", "app/auth/login/route.ts:14"],
+        ["외부 연동", "google-auth-library, nodemailer, Google Chat Webhook, Google Analytics", "lib/"],
+        ["테스트 · CI", "[[없음|알 수 없음]] ESLint 만 있다", "eslint.config.mjs"]
+      ]}
+    ]},
+    { "no": 2, "title": "아키텍처", "blocks": [
+      { "type": "text", "text": "별도 백엔드 없이 Next.js 서버 기능이 백엔드를 맡는다. 포인트·재고가 걸린 처리는 Postgres 함수 6개가 원자적으로 처리하고, 접근 제어는 RLS 정책에 있다." },
+      { "type": "diagram", "code": "flowchart LR\n  U[사용자 브라우저] -->|HTTPS| CR[Cloud Run vtogether<br/>Next.js :8080]\n  U -->|인증 사진 직접 업로드| ST[(Supabase Storage)]\n  U -->|Google OAuth| AU[Supabase Auth]\n  CR --> DB[(Supabase Postgres<br/>테이블 29 · RPC 6)]\n  CR -->|FormData 업로드| ST\n  SC[크론 호출자<br/>저장소에 설정 없음] -->|Bearer| CR\n  CR --> SEAH[세아웍스 인사 API]\n  CR --> GS[Google Sheets]\n  CR --> GC[Google Chat Webhook 2]\n  CR --> MAIL[SMTP]\n  SM[GCP Secret Manager] -.-> CR" },
+      { "type": "sub", "text": "DB" },
+      { "type": "list", "items": [
+        "Supabase 관리형 PostgreSQL. 주요 테이블 29개: 사용자, 포인트, 기부, 이벤트, 건강 챌린지, 상점, 경매, 공지, 세아웍스 조직 스냅샷",
+        "스키마 `docs/database-schema.sql`, 마이그레이션 `docs/migrations/` 002 ~ 063"
+      ]}
+    ]},
+    { "no": 3, "title": "앱 구조와 실행 형태", "blocks": [
+      { "type": "table", "head": ["항목", "내용"], "rows": [
+        ["저장소 구조", "앱 하나. `app/` 라우트, `api/actions` · `api/queries` 서버 계층, `lib/` 연동, `docs/` 스키마와 마이그레이션"],
+        ["빌드 · 시작", "`npm ci` → `npm run build`, 컨테이너는 `node server.js`"],
+        ["포트", "컨테이너 8080, 로컬 개발 3000"],
+        ["상태 저장", "[[없음|충족]] 로컬 디스크에 파일·세션을 두지 않는다. 세션은 Supabase 쿠키, 파일은 Storage"],
+        ["파일 업로드", "두 방식이 섞여 있다. 브라우저 → Storage 직접 1곳, 서버 Server Action 이 `FormData` 로 받는 곳 6곳"],
+        ["헬스체크", "[[없음]] 비로그인 요청은 `/` 포함 307 로 `/login` 이동"],
+        ["빌드 메모리", "Cloud Build 가 메모리 부족으로 실패한 기록이 주석에 있고, `E2_HIGHCPU_8` 머신을 쓴다"]
+      ]},
+      { "type": "sub", "text": "정해진 시간에 도는 작업" },
+      { "type": "table", "head": ["작업", "엔드포인트", "주기", "호출자"], "rows": [
+        ["세아웍스 인사 동기화", "`GET /api/cron/seah-orgsync`", "하루 1회", "[[알 수 없음]]"],
+        ["상점 주문 → 구글시트", "`GET /api/cron/shop-orders-esg-sheet`", "매 N분", "[[알 수 없음]]"]
+      ]}
+    ]},
+    { "no": 4, "title": "도커라이징", "verdict": "됨", "blocks": [
+      { "type": "text", "text": "배포 단위가 되는 앱은 1개다. 예약 작업 2개는 같은 앱 안의 API 경로라 따로 세지 않았다." },
+      { "type": "table", "head": ["앱", "경로", "역할", "Dockerfile", "없으면 가능 여부"], "rows": [
+        ["vtogether", "`/`", "화면과 서버를 함께 내는 Next.js 앱", "[[있음]] `Dockerfile`", "해당 없음"]
+      ]},
+      { "type": "note", "text": "이 Dockerfile 로 만든 이미지를 Cloud Build 로 빌드해 Cloud Run 에 배포하고 있다. `scripts/` 의 동기화·PPT 생성 스크립트는 앱이 아니라 보조 도구다." }
+    ]},
+    { "no": 5, "title": "배포 파이프라인", "verdict": "수동", "blocks": [
+      { "type": "table", "head": ["항목", "지금 상태", "근거"], "src_col": 2, "rows": [
+        ["배포 방법", "로컬 PC 에서 `npm run deploy` 실행 → Cloud Build 가 Dockerfile 로 빌드 → Cloud Run 배포. 이어서 세아웍스 동기화를 로컬에서 실행", "scripts/deploy.sh"],
+        ["CI/CD", "[[없음|알 수 없음]] `.github/` 디렉토리가 없다", "저장소 루트"],
+        ["이미지 저장", "Artifact Registry `cloud-run-source-deploy/vtogether`", "cloudbuild.yaml"],
+        ["비밀값 주입", "로컬 `.env` 가 원본. Secret Manager 에 등록한 값은 `--set-secrets`, 없으면 평문 환경변수로 넘기고 경고만 남긴다", "scripts/deploy.sh:96"],
+        ["환경별 배포 대상", "운영 Cloud Run 하나만 확인된다. 개발용 배포 대상은 [[알 수 없음]]", "scripts/deploy.sh"],
+        ["배포 담당", "[[알 수 없음]]", ""]
+      ]}
+    ]},
+    { "no": 6, "title": "외부 리소스", "blocks": [
+      { "type": "table", "head": ["리소스", "용도", "설정 위치", "소유 계정"], "rows": [
+        ["Supabase", "DB · Auth · Storage `event-verification`", "`NEXT_PUBLIC_SUPABASE_*`, `SUPABASE_SERVICE_ROLE_KEY`", "[[알 수 없음]]"],
+        ["Google OAuth 클라이언트", "Supabase Auth 의 구글 로그인", "Supabase 대시보드", "[[알 수 없음]]"],
+        ["GCP 프로젝트", "Cloud Run · Cloud Build · Artifact Registry · Secret Manager", "`scripts/deploy.sh`, `cloudbuild.yaml`", "[[알 수 없음]]"],
+        ["Secret Manager", "비밀값 8개 주입", "`scripts/setup-secrets.sh`", "위 GCP 프로젝트"],
+        ["세아웍스 인사 API", "직원·조직도 동기화", "`SEAH_ORGSYNC_*`", "그룹웨어서비스팀 발급"],
+        ["Google Sheets", "상점 주문 기록", "`GOOGLE_SHEETS_*`, Cloud Run 서비스 계정 기본 인증", "[[알 수 없음]]"],
+        ["Google Chat Webhook 2개", "에러 알림 · 관리자 승인 대기 알림", "`GOOGLE_CHAT_*_WEBHOOK_URL`", "[[알 수 없음]]"],
+        ["SMTP", "포인트 적립 알림 메일", "`SMTP_*`, `MAIL_FROM`", "[[개인 계정 의심|주의]]"],
+        ["Google Analytics", "접속 분석", "`NEXT_PUBLIC_GA_MEASUREMENT_ID`", "[[알 수 없음]]"]
+      ]},
+      { "type": "note", "text": "코드에서 쓰는데 `.env.example` 에 없는 키가 있다. Supabase service role, Chat Webhook, SMTP, GA 측정 ID 등이다." }
+    ]},
+    { "no": 7, "title": "운영 현황", "blocks": [
+      { "type": "table", "head": ["항목", "지금 상태"], "rows": [
+        ["DB 공유", "코드는 `.env` 와 `.env.local` 로 나눈다. 개발과 운영이 같은 DB 를 쓰는지는 [[알 수 없음]]"],
+        ["DB 마이그레이션", "SQL 파일을 Supabase SQL Editor 에 손으로 순서대로 실행. 적용 이력이 남지 않는다"],
+        ["사용자", "`vntgcorp.com` 구글 계정만 로그인. 규모는 [[알 수 없음]]"],
+        ["트래픽", "[[알 수 없음]] 볼 곳: Cloud Run 측정항목, Google Analytics, 관리자 MAU 화면 `/admin`"],
+        ["서버 사양", "배포 스크립트에 CPU·메모리·인스턴스 지정이 없다. 콘솔 값은 [[알 수 없음]]"]
+      ]}
+    ]},
+    { "no": 8, "title": "주소와 저장소", "blocks": [
+      { "type": "kv", "items": [
+        ["서비스 URL", "`vtogether-899896571605.asia-northeast3.run.app`"],
+        ["커스텀 도메인", "[[알 수 없음]]"],
+        ["URL 이 등록된 곳", "Supabase Redirect URLs · Google OAuth 리디렉션 URI · 적립 알림 메일 링크 · Chat 관리자 알림 링크 · 클라이언트 번들"],
+        ["저장소", "[[개인 계정|주의]] [[public|주의]] `main` 하나, 마지막 push 2026-10-20"],
+        ["커밋하지 않은 변경", "[[알 수 없음]] 원격 저장소로 진단"]
+      ]}
+    ]}
+  ],
+  "unknowns": {
+    "count": 17,
+    "intro": "대부분 앱 담당자에게 물으면 풀린다. 콘솔 권한이 있는 사람이면 한 번에 여러 건이 확인된다.",
+    "rows": [
+      ["클라우드 콘솔", "GCP 프로젝트 ID와 소유 계정 · 운영 리비전 이미지 · 실행 서비스 계정 · 서버 사양 · 트래픽", "앱 담당자, GCP 관리자"],
+      ["운영 설정", "운영 `.env` 키 목록 · Supabase URL·플랜·소유 · OAuth 클라이언트 위치 · 세아웍스 API 주소", "앱 담당자"],
+      ["예약 작업", "크론 호출자 · 시트 동기화 주기", "앱 담당자"],
+      ["데이터", "저장소에 없는 마이그레이션 6개와 운영 DB 적용 상태 · 개발 DB 존재 여부", "앱 담당자"],
+      ["소유 계정", "구글시트 · Chat 스페이스 · SMTP · GA 속성", "앱 담당자"],
+      ["사용", "사용자 수 · 휴대폰 접속 · 커스텀 도메인 · 공지·북마크", "앱 담당자, 운영 부서"],
+      ["작업 환경", "실제 배포 담당자 · 커밋하지 않은 변경", "앱 담당자"]
+    ]
+  },
+  "note": "2026-10-28 공개 저장소를 읽어 만든 진단이며 클라우드 콘솔은 조회하지 않았습니다."
+}
+</script>
+
+<script>
+(function () {
+  "use strict";
+  var TEMPLATE_VERSION = "1.0.0";
+  var PATHS = [
+    ["BYOR", "기존 저장소에 표준 파일을 얹는다"],
+    ["greenfield", "새 저장소로 다시 옮긴다"],
+    ["확인 필요", "판단할 정보가 모자란다"]
+  ];
+  var TONE = {
+    "충족": "ok", "됨": "ok", "자동": "ok", "있음": "ok", "소속": "ok", "설치됨": "ok",
+    "주의": "warn", "가능": "warn", "수동": "warn",
+    "미충족": "crit", "어려움": "crit", "없음": "crit"
+  };
+  function tone(word) { return TONE[String(word).trim()] || "unk"; }
+
+  function el(tag, cls, kids) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    (kids || []).forEach(function (k) { if (k != null) n.append(k); });
+    return n;
+  }
+  function chip(label, state) { var c = el("span", "chip " + tone(state)); c.textContent = label; return c; }
+
+  // 글자는 모두 textContent 로 넣는다. `코드` 와 [[칩]] 만 요소로 바꾼다.
+  function inline(text) {
+    var frag = document.createDocumentFragment();
+    var s = text == null ? "" : String(text);
+    var re = /`([^`]+)`|\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, i = 0, m;
+    while ((m = re.exec(s))) {
+      if (m.index > i) frag.append(document.createTextNode(s.slice(i, m.index)));
+      if (m[1] !== undefined) { var c = el("code"); c.textContent = m[1]; frag.append(c); }
+      else frag.append(chip(m[2], m[3] || m[2]));
+      i = re.lastIndex;
+    }
+    if (i < s.length) frag.append(document.createTextNode(s.slice(i)));
+    return frag;
+  }
+  function txt(tag, cls, text) { return el(tag, cls, [inline(text)]); }
+
+  function header(r) {
+    var left = el("div", null, [
+      el("div", "eyebrow", [r.sample ? txt("span", "sample", "샘플") : null]),
+      el("h1", null, [txt("span", "pre", "앱 이관 현황 진단 :"), document.createTextNode(" " + (r.app || ""))]),
+      r.summary ? txt("div", "sub", r.summary) : null
+    ]);
+    var meta = el("div", "meta");
+    (r.meta || []).forEach(function (kv) { meta.append(txt("span", null, kv[0]), txt("b", null, kv[1])); });
+    return el("header", "top", [left, meta]);
+  }
+
+  function verdict(p) {
+    p = p || {};
+    var paths = el("div", "paths");
+    PATHS.forEach(function (x) {
+      var row = el("div", "path" + (x[0] === p.opinion ? " on" : ""), [txt("span", "k", x[0]), txt("span", "d", x[1])]);
+      paths.append(row);
+    });
+    var left = el("div", "v-left", [txt("div", "v-label", "이관 경로 1차 의견"), paths, txt("div", "v-note", "최종 결정은 플랫폼개발팀이 한다.")]);
+    var reasons = el("div", "reasons");
+    (p.reasons || []).forEach(function (x) {
+      reasons.append(el("div", "reason", [txt("span", "n", x.name), el("span", null, [chip(x.state, x.state)]), txt("p", null, x.text)]));
+    });
+    var right = el("div", "v-right", [txt("h2", null, p.headline || ""), p.summary ? txt("p", "v-summary", p.summary) : null, reasons]);
+    return el("section", "verdict", [left, right]);
+  }
+
+  function precheck(c) {
+    c = c || {};
+    var rows = [
+      ["프로젝트 정보", c.project], ["실행 계정명", c.runner], ["조직 소속 여부", c.org],
+      ["Terroir 플러그인", c.plugins, c.plugins_detail], ["도커라이징 여부", c.docker]
+    ];
+    var kv = el("div", "kv");
+    rows.forEach(function (x) {
+      var v = el("div", "v", [inline(x[1] == null ? "[[알 수 없음]]" : x[1])]);
+      if (x[2]) v.append(txt("div", "detail", x[2]));
+      kv.append(txt("div", "k", x[0]), v);
+    });
+    var h = el("h2", null, [document.createTextNode("사전 체크 "), txt("small", null, "진단을 실행한 사람 기준")]);
+    return el("section", "panel", [h, kv]);
+  }
+
+  function signals(list) {
+    var ul = el("ul", "signals");
+    (list || []).forEach(function (x) {
+      ul.append(el("li", null, [el("span", null, [chip(x.label, x.state)]), el("span", null, [inline(x.title), x.note ? txt("small", null, x.note) : null])]));
+    });
+    if (!ul.children.length) ul.append(txt("li", "empty", "확인된 신호가 없다."));
+    var h = el("h2", null, [document.createTextNode("먼저 볼 신호 "), txt("small", null, "코드에서 확인한 사실")]);
+    return el("section", "panel", [h, ul]);
+  }
+
+  var diagrams = [];
+  function block(b) {
+    switch (b.type) {
+      case "text": return txt("p", null, b.text);
+      case "sub": return txt("h3", null, b.text);
+      case "note": return txt("div", "callout", b.text);
+      case "list": return el("ul", null, (b.items || []).map(function (t) { return txt("li", null, t); }));
+      case "kv": {
+        var kv = el("div", "kv");
+        (b.items || []).forEach(function (x) { kv.append(txt("div", "k", x[0]), el("div", "v", [inline(x[1])])); });
+        return kv;
+      }
+      case "table": {
+        var thead = el("thead", null, [el("tr", null, (b.head || []).map(function (h) { return txt("th", null, h); }))]);
+        var tbody = el("tbody", null, (b.rows || []).map(function (row) {
+          return el("tr", null, row.map(function (cell, i) { return txt("td", i === b.src_col ? "src" : null, cell); }));
+        }));
+        return el("div", "tbl", [el("table", null, [thead, tbody])]);
+      }
+      case "diagram": {
+        var pre = el("pre", "mermaid"); pre.textContent = b.code || "";
+        diagrams.push(pre);
+        return el("div", "diagram", [pre]);
+      }
+      default: return b.text ? txt("p", null, b.text) : null;
+    }
+  }
+
+  function sections(r) {
+    var toc = el("nav", "toc", [txt("div", "h", "상세")]);
+    toc.setAttribute("aria-label", "목차");
+    var wrap = el("div", "sections");
+    (r.sections || []).forEach(function (s, i) {
+      var id = "s" + (s.no != null ? s.no : i + 1);
+      var h = el("h2", null, [txt("span", "no", String(s.no != null ? s.no : "")), document.createTextNode(s.title || "")]);
+      if (s.verdict) h.append(chip(s.verdict, s.verdict));
+      var sec = el("section", "s", [h].concat((s.blocks || []).map(block)));
+      sec.id = id;
+      wrap.append(sec);
+      var a = el("a"); a.href = "#" + id; a.textContent = (s.no != null ? s.no + " " : "") + (s.title || "");
+      toc.append(a);
+    });
+    var u = r.unknowns;
+    if (u) {
+      var h = el("h2", null, [document.createTextNode("알 수 없음 "), txt("span", "no num", (u.count != null ? u.count : (u.rows || []).length) + "건")]);
+      var tbl = block({ type: "table", head: ["묶음", "항목", "누구에게"], rows: u.rows || [] });
+      var sec = el("section", "s", [h, u.intro ? txt("p", null, u.intro) : null, tbl]);
+      sec.id = "unknowns";
+      wrap.append(sec);
+      var a = el("a"); a.href = "#unknowns"; a.textContent = "알 수 없음 " + (u.count != null ? u.count : (u.rows || []).length) + "건";
+      toc.append(a);
+    }
+    return el("div", "detail-grid", [toc, wrap]);
+  }
+
+  function footer(r) {
+    return el("footer", "foot", [txt("span", null, (r.note ? r.note + " " : "") + "이관 경로는 1차 의견입니다."), txt("span", "mono", "app-diagnosis 리포트 틀 " + TEMPLATE_VERSION)]);
+  }
+
+  function isDark() {
+    var t = document.documentElement.getAttribute("data-theme");
+    if (t) return t === "dark";
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  // 아티팩트는 mermaid 를 자체로 그린다. 로컬 파일이면 라이브러리를 불러 그리고, 못 불러오면 원문을 그대로 둔다.
+  function drawDiagrams() {
+    if (!diagrams.length) return;
+    function run() {
+      try {
+        window.mermaid.initialize({ startOnLoad: false, securityLevel: "strict", theme: isDark() ? "dark" : "neutral" });
+        window.mermaid.run({ nodes: diagrams.filter(function (n) { return !n.getAttribute("data-processed"); }) });
+      } catch (e) { /* 원문 유지 */ }
+    }
+    if (window.mermaid) return run();
+    var sc = document.createElement("script");
+    sc.src = "https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js";
+    sc.onload = run;
+    document.head.append(sc);
+  }
+
+  var app = document.getElementById("app");
+  var r;
+  try { r = JSON.parse(document.getElementById("report").textContent); }
+  catch (e) { app.append(txt("p", "empty", "리포트 데이터를 읽지 못했습니다. JSON 형식을 확인하세요: " + e.message)); return; }
+  if (r.app) document.title = "앱 이관 현황 진단 : " + r.app;
+  app.append(header(r), verdict(r.path), el("div", "two", [precheck(r.precheck), signals(r.signals)]), sections(r), footer(r));
+  drawDiagrams();
+})();
+</script>
