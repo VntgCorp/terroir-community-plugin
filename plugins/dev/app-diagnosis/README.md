@@ -42,7 +42,7 @@
 
 결과는 디자인이 고정된 리포트 한 장이다. 맨 위에 이관 경로 1차 의견과 근거, 사전 체크, 먼저 볼 신호가 있고 그 아래에 1~8 절이 있다.
 
-- 샘플: https://claude.ai/artifact/LTgr9xsL3wJ3WV7q4K61QN — V.Together 를 진단한 예시
+- 샘플: https://claude.ai/artifact/LTgr9xsL3wJ3WV7q4K61QN — 가상의 앱으로 만든 예시
 - 틀: `skills/app-diagnosis/references/report-template.html` — 조사 안내 · 판단 규칙 · 디자인의 원본. 진단 데이터는 JSON 칸에만 들어간다
 
 전달 경로로 받은 담당자의 AI 는 틀의 GitHub 공개 주소를 읽어 같은 모양으로 만든다. 주소를 읽지 못하면 진행하지 않고 그렇다고 답한다.

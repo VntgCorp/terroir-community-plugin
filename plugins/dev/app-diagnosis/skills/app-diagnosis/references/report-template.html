@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>앱 이관 현황 진단 : V.Together</title>
+<title>앱 이관 현황 진단 : 회의실 예약</title>
 <!--
   app-diagnosis 리포트 틀
   이 파일 하나에 조사 안내 · 판단 규칙 · 리포트 디자인이 들어 있다. 진단하는 AI 는 이 주석부터 읽고 따른다.
@@ -58,7 +58,7 @@
     묶음 · 항목 · 누구에게 물을지. count 는 항목 수
 
   ■ 채우는 법
-    1. 맨 아래 id 가 report 인 JSON 스크립트 칸 안의 JSON 만 바꾼다. 칸 이름은 지금 들어 있는 V.Together 예시와 같게 쓰고 sample 칸은 지운다
+    1. 맨 아래 id 가 report 인 JSON 스크립트 칸 안의 JSON 만 바꾼다. 칸 이름은 지금 들어 있는 가상 예시와 같게 쓰고 sample 칸은 지운다
     2. 위 <title> 의 앱 이름을 바꾼다
     3. JSON 문자열 안에 꺾쇠와 빗금이 붙은 닫는 태그 모양이 나오면 빗금 앞에 역빗금을 넣는다. 그대로 두면 JSON 칸이 거기서 닫힌다
     4. 그 밖의 줄은 고치지 않는다
@@ -209,142 +209,409 @@ td.src{color:var(--muted);font-size:12.5px}
 <script type="application/json" id="report">
 {
   "sample": true,
-  "app": "V.Together",
-  "summary": "VNTG 임직원용 ESG 참여 플랫폼. 기부, 이벤트·챌린지 인증, 포인트, 상점, 경매, 공지",
+  "app": "회의실 예약",
+  "summary": "사내 회의실을 조회하고 예약하는 웹앱. 틀을 설명하려고 만든 가상의 예시입니다",
   "meta": [
-    ["진단일", "2026-10-28"],
-    ["진단 방식", "원격 저장소 직접 진단"],
-    ["소스", "github.com/sky1117-kim/VTOGETHER"]
+    [
+      "진단일",
+      "2026-10-01"
+    ],
+    [
+      "진단 방식",
+      "로컬 폴더 직접 진단"
+    ],
+    [
+      "소스",
+      "github.com/example-user/room-booking"
+    ]
   ],
   "path": {
     "opinion": "BYOR",
-    "headline": "git 저장소와 운영 중인 컨테이너가 있어 그대로 옮길 수 있다",
-    "summary": "Dockerfile 로 만든 컨테이너 하나를 Cloud Run 에서 돌리는 Next.js 앱이다. 특정 서비스 안에서만 도는 코드는 없다. 저장소가 개인 계정에 있고, 데이터와 로그인은 모두 Supabase 에 있다.",
+    "headline": "git 저장소가 있고 두 앱 모두 컨테이너로 만들 수 있어 그대로 옮길 수 있다",
+    "summary": "API 서버와 정적 화면 두 앱이 한 저장소에 있다. 서버는 Dockerfile 로 실행할 수 있고, 화면은 Dockerfile 이 없지만 정적 빌드라 만들 수 있다. 저장소가 개인 계정에 있고 업로드 파일을 서버 디스크에 둔다.",
     "reasons": [
-      { "name": "소스 위치", "state": "주의", "text": "git 저장소 있음. 개인 계정 `sky1117-kim` 소유이고 public 이다. 보안 점검 문서 3개가 커밋되어 있다." },
-      { "name": "컨테이너 실행", "state": "충족", "text": "멀티 스테이지 Dockerfile, Next.js standalone, 포트 8080. 이 이미지를 Cloud Build 로 빌드해 배포하는 스크립트가 있다." },
-      { "name": "앱 형태", "state": "충족", "text": "HTTP 요청을 받는 서버 하나. 저장소에 앱 하나. 예약 작업은 앱 안의 HTTP 엔드포인트 2개를 외부에서 부르는 방식이다." },
-      { "name": "플랫폼 종속", "state": "주의", "text": "실행은 일반 Node 서버다. DB·인증·파일 저장은 Supabase, 구글시트는 Cloud Run 서비스 계정의 기본 인증에 기대고 있다." }
+      {
+        "name": "소스 위치",
+        "state": "주의",
+        "text": "git 저장소 있음. 개인 계정 `example-user` 소유, private 이다."
+      },
+      {
+        "name": "컨테이너 실행",
+        "state": "주의",
+        "text": "`apps/api` 에 Dockerfile 이 있다. `apps/web` 은 없지만 Vite 정적 빌드라 만들 수 있다."
+      },
+      {
+        "name": "앱 형태",
+        "state": "충족",
+        "text": "HTTP API 서버 하나와 정적 화면 하나로 나뉘어 따로 실행된다."
+      },
+      {
+        "name": "플랫폼 종속",
+        "state": "충족",
+        "text": "Node.js 20 과 PostgreSQL 만 쓴다. 특정 서비스 안에서만 도는 코드는 없다."
+      }
     ]
   },
   "precheck": {
-    "project": "V.Together · 원격 저장소 `sky1117-kim/VTOGETHER`",
-    "runner": "`Jsik94`",
-    "org": "[[소속]] VntgCorp · member",
-    "plugins": "[[설치됨]] 11개",
-    "plugins_detail": "project-context 1.1.34 · project-guide 1.4.12 · project-kickoff 1.1.10 · project-development 3.5.0 · project-deployment 1.2.9 · onboarding 1.6.2 외 5개",
-    "docker": "[[됨]] Dockerfile 로 운영 중"
+    "project": "회의실 예약 · `example-user/room-booking`",
+    "runner": "`example-user`",
+    "org": "[[미소속|주의]] VntgCorp 조직에 없음",
+    "plugins": "[[없음]] Terroir 플러그인이 설치되어 있지 않음",
+    "docker": "[[가능]] 앱 2개 중 1개에 Dockerfile"
   },
   "signals": [
-    { "label": "없음", "state": "미충족", "title": "로그인 없이 200 을 주는 헬스체크 주소", "note": "비로그인 요청은 모두 `/login` 으로 리다이렉트된다" },
-    { "label": "6곳", "state": "주의", "title": "서버가 multipart 로 받는 업로드", "note": "Server Action 이 `FormData` 를 받아 Storage 로 올린다" },
-    { "label": "빌드 시", "state": "주의", "title": "클라이언트에 박히는 환경변수", "note": "`NEXT_PUBLIC_SUPABASE_*` · `NEXT_PUBLIC_APP_URL`" },
-    { "label": "누락", "state": "주의", "title": "마이그레이션 번호 001 · 012 · 013 · 015 · 054 · 055", "note": "코드 주석은 054 를 언급한다" },
-    { "label": "수동", "state": "주의", "title": "배포 파이프라인", "note": "CI 없이 로컬 PC 에서 스크립트로 배포한다. 테스트도 없다" }
+    {
+      "label": "로컬 디스크",
+      "state": "주의",
+      "title": "예약 첨부 파일을 서버 디스크에 저장",
+      "note": "`apps/api/uploads/` 에 쓴다. 인스턴스가 늘면 파일이 갈린다"
+    },
+    {
+      "label": "없음",
+      "state": "미충족",
+      "title": "화면 앱의 Dockerfile",
+      "note": "`apps/web` 은 정적 빌드 결과만 있다"
+    },
+    {
+      "label": "수동",
+      "state": "주의",
+      "title": "배포 파이프라인",
+      "note": "VM 에 접속해 `git pull` 과 `pm2 restart` 로 배포한다"
+    },
+    {
+      "label": "고정값",
+      "state": "주의",
+      "title": "설정 파일에 DB 주소가 고정",
+      "note": "`apps/api/src/config.ts` 에 호스트가 적혀 있다. 비밀번호는 `.env`"
+    }
   ],
   "sections": [
-    { "no": 1, "title": "기술 스택", "blocks": [
-      { "type": "table", "head": ["구분", "내용", "근거"], "src_col": 2, "rows": [
-        ["언어", "TypeScript 5", "package.json"],
-        ["프레임워크", "Next.js 16.4 App Router · Server Actions · Middleware, React 19.2", "package.json, app/"],
-        ["런타임", "Node.js 20 `node:20-bookworm-slim`", "Dockerfile"],
-        ["패키지 관리", "npm, `package-lock.json`", "Dockerfile:11"],
-        ["화면", "Tailwind CSS 4, recharts, TipTap, dnd-kit", "package.json"],
-        ["데이터 접근", "`@supabase/supabase-js`, `@supabase/ssr`. PostgREST 쿼리와 Postgres RPC", "lib/supabase/"],
-        ["인증", "Supabase Auth + Google OAuth, `vntgcorp.com` 도메인 제한", "app/auth/login/route.ts:14"],
-        ["외부 연동", "google-auth-library, nodemailer, Google Chat Webhook, Google Analytics", "lib/"],
-        ["테스트 · CI", "[[없음|알 수 없음]] ESLint 만 있다", "eslint.config.mjs"]
-      ]}
-    ]},
-    { "no": 2, "title": "아키텍처", "blocks": [
-      { "type": "text", "text": "별도 백엔드 없이 Next.js 서버 기능이 백엔드를 맡는다. 포인트·재고가 걸린 처리는 Postgres 함수 6개가 원자적으로 처리하고, 접근 제어는 RLS 정책에 있다." },
-      { "type": "diagram", "code": "flowchart LR\n  U[사용자 브라우저] -->|HTTPS| CR[Cloud Run vtogether<br/>Next.js :8080]\n  U -->|인증 사진 직접 업로드| ST[(Supabase Storage)]\n  U -->|Google OAuth| AU[Supabase Auth]\n  CR --> DB[(Supabase Postgres<br/>테이블 29 · RPC 6)]\n  CR -->|FormData 업로드| ST\n  SC[크론 호출자<br/>저장소에 설정 없음] -->|Bearer| CR\n  CR --> SEAH[세아웍스 인사 API]\n  CR --> GS[Google Sheets]\n  CR --> GC[Google Chat Webhook 2]\n  CR --> MAIL[SMTP]\n  SM[GCP Secret Manager] -.-> CR" },
-      { "type": "sub", "text": "DB" },
-      { "type": "list", "items": [
-        "Supabase 관리형 PostgreSQL. 주요 테이블 29개: 사용자, 포인트, 기부, 이벤트, 건강 챌린지, 상점, 경매, 공지, 세아웍스 조직 스냅샷",
-        "스키마 `docs/database-schema.sql`, 마이그레이션 `docs/migrations/` 002 ~ 063"
-      ]}
-    ]},
-    { "no": 3, "title": "앱 구조와 실행 형태", "blocks": [
-      { "type": "table", "head": ["항목", "내용"], "rows": [
-        ["저장소 구조", "앱 하나. `app/` 라우트, `api/actions` · `api/queries` 서버 계층, `lib/` 연동, `docs/` 스키마와 마이그레이션"],
-        ["빌드 · 시작", "`npm ci` → `npm run build`, 컨테이너는 `node server.js`"],
-        ["포트", "컨테이너 8080, 로컬 개발 3000"],
-        ["상태 저장", "[[없음|충족]] 로컬 디스크에 파일·세션을 두지 않는다. 세션은 Supabase 쿠키, 파일은 Storage"],
-        ["파일 업로드", "두 방식이 섞여 있다. 브라우저 → Storage 직접 1곳, 서버 Server Action 이 `FormData` 로 받는 곳 6곳"],
-        ["헬스체크", "[[없음]] 비로그인 요청은 `/` 포함 307 로 `/login` 이동"],
-        ["빌드 메모리", "Cloud Build 가 메모리 부족으로 실패한 기록이 주석에 있고, `E2_HIGHCPU_8` 머신을 쓴다"]
-      ]},
-      { "type": "sub", "text": "정해진 시간에 도는 작업" },
-      { "type": "table", "head": ["작업", "엔드포인트", "주기", "호출자"], "rows": [
-        ["세아웍스 인사 동기화", "`GET /api/cron/seah-orgsync`", "하루 1회", "[[알 수 없음]]"],
-        ["상점 주문 → 구글시트", "`GET /api/cron/shop-orders-esg-sheet`", "매 N분", "[[알 수 없음]]"]
-      ]}
-    ]},
-    { "no": 4, "title": "도커라이징", "verdict": "됨", "blocks": [
-      { "type": "text", "text": "배포 단위가 되는 앱은 1개다. 예약 작업 2개는 같은 앱 안의 API 경로라 따로 세지 않았다." },
-      { "type": "table", "head": ["앱", "경로", "역할", "Dockerfile", "없으면 가능 여부"], "rows": [
-        ["vtogether", "`/`", "화면과 서버를 함께 내는 Next.js 앱", "[[있음]] `Dockerfile`", "해당 없음"]
-      ]},
-      { "type": "note", "text": "이 Dockerfile 로 만든 이미지를 Cloud Build 로 빌드해 Cloud Run 에 배포하고 있다. `scripts/` 의 동기화·PPT 생성 스크립트는 앱이 아니라 보조 도구다." }
-    ]},
-    { "no": 5, "title": "배포 파이프라인", "verdict": "수동", "blocks": [
-      { "type": "table", "head": ["항목", "지금 상태", "근거"], "src_col": 2, "rows": [
-        ["배포 방법", "로컬 PC 에서 `npm run deploy` 실행 → Cloud Build 가 Dockerfile 로 빌드 → Cloud Run 배포. 이어서 세아웍스 동기화를 로컬에서 실행", "scripts/deploy.sh"],
-        ["CI/CD", "[[없음|알 수 없음]] `.github/` 디렉토리가 없다", "저장소 루트"],
-        ["이미지 저장", "Artifact Registry `cloud-run-source-deploy/vtogether`", "cloudbuild.yaml"],
-        ["비밀값 주입", "로컬 `.env` 가 원본. Secret Manager 에 등록한 값은 `--set-secrets`, 없으면 평문 환경변수로 넘기고 경고만 남긴다", "scripts/deploy.sh:96"],
-        ["환경별 배포 대상", "운영 Cloud Run 하나만 확인된다. 개발용 배포 대상은 [[알 수 없음]]", "scripts/deploy.sh"],
-        ["배포 담당", "[[알 수 없음]]", ""]
-      ]}
-    ]},
-    { "no": 6, "title": "외부 리소스", "blocks": [
-      { "type": "table", "head": ["리소스", "용도", "설정 위치", "소유 계정"], "rows": [
-        ["Supabase", "DB · Auth · Storage `event-verification`", "`NEXT_PUBLIC_SUPABASE_*`, `SUPABASE_SERVICE_ROLE_KEY`", "[[알 수 없음]]"],
-        ["Google OAuth 클라이언트", "Supabase Auth 의 구글 로그인", "Supabase 대시보드", "[[알 수 없음]]"],
-        ["GCP 프로젝트", "Cloud Run · Cloud Build · Artifact Registry · Secret Manager", "`scripts/deploy.sh`, `cloudbuild.yaml`", "[[알 수 없음]]"],
-        ["Secret Manager", "비밀값 8개 주입", "`scripts/setup-secrets.sh`", "위 GCP 프로젝트"],
-        ["세아웍스 인사 API", "직원·조직도 동기화", "`SEAH_ORGSYNC_*`", "그룹웨어서비스팀 발급"],
-        ["Google Sheets", "상점 주문 기록", "`GOOGLE_SHEETS_*`, Cloud Run 서비스 계정 기본 인증", "[[알 수 없음]]"],
-        ["Google Chat Webhook 2개", "에러 알림 · 관리자 승인 대기 알림", "`GOOGLE_CHAT_*_WEBHOOK_URL`", "[[알 수 없음]]"],
-        ["SMTP", "포인트 적립 알림 메일", "`SMTP_*`, `MAIL_FROM`", "[[개인 계정 의심|주의]]"],
-        ["Google Analytics", "접속 분석", "`NEXT_PUBLIC_GA_MEASUREMENT_ID`", "[[알 수 없음]]"]
-      ]},
-      { "type": "note", "text": "코드에서 쓰는데 `.env.example` 에 없는 키가 있다. Supabase service role, Chat Webhook, SMTP, GA 측정 ID 등이다." }
-    ]},
-    { "no": 7, "title": "운영 현황", "blocks": [
-      { "type": "table", "head": ["항목", "지금 상태"], "rows": [
-        ["DB 공유", "코드는 `.env` 와 `.env.local` 로 나눈다. 개발과 운영이 같은 DB 를 쓰는지는 [[알 수 없음]]"],
-        ["DB 마이그레이션", "SQL 파일을 Supabase SQL Editor 에 손으로 순서대로 실행. 적용 이력이 남지 않는다"],
-        ["사용자", "`vntgcorp.com` 구글 계정만 로그인. 규모는 [[알 수 없음]]"],
-        ["트래픽", "[[알 수 없음]] 볼 곳: Cloud Run 측정항목, Google Analytics, 관리자 MAU 화면 `/admin`"],
-        ["서버 사양", "배포 스크립트에 CPU·메모리·인스턴스 지정이 없다. 콘솔 값은 [[알 수 없음]]"]
-      ]}
-    ]},
-    { "no": 8, "title": "주소와 저장소", "blocks": [
-      { "type": "kv", "items": [
-        ["서비스 URL", "`vtogether-899896571605.asia-northeast3.run.app`"],
-        ["커스텀 도메인", "[[알 수 없음]]"],
-        ["URL 이 등록된 곳", "Supabase Redirect URLs · Google OAuth 리디렉션 URI · 적립 알림 메일 링크 · Chat 관리자 알림 링크 · 클라이언트 번들"],
-        ["저장소", "[[개인 계정|주의]] [[public|주의]] `main` 하나, 마지막 push 2026-10-20"],
-        ["커밋하지 않은 변경", "[[알 수 없음]] 원격 저장소로 진단"]
-      ]}
-    ]}
+    {
+      "no": 1,
+      "title": "기술 스택",
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            "구분",
+            "내용",
+            "근거"
+          ],
+          "src_col": 2,
+          "rows": [
+            [
+              "언어",
+              "TypeScript 5",
+              "package.json"
+            ],
+            [
+              "서버",
+              "Express 4, Prisma 5",
+              "apps/api/package.json"
+            ],
+            [
+              "화면",
+              "React 18, Vite 5",
+              "apps/web/package.json"
+            ],
+            [
+              "런타임",
+              "Node.js 20",
+              "apps/api/Dockerfile"
+            ],
+            [
+              "패키지 관리",
+              "pnpm workspace",
+              "pnpm-workspace.yaml"
+            ],
+            [
+              "외부 연동",
+              "nodemailer, googleapis(Calendar)",
+              "apps/api/src/"
+            ],
+            [
+              "테스트 · 린트",
+              "Vitest 일부, ESLint",
+              "apps/api/vitest.config.ts"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "title": "아키텍처",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "정적 화면이 API 서버를 부르고, API 서버가 같은 VM 의 PostgreSQL 과 외부 서비스를 부른다."
+        },
+        {
+          "type": "diagram",
+          "code": "flowchart LR\n  U[사용자 브라우저] --> WEB[web 정적 화면]\n  U -->|/api| API[api 서버 :4000]\n  API --> DB[(PostgreSQL<br/>같은 VM)]\n  API --> DISK[(uploads/<br/>로컬 디스크)]\n  API --> MAIL[SMTP]\n  API --> CAL[Google Calendar API]\n  API --> CHAT[Slack Webhook]"
+        },
+        {
+          "type": "sub",
+          "text": "DB"
+        },
+        {
+          "type": "list",
+          "items": [
+            "PostgreSQL 15. 주요 테이블: `rooms`, `reservations`, `users`, `attachments`",
+            "스키마와 마이그레이션 `apps/api/prisma/`"
+          ]
+        }
+      ]
+    },
+    {
+      "no": 3,
+      "title": "앱 구조와 실행 형태",
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            "항목",
+            "내용"
+          ],
+          "rows": [
+            [
+              "저장소 구조",
+              "pnpm 모노레포. `apps/api` 서버, `apps/web` 화면"
+            ],
+            [
+              "빌드 · 시작",
+              "`pnpm build` → api 는 `node dist/main.js`, web 은 `dist/` 정적 파일"
+            ],
+            [
+              "포트",
+              "api 4000. web 은 VM 의 nginx 가 80 으로 서빙"
+            ],
+            [
+              "상태 저장",
+              "[[로컬 디스크|주의]] 첨부 파일을 `uploads/` 에 저장. 세션은 JWT 라 서버에 두지 않는다"
+            ],
+            [
+              "파일 업로드",
+              "서버가 multer 로 multipart 폼을 받는다. `apps/api/src/routes/attachments.ts`"
+            ],
+            [
+              "예약 작업",
+              "매일 09:00 예약 알림 메일. API 프로세스 안의 node-cron 이 돌린다"
+            ],
+            [
+              "헬스체크",
+              "[[있음]] `GET /health` 가 로그인 없이 200"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "no": 4,
+      "title": "도커라이징",
+      "verdict": "가능",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "배포 단위가 되는 앱은 2개다. 예약 알림은 API 프로세스 안에서 돌아 따로 세지 않았다."
+        },
+        {
+          "type": "table",
+          "head": [
+            "앱",
+            "경로",
+            "역할",
+            "Dockerfile",
+            "없으면 가능 여부"
+          ],
+          "rows": [
+            [
+              "api",
+              "`apps/api`",
+              "HTTP API 서버",
+              "[[있음]] `apps/api/Dockerfile`",
+              "해당 없음"
+            ],
+            [
+              "web",
+              "`apps/web`",
+              "정적 화면",
+              "[[없음|주의]]",
+              "[[가능]] Vite 정적 빌드. 런타임과 빌드 명령이 분명하다"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "no": 5,
+      "title": "배포 파이프라인",
+      "verdict": "수동",
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            "항목",
+            "지금 상태",
+            "근거"
+          ],
+          "src_col": 2,
+          "rows": [
+            [
+              "배포 방법",
+              "VM 에 ssh 로 접속해 `git pull` → `pnpm build` → `pm2 restart api`",
+              "docs/deploy.md"
+            ],
+            [
+              "CI/CD",
+              "[[없음|알 수 없음]] CI 설정 파일이 없다",
+              "저장소 루트"
+            ],
+            [
+              "빌드 결과 저장",
+              "VM 의 `dist/`. 이미지 레지스트리는 쓰지 않는다",
+              "docs/deploy.md"
+            ],
+            [
+              "비밀값 주입",
+              "VM 의 `.env` 파일",
+              "apps/api/src/config.ts"
+            ],
+            [
+              "환경별 배포 대상",
+              "운영 VM 하나. 개발 환경은 각자 로컬",
+              "docs/deploy.md"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "no": 6,
+      "title": "외부 리소스",
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            "리소스",
+            "용도",
+            "설정 위치",
+            "소유 계정"
+          ],
+          "rows": [
+            [
+              "PostgreSQL",
+              "예약 데이터",
+              "`DATABASE_URL`",
+              "운영 VM 과 같은 서버"
+            ],
+            [
+              "SMTP",
+              "예약 알림 메일",
+              "`SMTP_*`",
+              "[[개인 계정 의심|주의]]"
+            ],
+            [
+              "Google Calendar API",
+              "회의실 일정 동기화",
+              "`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`",
+              "[[알 수 없음]]"
+            ],
+            [
+              "Slack Webhook",
+              "예약 변경 알림",
+              "`SLACK_WEBHOOK_URL`",
+              "[[알 수 없음]]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "no": 7,
+      "title": "운영 현황",
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            "항목",
+            "지금 상태"
+          ],
+          "rows": [
+            [
+              "DB 공유",
+              "개발은 각자 로컬 DB. 운영 DB 와 섞이지 않는다"
+            ],
+            [
+              "DB 마이그레이션",
+              "`prisma migrate deploy` 를 배포 때 손으로 실행. 이력은 Prisma 테이블에 남는다"
+            ],
+            [
+              "사용자",
+              "약 120명. 사무실 안에서만 쓴다고 담당자가 답했다"
+            ],
+            [
+              "트래픽",
+              "[[알 수 없음]] 볼 수 있는 화면이 없다"
+            ],
+            [
+              "서버 사양",
+              "VM 2 vCPU · 4GB 하나. 담당자 답변"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "no": 8,
+      "title": "주소와 저장소",
+      "blocks": [
+        {
+          "type": "kv",
+          "items": [
+            [
+              "서비스 URL",
+              "`room-booking.example.com`"
+            ],
+            [
+              "URL 이 등록된 곳",
+              "Google OAuth 리디렉션 URI · 알림 메일 본문 링크 · 사내 공지"
+            ],
+            [
+              "저장소",
+              "[[개인 계정|주의]] [[private|충족]] `main` 하나"
+            ],
+            [
+              "커밋하지 않은 변경",
+              "없음"
+            ]
+          ]
+        }
+      ]
+    }
   ],
   "unknowns": {
-    "count": 17,
-    "intro": "대부분 앱 담당자에게 물으면 풀린다. 콘솔 권한이 있는 사람이면 한 번에 여러 건이 확인된다.",
+    "count": 5,
+    "intro": "앱 담당자와 VM 관리자에게 물으면 풀린다.",
     "rows": [
-      ["클라우드 콘솔", "GCP 프로젝트 ID와 소유 계정 · 운영 리비전 이미지 · 실행 서비스 계정 · 서버 사양 · 트래픽", "앱 담당자, GCP 관리자"],
-      ["운영 설정", "운영 `.env` 키 목록 · Supabase URL·플랜·소유 · OAuth 클라이언트 위치 · 세아웍스 API 주소", "앱 담당자"],
-      ["예약 작업", "크론 호출자 · 시트 동기화 주기", "앱 담당자"],
-      ["데이터", "저장소에 없는 마이그레이션 6개와 운영 DB 적용 상태 · 개발 DB 존재 여부", "앱 담당자"],
-      ["소유 계정", "구글시트 · Chat 스페이스 · SMTP · GA 속성", "앱 담당자"],
-      ["사용", "사용자 수 · 휴대폰 접속 · 커스텀 도메인 · 공지·북마크", "앱 담당자, 운영 부서"],
-      ["작업 환경", "실제 배포 담당자 · 커밋하지 않은 변경", "앱 담당자"]
+      [
+        "외부 서비스",
+        "Google Calendar 클라이언트와 Slack Webhook 의 소유 계정",
+        "앱 담당자"
+      ],
+      [
+        "운영",
+        "트래픽 · 운영 VM 의 백업 여부",
+        "VM 관리자"
+      ],
+      [
+        "작업 환경",
+        "실제 배포 담당자",
+        "앱 담당자"
+      ]
     ]
   },
-  "note": "2026-10-28 공개 저장소를 읽어 만든 진단이며 클라우드 콘솔은 조회하지 않았습니다."
+  "note": "가상의 앱으로 만든 예시입니다. 실제 진단 결과가 아닙니다."
 }
 </script>
 
