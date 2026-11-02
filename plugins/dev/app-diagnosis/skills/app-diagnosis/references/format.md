@@ -7,7 +7,6 @@ Terroir 로 옮기려는 소스 코드가 있는 폴더에서 Claude Code 를 �
 이 프로젝트를 사내 개발 플랫폼 Terroir 로 옮기기 위해 현황 조사를 합니다. 프로젝트 이름: <앱 이름>
 조사 항목, 판단 규칙, 리포트 모양은 아래 틀 파일을 받아 그 안의 안내를 따르세요.
 - 틀: https://raw.githubusercontent.com/VntgCorp/terroir-community-plugin/main/plugins/dev/app-diagnosis/skills/app-diagnosis/references/report-template.html
-- 샘플 화면: https://claude.ai/artifact/LTgr9xsL3wJ3WV7q4K61QN
 틀을 받을 수 없으면 진행하지 말고 그렇다고 답하세요.
 
 - 결과와 마지막 응답은 한국어로 쓴다.
