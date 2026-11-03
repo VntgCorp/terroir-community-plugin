@@ -1,0 +1,7 @@
+{
+  "name": "app-diagnosis",
+  "description": "운영 중인 애플리케이션이 Terroir 로 들어올 수 있는지, BYOR 과 greenfield 중 어느 경로인지 가릴 수 있게 현황을 정리한다",
+  "version": "1.0.0",
+  "author": { "name": "정윤식" },
+  "metadata": { "owner": "Jsik94", "team": "플랫폼개발팀" }
+}
