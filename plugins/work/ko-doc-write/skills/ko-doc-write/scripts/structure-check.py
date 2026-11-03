@@ -35,7 +35,8 @@ def plain(title):
 
 def check(path):
     text = strip_code(open(path, encoding="utf-8").read())
-    text = re.sub(r"^---\n.*?\n---\n", "", text, flags=re.S)
+    # front matter 는 줄 수만큼 빈 줄로 바꾼다. 지우면 뒤의 행 번호가 그만큼 어긋난다
+    text = re.sub(r"^---\n.*?\n---\n", lambda m: "\n" * m.group(0).count("\n"), text, flags=re.S)
     lines = text.splitlines()
     heads = []
     for no, line in enumerate(lines, 1):
@@ -106,7 +107,54 @@ def check(path):
             "독자가 모를 약어만 골라 괄호로 풀어 씁니다"
         )
 
+    out += long_sentences(lines)
     return out
+
+
+# 한 문장 어절 수 상한. 벤더 문서 9개의 본문 문장 2,586개를 재 보니 25어절을 넘는 문장이
+# 0~2%(MDN 만 7%)였고 사내 문서 3묶음은 3.0~4.7%였다. 중앙값은 양쪽 다 9~11어절이라
+# 차이는 꼬리에서 난다 (2026-11-03, ko-style/sources.md 「문장 길이 실측」).
+LONG_SENTENCE = 25
+
+
+def long_sentences(lines):
+    """본문 단락·목록 항목에서 LONG_SENTENCE 어절을 넘는 문장을 행 번호와 함께 낸다."""
+    blocks, buf, start = [], [], 0
+    for no, line in enumerate(lines, 1):
+        s = line.strip()
+        item = re.match(r"^([-*+]|\d+\.)\s+", s)
+        if not s or s.startswith(("#", "|", ">", "<", "---")) or item:
+            if buf:
+                blocks.append((start, " ".join(buf)))
+            buf = []
+            if item:
+                buf, start = [s[item.end():]], no
+            continue
+        if not buf:
+            start = no
+        buf.append(s)
+    if buf:
+        blocks.append((start, " ".join(buf)))
+
+    found = []
+    for no, block in blocks:
+        block = re.sub(r"`[^`]*`", "X", block)
+        block = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", block)
+        block = re.sub(r"\*\*|__", "", block)  # 강조 기호가 마침표 뒤에 붙으면 문장이 안 나뉜다
+        # 문장 끝 — 「…다.」 「…다(예시).」 「…다」.」 뒤에서 나눈다
+        block = re.sub(r"([다요죠](?:\([^)]*\))?[)」]?)[.!?](?:\s+|$)", "\\1\n", block)
+        for sent in block.split("\n"):
+            # · → — 같은 기호만 있는 토막은 어절로 세지 않는다
+            words = [w for w in sent.split() if re.search(r"[가-힣A-Za-z0-9]", w)]
+            if len(words) > LONG_SENTENCE and re.search(r"[가-힣]", sent):
+                found.append(f"{no}행({len(words)}어절) 「{' '.join(words[:6])} …」")
+    if not found:
+        return []
+    return [
+        f"{LONG_SENTENCE}어절을 넘는 문장 {len(found)}개 — {', '.join(found[:10])}"
+        + (f" 외 {len(found) - 10}개" if len(found) > 10 else "")
+        + ". 생각이 둘이면 두 문장으로 나눕니다"
+    ]
 
 
 def main():

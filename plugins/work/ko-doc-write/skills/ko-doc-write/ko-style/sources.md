@@ -161,3 +161,106 @@ NHN 의 3건은 `사용자 환경에 더 적절한 방법이 있다면` · `애�
 | Google Cloud Storage — 소프트 삭제 (한국어, 명사 용어 대조용) | https://docs.cloud.google.com/storage/docs/soft-delete?hl=ko | 2026-10-06 |
 | NHN Cloud — Object Storage 콘솔 사용 가이드 | https://docs.nhncloud.com/ko/Storage/Object%20Storage/ko/console-guide/ | 2026-10-06 |
 | 네이버 클라우드 — Object Storage 개요 | https://guide.ncloud-docs.com/docs/storage-storage-6-1 | 2026-10-06 |
+
+## 2026-11-03 출처 확장
+
+### 1군에 더한 문서 — 지금 용어집에 없는 도메인
+
+본문을 열어 사람이 쓴 한국어인지 원문으로 확인했다. 25어절을 넘는 문장 비율도 기존 1군과 같은 범위다 (카카오 2.7% · 포트원 0%).
+
+| 문서 | URL | 도메인 | 종결 |
+|---|---|---|---|
+| 카카오 디벨로퍼스 — 카카오 로그인 이해하기 | https://developers.kakao.com/docs/ko/kakaologin/common | auth (인가 · 동의항목 · 액세스 토큰 · 리프레시 토큰) | `~합니다` |
+| 카카오 디벨로퍼스 — Android 시작하기 | https://developers.kakao.com/docs/ko/android/getting-started | mobile (키 해시 · 키스토어 · 인터넷 사용 권한) | `~합니다` |
+| 포트원 개발자센터 — 결제창 연동 | https://developers.portone.io/opi/ko/integration/start/v2/checkout | payment (인증 결제 · 결제 완료 처리 · 가상계좌) | `~합니다` · `~해 주세요` |
+| 포트원 개발자센터 — 웹훅 | https://developers.portone.io/opi/ko/integration/webhook/readme-v2 | payment (웹훅 재전송 · 중복 결제 방지) | 〃 |
+
+확인한 원문 — 카카오 「토큰은 사용자의 인증과 권한 정보를 담은 문자열입니다.」, 포트원 「네트워크 문제나 고객사 오류 등으로 웹훅이 실패할 경우 최대 5회까지 웹훅을 재전송합니다.」
+포트원은 「~하여야 합니다」 반복과 「30초 입니다」 같은 띄어쓰기 오류가 있어 **명사와 서술 구조만** 가져오고 종결은 토스페이먼츠와 대조한다.
+
+### 명사 대조용으로만 쓰는 문서
+
+| 문서 | URL | 쓰는 도메인 | 문장을 가져오지 않는 이유 |
+|---|---|---|---|
+| Samsung Cloud Platform | https://docs.e.samsungsdscloud.com/userguide/ai_ml/ai_ml_ops_platform/overview/ | ml · data | 「기 생성된 클러스터명과 중복되면 안됩니다」 같은 한자어 투와 「~설정이 가능합니다」 명사화 종결이 많다 |
+| Python 공식 문서 한국어 | https://docs.python.org/ko/3/glossary.html | 언어 일반 | 「어트리뷰트」(MDN 은 「속성」) 처럼 다른 출처와 용어가 다르고 번역투가 강하다 |
+| PyTorch 한국어 튜토리얼 | https://tutorials.pytorch.kr/beginner/basics/intro.html | ml | 커뮤니티 번역. 조사 호응이 어긋난 문장이 있다 |
+| Hugging Face Transformers 한국어 | https://huggingface.co/docs/transformers/ko/quicktour | ml | 한 페이지에서 「태스크」·「과업」·「작업」을 섞는다 |
+
+ml 은 1군이 없다. 세 곳에서 같은 명사가 나오는지 교차 확인한 뒤에만 용어집에 넣는다.
+
+### 블로그 — 블로그 글의 소제목·서술 대조용
+
+| 문서 | URL | 비고 |
+|---|---|---|
+| 토스 기술 블로그 — DW Airflow 이전 | https://toss.tech/article/dw-airflow-migration | data 서술. 소제목이 문장이라 참조·학습 문서 제목 형식으로는 쓰지 않는다 |
+| 우아한형제들 기술블로그 | https://techblog.woowahan.com/26832/ | 소제목이 명사구다. 「조용히 잠들어 있을 뿐입니다」 같은 비유는 가져오지 않는다 |
+
+### 열지 못해 보류한 출처
+
+품질 판정이 아니다. 다음에 다시 열어 본다.
+
+| 출처 | 결과 (2026-11-03) |
+|---|---|
+| 네이버 디벨로퍼스 | WebFetch 가 도메인을 차단한다 |
+| LINE Developers 한국어 | 403 |
+| KT Cloud 매뉴얼 | JavaScript 로 그려 본문이 오지 않는다 |
+| Android Developers `?hl=ko` | 영어 원문이 온다 |
+| 카카오페이 개발자센터 | 메뉴만 온다 |
+
+Flutter 는 한국어판이 없고 Spring 은 공식 한국어 문서를 찾지 못했다.
+
+## 어휘 기준 — 어려운 말을 쉬운 말로 (2026-11-03)
+
+벤더 문서는 「무엇이라고 부르는가」의 기준이고 아래 문서는 「어떤 말이 쉬운가」의 기준이다.
+`glossary-core.tsv` 끝의 「어려운 한자어·행정 투」 묶음이 여기서 나왔다.
+
+| 문서 | URL | 가져온 것 |
+|---|---|---|
+| 법제처 「알기 쉬운 법령 정비기준」 부록 「정비 권고 용어」 | https://www.moleg.go.kr/board.es?mid=a10108030000&bid=0001&act=view&list_no=146407 | 원래 말과 바꿀 말이 짝으로 있는 권고표. 치환 쌍 대부분의 출처 |
+| 국립국어원 「행정문서 표현 개선 및 쉬운 공공언어 쓰기 지침 개발」(2021) | https://www.korean.go.kr/front/reportData/reportDataView.do?mn_id=207&report_seq=1122 | 「한 문장에는 한두 가지의 정보만」(p101) · `의거 → 따라` · `상이하다 → 다르다` · 수는 만 단위로 띄어 쓰기 · 금액 `300만 원` |
+| 국립국어원 「바르고 쉬운 공공언어」 교재 | https://www.korean.go.kr/front/reportData/reportDataView.do?mn_id=207&report_seq=752 | 진단 항목 ⑬ 「핵심 내용 하나에 문장 하나」. 「문장이 무조건 짧아야 한다는 뜻은 아니다」 |
+| Microsoft Korean Localization Style Guide | https://download.microsoft.com/download/5/b/6/5b62389f-4e3b-4c77-bc18-94efba2fa7bb/kor-kor-StyleGuide.pdf | 2.1.2 수행·제공으로 명사를 꾸미지 않기 · 4.1.11 소유 표현을 존재 표현으로 · 4.1.7 수식어를 동사로 · 3.2 특수문자(`&` `+` `~`) 풀어 쓰기 · 4.1.2 약어 표기 형식 |
+| 국립국어원 외래어 표기법 | https://korean.go.kr/kornorms/regltn/regltnView.do?regltn_code=0003&regltn_no=262 | 제4항 파열음에 된소리를 쓰지 않는다 · 제5항 굳어진 외래어는 관용을 존중한다 |
+| 토스 「8가지 라이팅 원칙」 | https://toss.tech/article/8-writing-principles-of-toss | Easy to speak — 「한자어를 쓰거나, 문어체를 쓰거나, 호흡이 지나치게 긴 문장」을 줄인다 |
+
+**치환 쌍에서 뺀 것** — 출처에는 있지만 기술 문서에서 정상으로 쓰는 말이다.
+
+| 표현 | 이유 |
+|---|---|
+| 명시 | `명시적`(explicit) · `명시한 값` 이 기술 문서 표준 표현이다 |
+| 기타 · 신규 | 표·UI 라벨로 굳었다 (`기타 항목` · `신규 사용자`) |
+| 사전에 · 일시에 · 경과한 · 잔여 · 내역 | `사전 요구 사항` · `일시 중지` · `경과 시간` · `잔여 용량` · `청구 내역` 과 겹친다 |
+| 기재하다 · 조회하다 · 수신하다 · 완료하다 · 종료하다 | 권고안이 전자문서의 `기재하다` 를 허용하고 나머지는 API·상태값 용어다 |
+| 정정하다 | 사내 문서 13건이 모두 정상 용법이다 |
+| 금번 · 상기 · 하기 · 요망 | 원문에서 짝을 확인하지 못했다. 법제처의 `상기하다` 는 詳記, `하기` 는 夏期 라 다른 말이다 |
+
+**쓰지 않기로 한 어휘 출처**
+
+| 문서 | 이유 |
+|---|---|
+| 국립국어원 다듬은 말 | 18,329건 대부분이 생활 외래어(`리워드 → 보상 혜택`)다. 기술 용어에 적용하면 업계 표준 영어 용어를 그대로 쓰는 원칙과 충돌한다 |
+| KRDS(범정부 UI/UX 디자인 시스템) | 콘텐츠·UX 라이팅 규칙이 공개 페이지에 없다 |
+| TTA 정보통신용어사전 | `repository` 가 `저장소` · `레지스트리` · `리파지토리` 로 표준마다 다르다. 개념 정의를 확인하는 데만 쓴다 |
+
+## 문장 길이 실측 (2026-11-03)
+
+`structure-check.py` 의 25어절 기준이 여기서 나왔다. **공적 지침에는 숫자 기준이 없다** — 국립국어원은
+「핵심 내용 하나에 문장 하나」, Microsoft 는 「aim for one verb per sentence」 까지만 적는다.
+그래서 숫자는 벤더 문서를 재서 정했고 검사는 차단하지 않고 목록으로만 낸다.
+
+본문 단락·목록 항목만 세고 표·코드는 뺐다.
+
+| 묶음 | 문장 수 | 중앙값 | 25어절 초과 |
+|---|---|---|---|
+| Kubernetes 한국어 (파드 · 시크릿) | 496 | 10~11 | 1.0~2.0% |
+| NHN Cloud NKS | 1,538 | 9 | 1.3% |
+| 토스페이먼츠 API 키 | 114 | 9 | 0% |
+| React · Vue 한국어 | 229 | 9 | 1.2~1.4% |
+| 카카오클라우드 · 카카오 디벨로퍼스 · 포트원 | 453 | 9~14 | 0~2.7% |
+| MDN 한국어 CORS | 167 | 12 | 7.2% |
+| 사내 표준 문서 (terroir/docs) | 4,695 | 9 | 3.0% |
+| RND-INFRA docs/guide | 6,479 | 10 | 4.0% |
+| RND-IDP docs | 5,969 | 9 | 4.7% |
+
+중앙값은 양쪽이 같다. 차이는 긴 문장 쪽에서 난다.
