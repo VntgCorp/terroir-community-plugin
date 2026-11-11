@@ -16,7 +16,7 @@
 | 로컬 검증 | 목록 등재 + CI 와 같은 검사 + `claude plugin validate` |
 | PR | 브랜치 · 커밋 · `gh pr create` 까지 |
 
-[플러그인 표준](../../../docs/standard.md)과 [스킬 제작 방법](../../../docs/authoring.md)을 그대로 수행한다. 규칙 값은
+[플러그인 표준](../../../docs/standard.md)과 [스킬 등록 절차](../../../docs/authoring.md)을 그대로 수행한다. 규칙 값은
 외워 두지 않고 그 문서를 읽어서 쓴다 — 문서가 바뀌면 이 스킬도 같이 바뀐다.
 
 ## 쓰는 법
@@ -36,7 +36,7 @@
 | 접근 권한 | `VntgCorp/terroir-community-plugin` 레포에 write 이상 |
 | 다른 플러그인 | 없음. `terroir-context` 가 있으면 CHANGELOG 항목을 그 스킬로 쓰고, 없으면 작성 기준 문서를 읽는다 |
 
-터미널 없이 올리려면 이 스킬을 쓰지 않고 [터미널 없이 올리기](../../../docs/authoring.md)
+터미널 없이 올리려면 이 스킬을 쓰지 않고 [터미널 없이 등록](../../../docs/authoring.md#5-터미널-없이-등록)
 절차를 따른다.
 
 ## 알려진 한계
