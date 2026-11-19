@@ -37,7 +37,7 @@ cd terroir-community-plugin
 | 상황 | |
 |---|---|
 | 이미 `SKILL.md` 가 있다 | 그 파일을 가져다 3절로 간다 |
-| 아직 없다 | 무엇을 하는 스킬인지 듣는다. 본문 작성은 공식 `skill-creator` 가 낫다고 알린다 |
+| 아직 없다 | 무엇을 하는 스킬인지 듣는다. 본문은 공식 `skill-creator` 로 먼저 만들게 한다. 설치돼 있지 않으면 `/plugin install skill-creator@claude-plugins-official` 을 안내하고, 세션에 안 보이면 `/reload-plugins` 를 입력하게 한다. 다 만들면 등록을 다시 시작하게 한다 |
 
 ## 3. 분류를 정한다
 
