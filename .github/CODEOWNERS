@@ -39,3 +39,4 @@
 # plugin.json 의 metadata.owner 와 같아야 한다.
 /plugins/work/ko-doc-write/   @seyunpark
 /plugins/dev/app-diagnosis/   @Jsik94
+/plugins/dev/infosec/   @VntgCorp/pisteam

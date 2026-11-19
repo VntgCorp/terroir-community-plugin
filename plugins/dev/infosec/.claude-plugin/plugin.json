@@ -1,0 +1,12 @@
+{
+  "name": "infosec",
+  "description": "플랫폼정보보호팀이 만든 보안 점검 스킬 모음 — 사내 보안 기준으로 코드를 점검하고, 요청하면 고친다",
+  "version": "1.0.0",
+  "author": {
+    "name": "서동찬"
+  },
+  "metadata": {
+    "owner": "VntgCorp/pisteam",
+    "team": "플랫폼정보보호팀"
+  }
+}

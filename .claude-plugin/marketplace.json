@@ -18,6 +18,12 @@
       "category": "dev"
     },
     {
+      "name": "infosec",
+      "source": "./plugins/dev/infosec",
+      "description": "플랫폼정보보호팀이 만든 보안 점검 스킬 모음 — 사내 보안 기준으로 코드를 점검하고, 요청하면 고친다",
+      "category": "dev"
+    },
+    {
       "name": "ko-doc-write",
       "source": "./plugins/work/ko-doc-write",
       "description": "한국어 기술 문서를 검증된 표현과 정해진 구조로 일관되게 쓰게 한다",
