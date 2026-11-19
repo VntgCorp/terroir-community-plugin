@@ -9,8 +9,7 @@
 | 2 | [공식 도구로 제작](#2-공식-도구로-제작) — Anthropic 공식 `skill-creator` 로 스킬 만들기 |
 | 3 | [등록 전에 맞출 규칙](#3-등록-전에-맞출-규칙) — 이름, 분류, 메타데이터, README |
 | 4 | [등록 도구로 등록](#4-등록-도구로-등록) — `skill-market` 이 PR 까지 대신 진행 |
-| 5, 6 | [터미널 없이 등록](#5-터미널-없이-등록), [터미널로 등록](#6-터미널로-등록) — 등록 도구 없이 직접 할 때 |
-| 7 | [자주 발생하는 문제](#7-자주-발생하는-문제) |
+| 5 | [자주 발생하는 문제](#5-자주-발생하는-문제) |
 
 ## 1. 준비
 
@@ -160,131 +159,7 @@ when_to_use: 회의가 끝나고 메모나 녹취를 정리하려 할 때. 예 "
 
 CI 가 실패하면 메시지에 고치는 법이 나옵니다. **통과하면 승인을 기다리지 않고 직접 머지합니다.**
 
-## 5. 터미널 없이 등록
-
-`git` 이나 `node` 를 쓰지 않습니다. **GitHub 웹에서 끝납니다.**
-
-1. 레포에서 **Add file → Create new file** 을 엽니다.
-2. 파일 이름 칸에 전체 경로를 적습니다. `/` 를 입력하면 폴더가 생깁니다.
-
-```
-plugins/<분류>/<이름>/.claude-plugin/plugin.json
-plugins/<분류>/<이름>/README.md
-plugins/<분류>/<이름>/skills/<이름>/SKILL.md
-```
-
-3. 각 파일의 내용은 [플러그인 표준](standard.md)을 보고 채웁니다.
-   `README.md` 의 **「전제 조건」과 「알려진 한계」는 비우지 않습니다.** 없으면 「없음」이라고 적습니다.
-   사용자가 그것을 보고 고릅니다.
-
-4. `.claude-plugin/marketplace.json` 을 **Edit** 로 열어 목록에 한 줄을 더합니다.
-
-```json
-  {
-    "name": "<이름>",
-    "source": "./plugins/<분류>/<이름>",
-    "description": "<plugin.json 의 description 과 같은 문장>",
-    "category": "<분류>"
-  }
-```
-
-`description` 은 **`/plugin` 목록에 보이는 한 줄입니다.** `plugin.json` 과 같아야 하고,
-다르면 CI 가 실패합니다. Claude Code 는 이 목록만 읽고 `plugin.json` 을 열어 보지 않습니다.
-
-5. `.github/CODEOWNERS` 를 **Edit** 로 열어 소유자 한 줄을 더합니다.
-
-```
-  /plugins/<분류>/<이름>/   @<GitHub 아이디>
-```
-
-6. **Commit changes** 에서 「Create a new branch」를 고르고 PR 을 엽니다.
-
-검사는 PR 에서 자동으로 실행됩니다. 실패하면 메시지에 고치는 법이 나옵니다.
-
-> 정렬, 들여쓰기, 필드 순서는 검사하지 않습니다. 자리만 맞으면 통과합니다.
-
-## 6. 터미널로 등록
-
-### 만들기
-
-```bash
-git clone https://github.com/VntgCorp/terroir-community-plugin
-cd terroir-community-plugin
-git checkout -b feat/meeting-notes
-```
-
-무엇을 어디에 만드는지는 [플러그인 표준](standard.md)을 보고 그대로 채웁니다. 요약하면
-`plugins/<분류>/<이름>/` 아래에 `plugin.json`, `README.md`, `skills/<이름>/SKILL.md` 세 개를 두고,
-**`.claude-plugin/marketplace.json` 의 목록에 한 줄을 더합니다.**
-
-```json
-  {
-    "name": "<이름>",
-    "source": "./plugins/<분류>/<이름>",
-    "description": "<plugin.json 의 description 과 같은 문장>",
-    "category": "<분류>"
-  }
-```
-
-Claude Code 는 이 목록만 읽습니다. 폴더를 만들어도 목록에 없으면 아무도 설치할 수 없습니다.
-목록은 **직접 고치는 파일입니다.** 터미널이 있으면 조립 스크립트가 대신 적어 줍니다(아래).
-
-그리고 **`.github/CODEOWNERS` 에 소유자 한 줄을 더합니다.**
-
-```
-  /plugins/<분류>/<이름>/   @<GitHub 아이디>
-```
-
-이 줄이 있으면 **내 플러그인은 승인 없이 고치고, 남이 고칠 때는 내 승인이 필요해집니다.**
-빠뜨리면 소유자가 없어 아무나 고칠 수 있고, CI 가 그것을 잡습니다. 팀이 소유하면
-`@VntgCorp/<팀 슬러그>` 를 적습니다.
-
-**분류는 질문 하나로 고릅니다.** 이 스킬이 소스코드나 인프라를 직접 건드리나요? 허용되는 분류는
-[`.github/categories.txt`](../.github/categories.txt) 가 정본입니다.
-
-### 검사
-
-```bash
-node .github/scripts/assemble-marketplace.mjs           # 목록을 대신 적어 줍니다 (선택)
-node .github/scripts/check-structure.mjs                # 구조 검사
-node .github/scripts/check-marketplace.mjs              # 목록이 plugins/ 와 맞는가
-node .github/scripts/check-codeowners.mjs               # 소유자 줄이 있는가
-node .github/scripts/check-version-bump.mjs origin/main  # 고치는 경우에만 걸립니다
-claude plugin validate .                                # 스키마
-```
-
-아래 네 줄이 CI 가 실행하는 것과 같습니다. 첫 줄은 **편의 도구라 쓰지 않아도 됩니다.** 목록을 손으로
-적었으면 건너뜁니다.
-
-### PR 올리기
-
-```bash
-git add . && git commit -m "feat(<분류>): <이름> 추가"
-gh pr create
-```
-
-**내 플러그인은 CI 가 통과하면 내가 머지합니다.** 승인을 기다리지 않습니다.
-소유자 줄을 더하는 `.github/CODEOWNERS` 파일 자체에는 소유자를 걸지 않았기 때문입니다.
-
-다만 아래를 건드리면 플랫폼개발팀 승인이 필요합니다.
-
-| 경로 | 이유 |
-|---|---|
-| `docs/`, `README.md`, `.github/` 의 `workflows`, `scripts`, `categories.txt`, `marketplace-header.json` | 마켓의 뼈대입니다. 문서, CI, 분류 목록, 마켓 헤더 |
-| | `.github/CODEOWNERS` 는 **승인이 필요 없습니다.** 소유자 줄을 더하는 파일이기 때문입니다 |
-| `plugins/dev/skill-market/` | 등록 도구 |
-
-`.claude-plugin/marketplace.json` 은 **위 표에 없습니다.** 플러그인을 등록하는 사람이 자기 줄을
-더하는 파일이라 등록할 때마다 바뀝니다. 승인 대상으로 두면 모든 등록이 막힙니다. 마켓 이름과 설명
-같은 뼈대는 `.github/marketplace-header.json` 에 따로 두었고, 둘이 어긋나면 CI 가 실패합니다.
-
-**실행 코드가 들어 있어도 같습니다.** 훅이나 스크립트가 있는 플러그인에 추가 승인을 요구하지
-않습니다. 대신 사용자가 그것을 알고 고르도록 [이 마켓은 무엇인가](about.md)에 밝혀 두었습니다.
-
-등록 말고 다른 일(등록 취소, 소유자 이관, 남의 플러그인 고치기, 분류 변경)은
-[마켓을 바꾸는 절차](operations.md)에 있습니다.
-
-## 7. 자주 발생하는 문제
+## 5. 자주 발생하는 문제
 
 | 증상 | 조치 |
 |---|---|
