@@ -1,7 +1,7 @@
 {
   "name": "sprint-review",
   "description": "스프린트 리뷰 · 다음 스프린트 플래닝 보고서를 팀의 스프린트 방식에 맞춰 한 장짜리 페이지로 만든다",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": { "name": "박세윤" },
   "metadata": { "owner": "seyunpark", "team": "플랫폼개발팀" }
 }
