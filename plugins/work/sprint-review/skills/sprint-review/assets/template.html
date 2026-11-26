@@ -3,7 +3,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500;700&display=swap">
 <style>
-/* 한 단 문서. 한눈에 → 지난 스프린트 → 끝낸 날 → 추정과 실제 → 대표 작업 전후 → 다음 스프린트 */
+/* 한 단 문서. 결론 블록 → 지난 스프린트 → 끝낸 날 → 추정과 실제 → 대표 작업 전후 → 다음 스프린트 */
 :root {
   --bg: #fbfafb;
   --surface: #ffffff;
@@ -236,6 +236,84 @@ details.more summary { color: var(--accent); font-weight: 500; }
 details.method-box { border: 1px solid var(--line); border-radius: 10px; padding: 0 14px; background: var(--surface); }
 details.method-box summary { color: var(--muted); font-weight: 400; font-size: 13px; }
 details.method-box ul { font-size: 13px; color: var(--muted); padding-bottom: 12px; }
+/* 결론 블록 */
+.verdict-hero { display: grid; gap: 20px; padding: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.headline { margin: 0; font-size: 24px; line-height: 1.45; font-weight: 700; text-wrap: balance; max-width: 34ch; }
+.headline em { font-style: normal; color: var(--warn); }
+.headline strong { color: var(--ok); }
+.kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.kpis div { display: grid; gap: 2px; padding: 12px 14px; border-radius: 10px; background: var(--bg); min-width: 0; }
+.kpis b { font-family: var(--mono); font-size: 28px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.kpis b small { font-size: 15px; color: var(--muted); font-weight: 500; }
+.kpis .good b { color: var(--ok); }
+.kpis .bad b { color: var(--warn); }
+.kpis span { font-size: 13px; color: var(--muted); }
+.spend { display: grid; gap: 10px; }
+.spend-bar { display: flex; height: 40px; border-radius: 8px; overflow: hidden; }
+.spend-bar span { display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12.5px; font-weight: 700; color: #fff; min-width: 0; overflow: hidden; white-space: nowrap; }
+.spend-bar .g1 { background: var(--accent); }
+.spend-bar .g2 { background: var(--accent); opacity: .65; }
+.spend-bar .g3 { background: var(--blue); }
+.spend-bar .g4 { background: var(--warn); }
+.spend-bar .g5 { background: var(--ok); }
+.spend-bar .g6 { background: var(--bar-other); color: var(--fg); }
+.spend-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 20px; font-size: 14px; }
+.spend-list li { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.spend-list i { width: 12px; height: 12px; border-radius: 3px; }
+.spend-list b { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.spend-list .plan { font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; margin-left: 4px; }
+.retro { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.retro > div { display: grid; gap: 8px; align-content: start; padding: 14px 16px; border-radius: 10px; border-top: 4px solid var(--line); background: var(--bg); min-width: 0; }
+.retro .r-good { border-top-color: var(--ok); }
+.retro .r-bad { border-top-color: var(--warn); }
+.retro .r-next { border-top-color: var(--accent); }
+.retro h3 { margin: 0; font-size: 15px; }
+.retro ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; }
+.next-line { margin: 0; padding: 12px 16px; border-radius: 10px; background: var(--accent-soft); font-size: 15px; }
+.next-line b { color: var(--accent); }
+.detail-divider { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 13px; letter-spacing: .06em; }
+.detail-divider::before, .detail-divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+@media (max-width: 640px) {
+  .headline { font-size: 20px; }
+  .kpis, .retro, .spend-list { grid-template-columns: minmax(0, 1fr); }
+  .verdict-hero { padding: 16px; }
+}
+/* 화면 가독성 보정 — 폭 · 글자 크기 · 대비 · 상자 무게 */
+:root { --muted: #4f484f; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --muted: #c2b8bf; } }
+:root[data-theme="dark"] { --muted: #c2b8bf; }
+body { font-size: 16px; line-height: 1.65; }
+.wrap { max-width: 1060px; gap: 56px; }
+.meta { font-size: 14px; }
+h1 { font-size: 22px; color: var(--muted); font-weight: 500; }
+h2 { font-size: 26px; }
+h3 { font-size: 17px; }
+.lede { font-size: 17px; }
+.headline { font-size: 30px; max-width: 42ch; }
+.cap, .note, .legend, .desc, .tile span, .kpis span, .chips li, .spend-list, dl.terms, .day .lbl,
+table.est td.why, table.ba td.proof, table.ba td.item small, .verdict .s, details.method-box ul { font-size: 14.5px !important; }
+.legend { gap: 8px 20px; }
+.legend i { width: 12px; height: 12px; }
+.tile, .verdict > div, .kpis > div { border: 0; background: var(--idle); }
+.tile b { font-size: 34px; }
+.kpis b { font-size: 34px; }
+.stack { height: 38px; }
+.stack span, .spend-bar span { font-family: var(--sans); font-size: 14px; font-weight: 700; }
+.spend-bar { height: 46px; }
+.pair { gap: 4px; }
+.pair i { height: 11px; }
+table.est, table.ba, table.fit, table.off-list { font-size: 15.5px; }
+table.est th, table.ba th, table.fit th { font-size: 13px; }
+.epic-h { grid-template-columns: minmax(0, 280px) minmax(0, 1fr) 40px; }
+.epic-h .name { font-size: 16px; }
+.chips li { padding: 4px 10px; border-radius: 8px; }
+.chips a, .key, .day .t { font-size: 13.5px; }
+.day { min-height: 116px; padding: 8px 10px; gap: 6px; }
+.day .d { font-size: 13px; font-weight: 500; }
+.day .t { padding: 2px 8px; }
+.cal { gap: 8px; }
+.retro ul, .spend-list { font-size: 15px !important; }
+.next-line { font-size: 16px; }
 .callout { margin: 0; padding: 12px 14px; border-radius: 8px; background: var(--warn-soft); font-size: 14px; max-width: 72ch; }
 
 @media (max-width: 640px) {
@@ -269,13 +347,68 @@ details.method-box ul { font-size: 13px; color: var(--muted); padding-bottom: 12
     <div class="meta">예시 개발팀 · 홍길동 · 스프린트 2026-24 · 2026-03-05(목) 15:00 ~ 03-19(목) 15:00</div>
     <h1>스프린트 리뷰 · 다음 스프린트 플래닝</h1>
 
-    <!-- 한눈에: 네 줄. 문제가 있는 줄에만 class="bad" -->
-    <ul class="summary" aria-label="한눈에 보기">
-      <li><b>한 일</b><span>결제 오류 알림을 붙이고 주문 목록 화면을 새로 만듦. 중간에 운영 장애 한 건을 처리함</span></li>
-      <li class="bad"><b>못 한 일</b><span>목표로 적은 검색 개선 세 건 중 한 건만 진행함. 나머지 두 건은 다음 스프린트로 넘김</span></li>
-      <li class="bad"><b>계획</b><span>일할 수 있던 8.5일에 8일을 계획해 여유가 0.5일이었음. 추정하지 않은 일이 3.6일 들어옴</span></li>
-      <li><b>다음</b><span>일할 수 있는 날 8일에 티켓 추정이 9일. 검색 개선부터 하고 나머지는 넘칠 가능성이 큼</span></li>
-    </ul>
+    <!-- 결론 블록: 페이지를 연 사람이 「그래서 이번 스프린트가 어땠나」의 답을 여기서 얻어야 한다.
+         한 문장 결론 → 숫자 셋 → 2주를 어디에 썼나 → 회고 세 칸 → 다음 스프린트 한 줄 -->
+    <div class="verdict-hero">
+      <!-- 한 문장. 잘된 쪽은 strong(초록), 문제 쪽은 em(주황) -->
+      <p class="headline">계획한 일은 <strong>추정과 비슷하게 끝냈고</strong> 장애 대응과 요청이 2.4일 들어와 <em>검색 개선은 절반만</em> 했습니다.</p>
+
+      <div class="kpis">
+        <div class="good"><b>8</b><span>끝낸 티켓 (계획 5 · 중간에 들어온 3)</span></div>
+        <div><b>4.9<small> / 8일</small></b><span>계획한 티켓에 실제로 쓴 시간 / 추정</span></div>
+        <div class="bad"><b>3.6<small>일</small></b><span>추정 없이 들어온 일 — 일할 수 있던 8.5일의 42%</span></div>
+      </div>
+
+      <!-- 2주를 어디에 썼나: flex 값 = 일수, 칸의 합 = 일할 수 있던 날. 칸 4~6개 -->
+      <div class="spend">
+        <h3>2주를 어디에 썼나 <span class="count" style="font-family:var(--mono);font-size:12px;color:var(--muted);font-weight:400">일할 수 있던 8.5일</span></h3>
+        <div class="spend-bar" role="img" aria-label="8.5일 중 결제 안정화 2.3일, 주문 화면 1.6일, 검색 개선 1일, 장애 대응 1.5일, 고객 문의 대응 1.2일, 영업팀 요청 0.9일">
+          <span class="g1" style="flex:2.3">2.3</span>
+          <span class="g2" style="flex:1.6">1.6</span>
+          <span class="g5" style="flex:1.0">1.0</span>
+          <span class="g3" style="flex:1.5">1.5</span>
+          <span class="g4" style="flex:1.2">1.2</span>
+          <span class="g6" style="flex:0.9">0.9</span>
+        </div>
+        <ul class="spend-list">
+          <li><i style="background:var(--accent)"></i><span>결제 안정화 <span class="plan">계획</span></span><b>2.3일</b></li>
+          <li><i style="background:var(--accent);opacity:.65"></i><span>주문 화면 <span class="plan">계획</span></span><b>1.6일</b></li>
+          <li><i style="background:var(--ok)"></i><span>검색 개선 <span class="plan">계획</span></span><b>1.0일</b></li>
+          <li><i style="background:var(--blue)"></i><span>결제 대행사 장애 대응</span><b>1.5일</b></li>
+          <li><i style="background:var(--warn)"></i><span>고객 문의 대응 (상시)</span><b>1.2일</b></li>
+          <li><i style="background:var(--bar-other)"></i><span>영업팀 요청</span><b>0.9일</b></li>
+        </ul>
+      </div>
+
+      <!-- 회고 세 칸: 칸마다 2~3줄. 사람 이름이 아니라 일과 이유를 쓴다 -->
+      <div class="retro">
+        <div class="r-good">
+          <h3>잘된 것</h3>
+          <ul>
+            <li>결제 실패를 고객 문의 전에 5분 안에 알게 됨</li>
+            <li>주문 목록 · 상세 화면을 추정 안에 끝냄</li>
+          </ul>
+        </div>
+        <div class="r-bad">
+          <h3>아쉬운 것</h3>
+          <ul>
+            <li>장애 대응에 밀려 검색 개선은 절반만 진행</li>
+            <li>휴가를 빼지 않고 계획해 여유가 0.5일뿐이었음</li>
+          </ul>
+        </div>
+        <div class="r-next">
+          <h3>다음엔</h3>
+          <ul>
+            <li>상시 문의 대응(지난번 1.2일)을 먼저 빼고 계획</li>
+            <li>장애 대응 몫으로 1일을 비워 두기</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="next-line"><b>다음 스프린트</b> — 일할 수 있는 날 8일(3/26 워크숍 제외)에 티켓 추정이 9일입니다. 검색 개선부터 하고 환불 화면 정리는 넘칠 가능성이 큽니다.</p>
+    </div>
+
+    <div class="detail-divider">아래는 근거 자료</div>
 
     <!-- 페이지 전제가 되는 말이 있으면 한 줄씩 풀어 두세요. 없으면 dl 을 삭제하세요 -->
     <dl class="terms" aria-label="이 페이지에 나오는 말">
@@ -294,13 +427,6 @@ details.method-box ul { font-size: 13px; color: var(--muted); padding-bottom: 12
   <!-- ───────────── 지난 스프린트 ───────────── -->
   <section aria-labelledby="review">
     <h2 id="review">지난 스프린트</h2>
-
-    <div class="tiles">
-      <div class="tile hi"><b>8</b><span>끝낸 티켓</span></div>
-      <div class="tile"><b>5<small> / 6</small></b><span>계획한 티켓 중 끝낸 것</span></div>
-      <div class="tile"><b>3</b><span>중간에 들어와 끝낸 티켓</span></div>
-      <div class="tile warn"><b>2</b><span>다음 스프린트로 넘긴 티켓</span></div>
-    </div>
 
     <!-- 묶음별 막대: 가장 많은 묶음이 100%, 나머지는 비율. 점선(added) = 중간에 들어온 티켓, 회색(ongoing) = 진행 중 -->
     <div class="epics">
@@ -332,6 +458,15 @@ details.method-box ul { font-size: 13px; color: var(--muted); padding-bottom: 12
       </div>
     </div>
     <p class="cap">점선 테두리는 계획 뒤 스프린트 중간에 들어온 티켓입니다. 회색 글자는 아직 진행 중인 티켓입니다.</p>
+
+    <!-- 지난 계획과 비교: 지난 리뷰 페이지가 있을 때만. 대표 작업 섹션을 빼도 남도록 여기 둔다 -->
+    <div class="group">
+      <h3>지난 계획과 비교</h3>
+      <ul class="done-list">
+        <li>계획한 6건 중 5건을 끝냄. 검색 개선은 장애 대응에 밀려 절반 진행</li>
+        <li>계획 밖으로 3건을 더함. 장애 대응, 영업팀 요청, 알림 기준 보강</li>
+      </ul>
+    </div>
   </section>
 
   <!-- ───────────── 끝낸 날 (달력) ───────────── -->
@@ -518,13 +653,6 @@ details.method-box ul { font-size: 13px; color: var(--muted); padding-bottom: 12
         <ul class="tickets">
           <li><a class="key" href="#">PROJ-101</a><div><div class="title">결제 오류 알림</div><div class="desc">결제 대행사 실패 응답이 5분 안에 3번 넘게 오면 팀 채팅방으로 알림을 보냄</div></div></li>
           <li><a class="key" href="#">PROJ-115</a><div><div class="title">결제 대행사 장애 대응 <span class="tag new">03/12 중간 추가</span></div><div class="desc">대행사 응답 지연으로 결제가 40분 동안 실패함. 재시도 간격을 늘려 복구</div></div></li>
-        </ul>
-      </div>
-      <div class="group">
-        <h3>지난 계획과 비교</h3>
-        <ul class="done-list">
-          <li>계획한 6건 중 5건을 끝냄. 검색 개선은 장애 대응에 밀려 절반 진행</li>
-          <li>계획 밖으로 3건을 더함. 장애 대응, 영업팀 요청, 알림 기준 보강</li>
         </ul>
       </div>
     </details>
